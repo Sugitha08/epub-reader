@@ -1,16 +1,56 @@
 .header {
-  height: 55px;
-  width: 100%;
+  position: fixed;
+  top: 0;
   background-color: #4b4363;
+  height: 55px !important;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  color: #fbf6f6;
 }
-.title {
+.header .title {
   color: #ffffff;
   font-size: 20px;
   font-weight: bold;
   margin: 0;
 }
 
+.header .navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  gap: 50px;
+}
 
+.header .navbar .nav {
+  font-size: 16px;
+  font-weight: 500;
+  color: #fbf6f6;
+  text-decoration: none;
+}
+.header .navbar .nav:hover {
+  color: #0088ff;
+}
+.navbar .nav.active {
+  color: #4400ff;
+}
+
+.header .user {
+  font-size: 20px;
+}
+
+.header .profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+}
+
+.header .profile p {
+  margin-bottom: 0;
+}

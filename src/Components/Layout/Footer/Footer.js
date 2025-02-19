@@ -1,8 +1,9 @@
 import React from 'react'
+import "./Footer.css"
 
-function Footer() {
+function Footer({openMenu}) {
   return (
-    <div>
+    <div className="footer">
       Footer
     </div>
   )

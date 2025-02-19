@@ -1,0 +1,49 @@
+  .main-container {
+    margin-top: 3.4rem;
+    display: flex;
+  }
+
+  .layout {
+    margin-left: 0;
+    padding: 20px 20px;
+    flex: 1;
+    transition: margin-left 1s;
+    box-sizing: border-box
+  }
+
+  .sidebar-open .layout {
+    margin-left: 200px;
+  }
+  .epub-reader-wrapper {
+    width: 100%;
+  }
+
+  .layout .dash-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .layout .dash-header h4 {
+    font-size: 26px;
+    color: #4b4363;
+    font-weight: bold;
+  }
+
+  .main-container .sidebar {
+    padding: 30px 20px 20px 20px;
+    width: 0;
+    transition: width 1s;
+  }
+
+  .sidebar-open .sidebar {
+    background-color: #4b4363;
+    height: 100vh;
+    position: fixed;
+    overflow-x: hidden;
+    width: 200px;
+  }
+
+  .sidebar-open .foot{
+    left: 200px !important;
+  }
