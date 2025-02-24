@@ -1,49 +1,77 @@
-  .main-container {
-    margin-top: 3.4rem;
-    display: flex;
-  }
+.epub-reader-wrapper {
+  /* width: 100%;
+  display: flex;
+  flex-direction: column; */
+  box-sizing: inherit;
+  position: relative;
+  margin: 0;
+  min-height: 100%;
+  padding: 0 0 40px 0;
+}
 
-  .layout {
-    margin-left: 0;
-    padding: 20px 20px;
-    flex: 1;
-    transition: margin-left 1s;
-    box-sizing: border-box
-  }
+.main-container {
+  margin-top: 3.4rem;
+  display: flex;
+}
 
-  .sidebar-open .layout {
-    margin-left: 200px;
-  }
-  .epub-reader-wrapper {
-    width: 100%;
-  }
+.layout {
+  margin-left: 0;
+  padding: 20px 20px;
+  flex: 1;
+  transition: margin-left 1s;
+  box-sizing: border-box;
+}
+.userlayout{
+  margin-top: 3rem;
+}
+.sidebar-open .layout {
+  margin-left: 200px;
+}
 
-  .layout .dash-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+.layout .dash-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  .layout .dash-header h4 {
-    font-size: 26px;
-    color: #4b4363;
-    font-weight: bold;
-  }
+.layout .dash-header h4 {
+  font-size: 26px;
+  color: #4b4363;
+  font-weight: bold;
+}
 
-  .main-container .sidebar {
-    padding: 30px 20px 20px 20px;
-    width: 0;
-    transition: width 1s;
-  }
+.main-container .sidebar {
+  padding: 30px 20px 20px 20px;
+  width: 0;
+  transition: width 1s;
+}
 
-  .sidebar-open .sidebar {
-    background-color: #4b4363;
-    height: 100vh;
-    position: fixed;
-    overflow-x: hidden;
-    width: 200px;
-  }
+.sidebar-open .sidebar {
+  background-color: #4b4363;
+  height: 100vh;
+  position: fixed;
+  overflow-x: hidden;
+  width: 200px;
+}
 
-  .sidebar-open .foot{
-    left: 200px !important;
-  }
+.sidebar-open .foot {
+  left: 200px !important;
+}
+
+.filter {
+  display: flex;
+  padding: 10px;
+  column-gap: 19px;
+  background-color: #f2f2f2;
+  color: #636060;
+  font-weight: 500;
+  position: fixed;
+  top: 57px;
+  cursor: pointer;
+  justify-content: center;
+  z-index: 9999;
+  box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.15);
+}
+.filter div:hover {
+  color: #321d62;
+}

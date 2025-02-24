@@ -6,15 +6,31 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
+import { RegisteredData, LoginDetails } from "../../../Datas";
+import { toast } from "react-toastify";
 
-function PublisherLogin({ setShowLoginPage }) {
+function PublisherLogin({ setShowLoginPage ,setLoginStatus }) {
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
   const [passwordVisible, setPasswordVisibile] = useState(false);
   const navigate = useNavigate();
   const handleLogin = () => {
-    console.log(email, password);
-    navigate("/dashboard");
+    const LoginData = RegisteredData.find((data) => data.Email === email);
+    if (LoginData) {
+      if (LoginData.Password === password) {
+        setLoginStatus(LoginData)
+        toast.success("Login Successfully");
+        if (LoginData.Role === "Publisher") {
+          navigate("/publisher/dashboard");
+        } else if (LoginData.Role === "User") {
+          navigate("/user/dashboard");
+        }
+      } else {
+        toast.error("Login Failed - Invalid Cerendial");
+      }
+    } else {
+      toast.error("Login Failed - Invalid Cerendial");
+    }
   };
 
   return (

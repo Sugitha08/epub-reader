@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import "./Dashboard.css";
-import aboutImg from "../../Assets/about.jpg";
-import CardComponent from "../../Core-Components/Card";
-import BookImg from "../../Assets/e-book.jpeg";
+import "./PublishDashboard.css";
+import aboutImg from "../../../Assets/about.jpg";
+import CardComponent from "../../../Core-Components/Card";
+import BookImg from "../../../Assets/e-book.jpeg";
 
-function Dashboard() {
+function PublishDashboard() {
   const PromoteBook = [
     {
       title: "Boost Your Book Sales with Digital Marketing",
@@ -114,4 +114,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default PublishDashboard;

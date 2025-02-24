@@ -1,0 +1,151 @@
+.library-container .Book-list {
+  row-gap: 35px;
+  margin-top: 40px;
+}
+
+.library-container .book-img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 180px;
+  height: auto;
+  object-fit: cover;
+  margin: 0 auto;
+}
+
+.library-container {
+  padding: 15px;
+  width: 100%;
+}
+
+.books .title {
+  color: #4b4363;
+  font-weight: 800;
+  font-size: 20px;
+}
+
+.books .author-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: #5e5e5e;
+}
+
+.books h5 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #5e5e5e;
+}
+
+.bookDetail { 
+  padding: 20px;
+  width: 70%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 10px;
+  /* align-items: center; */
+}
+
+.bookDetail img {
+  width: 38.2%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.book-content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  margin-top: 10px;
+}
+
+.book-content .tag {
+  background-color: #388e3c;
+  color: #fbf6f6;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 13px;
+  border-radius: 5px;
+}
+
+.book-content h2 {
+  color: #4b4363;
+  font-weight: bold;
+  margin: 0;
+}
+
+.book-content .author-name {
+  font-size: 28px;
+  font-weight: 600;
+  color: #5e5e5e;
+  margin: 0;
+}
+
+.book-content .book_genre {
+  font-size: 20px;
+  font-weight: 500;
+  color: #878787;
+  margin: 0;
+}
+.book-content .O-price {
+  font-size: 24px;
+  font-weight: 700;
+  color: #5e5e5e;
+  margin: 0;
+}
+.book-content .price {
+  font-size: 20px;
+  font-weight: 600;
+  color: #878787;
+  margin: 0;
+}
+
+.book-content .discription {
+  font-size: 18px;
+  color: #878787;
+  letter-spacing: 1px;
+  margin: 0;
+}
+.value {
+  color: #5e5e5e;
+}
+
+.book-content .review span {
+  background-color: #388e3c;
+  color: #fbf6f6;
+  font-size: 18px;
+  text-align: center;
+  width: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 4px;
+  border-radius: 3px;
+}
+
+.book-content .icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #5e5e5e;
+}
+.library-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media screen and (max-width: 430px) {
+  .library-container .Book-list {
+    margin-top: 10px;
+  }
+  .input {
+    width: 100% !important; /* Make the input field full width on mobile */
+    max-width: 400px !important; /* Set a specific max width for better UX */
+  }
+  .library-header {
+    flex-direction: column;
+    row-gap: 20px;
+  }
+}

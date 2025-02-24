@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Book_list } from "../../Datas.js";
-import CardComponent from "../../Core-Components/Card.js";
+import { Book_list } from "../../../Datas.js";
+import CardComponent from "../../../Core-Components/Card.js";
 import "./Library.css";
 import { LuIndianRupee } from "react-icons/lu";
 import { InputAdornment, TextField } from "@mui/material";
@@ -25,7 +25,7 @@ function Library() {
 
   return (
     <div className="library-container">
-      <div className="dash-header d-flex justify-content-between align-items-center">
+      <div className="dash-header library-header">
         <h4 className="mb-0">My Library</h4>
         <TextField
           placeholder="Search by Title , Author , Genre and more..."
@@ -45,20 +45,29 @@ function Library() {
             },
           }}
         />
+        <div></div>
+        {/* <button className="btn btn-success">AddNew</button> */}
       </div>
-      <div className="Book-list mt-4">
+      <div className="Book-list row">
         {FilteredBook?.map((book) => (
-          <div role="button" onClick={() => handleBookOpen(book)}>
-            <CardComponent style={{ width: "260px" }}>
+          <div
+            role="button"
+            onClick={() => handleBookOpen(book)}
+            className="col-lg-3 col-sm-12 col-md-6"
+          >
+            <CardComponent
+              className="books"
+              style={{ width: "100%", height: "100%" }}
+            >
               <img src={book?.Book_cover} className="book-img" />
-              <h6 className="mt-2">{book?.Book_title}</h6>
+              <h5 className="mt-2 title">{book?.Book_title}</h5>
               <h6 className="author-name">{book?.Book_Author}</h6>
               <p className="mb-1">{book?.Book_Genre}</p>
               <p className="mb-1">{book?.Language}</p>
-              <h6>
+              <h5>
                 <LuIndianRupee />
                 {book?.Book_Price}
-              </h6>
+              </h5>
               <h6>
                 <LuIndianRupee />
                 {book?.Rental_Price}
@@ -70,6 +79,35 @@ function Library() {
           </div>
         ))}
       </div>
+      {/* <div className="row">
+        {FilteredBook?.map((book) => (
+          <div
+            role="button"
+            onClick={() => handleBookOpen(book)}
+            className="col-lg-3 col-sm-12 col-md-6"
+          >
+            <CardComponent
+              className="books"
+              style={{ width: "100%", height: "100%" }}
+            >
+              <img src={book?.Book_cover}  className="book-img"/>
+              <h5>{book?.Book_title}</h5>
+              <h6>{book?.Book_Author}</h6>
+              <p>{book?.Book_Genre}</p>
+              <p>{book?.Language}</p>
+              <h5>
+                <LuIndianRupee />
+                {book?.Book_Price}
+              </h5>
+              <h6>
+                <LuIndianRupee />
+                {book?.Rental_Price}
+                <span>/per month</span>
+              </h6>
+            </CardComponent>
+          </div>
+        ))}
+      </div> */}
     </div>
   );
 }

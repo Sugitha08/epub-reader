@@ -78,7 +78,6 @@
   visibility: visible;
 }
 
-
 .publish-card .card-header {
   background-color: #321d62c1;
   color: #fbf6f6;
@@ -118,8 +117,6 @@
   align-self: center;
 }
 
-
-
 .Report-card .totalusers {
   flex: 1;
   display: flex;
@@ -128,8 +125,7 @@
   align-self: center;
 }
 
-
-
 .count {
   font-weight: bold;
 }
+

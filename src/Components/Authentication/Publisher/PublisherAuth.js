@@ -4,7 +4,7 @@ import "./PublisherAuth.css";
 import PublisherLogin from "./PublisherAuth/PublisherLogin";
 import PublisherReg from "./PublisherReg/PublisherReg";
 
-function PublisherAuth() {
+function PublisherAuth({setLoginStatus}) {
   const [showLoginPage, setShowLoginPage] = useState(true);
   return (
     <>
@@ -14,7 +14,7 @@ function PublisherAuth() {
         </div>
         <div className="col-sm-12 col-md-6 col-lg-6 login-wrapper">
           {showLoginPage ? (
-            <PublisherLogin setShowLoginPage={setShowLoginPage} />
+            <PublisherLogin setShowLoginPage={setShowLoginPage} setLoginStatus={setLoginStatus} />
           ) : (
             <PublisherReg setShowLoginPage={setShowLoginPage} />
           )}

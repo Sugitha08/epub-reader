@@ -1,10 +1,9 @@
 import React from "react";
 import { IoAddOutline } from "react-icons/io5";
 import Graph from "./Graph";
-import Chart from "./Chart";
 import "./Report.css";
-import CardComponent from "../../Core-Components/Card";
-import BookImg from "../../Assets/bookImg.jpg";
+import CardComponent from "../../../Core-Components/Card";
+import BookImg from "../../../Assets/bookImg.jpg";
 import { LuIndianRupee } from "react-icons/lu";
 
 function Report() {
@@ -14,6 +13,8 @@ function Report() {
     { title: "Book Rented", count: "500" },
     { title: "Total Revenue", count: "50000" },
   ];
+
+  
   return (
     <div className="publisher-report">
       <div className="dash-header">
@@ -48,36 +49,18 @@ function Report() {
             </div>
           </CardComponent>
         ))}
-        {/* <CardComponent
-          className="col-sm-12 col-lg-3 col-md-3"
-          style={{ width: "280px", height: "150px" }}
-        >
-          <p></p>
-          <p></p>
-        </CardComponent>
-        <CardComponent
-          className="col-sm-12 col-lg-3 col-md-3"
-          style={{ width: "280px", height: "150px" }}
-        >
-          <p></p>
-          <p></p>
-        </CardComponent>
-        <CardComponent
-          className="col-sm-12 col-lg-3 col-md-3"
-          style={{ width: "280px", height: "150px" }}
-        >
-          <p></p>
-          <p></p>
-        </CardComponent> */}
       </div>
-      <div className="scale-report row mt-5">
+      <div className="scale-report row mt-5 justify-content-center">
+        <div>
         <h5 className="mb-3">BOOK SELL REPORT</h5>
-        <div className="col-sm-12 col-lg-6 col-md-6">
+        
+        </div>
+        <div className="col-10">
           <Graph />
         </div>
-        <div className="col-sm-12 col-lg-6 col-md-6">
+        {/* <div className="col-sm-12 col-lg-6 col-md-6">
           <Chart />
-        </div>
+        </div> */}
       </div>
     </div>
   );
