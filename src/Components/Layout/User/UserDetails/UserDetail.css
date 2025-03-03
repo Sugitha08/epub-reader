@@ -58,28 +58,4 @@
   font-weight: bold !important;
 }
 
-/* Wishlist */
 
-.user-wishlist {
-  display: flex;
-  flex-direction: column;
-  row-gap: 15px;
-  padding: 20px;
-}
-.wishbook-list {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  row-gap: 20px;
-}
-
-.user-wishlist h4 {
-  font-size: 26px;
-  color: #4b4363;
-  font-weight: bold;
-}
-.user-wishlist h5 {
-    font-size: 20px;
-    color: #4b4363;
-    font-weight: bold;
-  }

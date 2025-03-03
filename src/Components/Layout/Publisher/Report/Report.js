@@ -17,7 +17,7 @@ function Report() {
   
   return (
     <div className="publisher-report">
-      <div className="dash-header">
+      <div className="publish-header">
         <h4 className="mb-0">REPORT</h4>
         <button type="button" className="btn addnew-btn">
           <IoAddOutline className="me-1 mb-1" style={{ fontSize: "20px" }} />

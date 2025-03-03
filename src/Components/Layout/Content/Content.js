@@ -1,8 +1,10 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import SideNavBar from "../Header/SideNavBar";
+import "./Content.css";
 
-function Content({openMenu,LoginStatus}) {
+
+function Content({ openMenu, LoginStatus }) {
   return (
     <>
       <div className={`${openMenu ? "sidebar-open" : ""} main-container`}>

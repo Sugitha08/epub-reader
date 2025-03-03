@@ -44,7 +44,7 @@ function PublishDashboard() {
     <div className="publisher-dashboard">
       <div className="banner shadow">
         <div className="banner-content">
-          <h4>Samira Hadid ,</h4>
+          <h4 style={{ color: "#f6f6f6" }}>Samira Hadid ,</h4>
           <p>{Bannercontent[contentIndex]}</p>
         </div>
       </div>
@@ -89,7 +89,7 @@ function PublishDashboard() {
         <div className="totalBooks">
           <h1 className="count">70+</h1>
           <div className="count-dis">
-            <h4>Book Published</h4>
+            <h4 style={{ color: "#f6f6f6" }}>Book Published</h4>
             <p>
               Explore the journey of a published book, from concept to creation.
               This book offers valuable insights, practical tips, and inspiring
@@ -101,7 +101,7 @@ function PublishDashboard() {
         <div className="totalusers">
           <h1 className="count">100+</h1>
           <div className="count-dis">
-            <h4>Satisfied Book Readers</h4>
+            <h4 style={{ color: "#f6f6f6" }}>Satisfied Book Readers</h4>
             <p>
               A satisfied reader, captivated by the book's compelling narrative,
               insightful content, and unforgettable characters, leaves with a

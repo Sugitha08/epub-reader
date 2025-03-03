@@ -8,6 +8,7 @@ import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
 import { styled } from "@mui/material/styles";
+import ProductList from "./ProductList";
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
@@ -29,87 +30,46 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 
 function UserLibrary() {
   return (
-    <div className="user-wishlist card" style={{ height: "100%" }}>
-      <div>
-        <h4>My Library</h4>
-      </div>
-      <div className="wishbook-list">
-        {Book_list?.slice(0, 2)?.map((book) => (
-          <div className="card wish-book" style={{ padding: "5px 20px" }}>
-            <div className="row justify-content-center">
-              <div className="col-2">
-                <img src={book?.Book_cover} width="100px" />
-              </div>
-              <div
-                className="col-5 d-flex flex-column"
-                style={{ rowGap: "10px" }}
-              >
-                <div className="d-flex align-items-center">
-                  <h4 className="mb-0">{book?.Book_title}</h4>
-                  <span className="mb-0"> - {book?.Book_Author}</span>
-                </div>
-                <div>
-                  <p className="mb-0">{book?.Book_Genre}</p>
-                </div>
-                <Review />
-                <h5 className="mb-0">
-                  <LuIndianRupee
-                    size={16}
-                    className="mb-1"
-                    style={{ fontWeight: "bold" }}
-                  />
-                  {book?.Book_Price}
-                </h5>
-              </div>
-              <div className="col-5 d-flex flex-column justify-content-between">
-                <div className="mt-1 ">
-                  <BorderLinearProgress variant="determinate" value={50} />
-                  {/* <CustomButton
-                    sx={{
-                      backgroundColor: "#BA0E0E",
-                      padding: "2px 8px", 
-                      fontSize: "12px",
-                    }}
-                  >
-                    Cancel
-                  </CustomButton> */}
-                </div>
-                <div className="d-flex justify-content-end mb-2">
-                  <CustomButton
-                    sx={{
-                      backgroundColor: "#BA0E0E",
-                      padding: "2px 8px",
-                      fontSize: "12px",
-                    }}
-                  >
-                    Cancel
-                  </CustomButton>
-                  <CustomButton
-                    className="mx-2"
-                    sx={{
-                      backgroundColor: "#22B16A",
-                      padding: "2px 8px",
-                      fontSize: "12px",
-                    }}
-                  >
-                    Purchased
-                  </CustomButton>
-                  <CustomButton
-                    sx={{
-                      backgroundColor: "#4B4363",
-                      padding: "2px 8px",
-                      fontSize: "12px",
-                    }}
-                  >
-                    Continue Reading
-                  </CustomButton>
-                </div>
-              </div>
-            </div>
+    <>
+      <ProductList Book_list={Book_list} title="My Library">
+        <div
+          className="mt-1 d-flex flex-column justify-content-between"
+          style={{ height: "100%" }}
+        >
+          <BorderLinearProgress variant="determinate" value={50} />
+          <div className="d-flex justify-content-end mb-2">
+            <CustomButton
+              sx={{
+                backgroundColor: "#BA0E0E",
+                padding: "2px 8px",
+                fontSize: "12px",
+              }}
+            >
+              Cancel
+            </CustomButton>
+            <CustomButton
+              className="mx-2"
+              sx={{
+                backgroundColor: "#22B16A",
+                padding: "2px 8px",
+                fontSize: "12px",
+              }}
+            >
+              Purchased
+            </CustomButton>
+            <CustomButton
+              sx={{
+                backgroundColor: "#4B4363",
+                padding: "2px 8px",
+                fontSize: "12px",
+              }}
+            >
+              Continue Reading
+            </CustomButton>
           </div>
-        ))}
-      </div>
-    </div>
+        </div>
+      </ProductList>
+    </>
   );
 }
 

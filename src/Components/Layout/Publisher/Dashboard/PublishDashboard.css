@@ -49,7 +49,7 @@
   visibility: visible;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   border-radius: 10px;
-  animation: fadeInRight 2s ease-in-out;
+  /* animation: fadeInRight 2s ease-in-out;  */
 }
 
 .publisher-dashboard .about-us .about-dis {

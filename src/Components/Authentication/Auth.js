@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import vector from "../../Assets/vector.jpg";
-import "./PublisherAuth.css";
-import PublisherLogin from "./PublisherAuth/PublisherLogin";
-import PublisherReg from "./PublisherReg/PublisherReg";
+import vector from "../Assets/vector.jpg";
+import "./Login.css";
+import Register from "./Register";
+import Login from "./Login";
 
-function PublisherAuth({setLoginStatus}) {
+function Auth({setLoginStatus}) {
   const [showLoginPage, setShowLoginPage] = useState(true);
   return (
     <>
@@ -14,9 +14,9 @@ function PublisherAuth({setLoginStatus}) {
         </div>
         <div className="col-sm-12 col-md-6 col-lg-6 login-wrapper">
           {showLoginPage ? (
-            <PublisherLogin setShowLoginPage={setShowLoginPage} setLoginStatus={setLoginStatus} />
+            <Login setShowLoginPage={setShowLoginPage} setLoginStatus={setLoginStatus} />
           ) : (
-            <PublisherReg setShowLoginPage={setShowLoginPage} />
+            <Register setShowLoginPage={setShowLoginPage} />
           )}
         </div>
       </div>
@@ -24,4 +24,4 @@ function PublisherAuth({setLoginStatus}) {
   );
 }
 
-export default PublisherAuth;
+export default Auth;

@@ -6,20 +6,35 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
+import { FaPhoneAlt } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
+import { useDispatch } from "react-redux";
+import { Publisher_Register_Request } from "../../Redux/Action/PublisherAction/PuAuthAction";
 
-function PublisherReg({ setShowLoginPage }) {
+function Register({ setShowLoginPage }) {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
+  const [phoneNum, setPhoneNum] = useState("");
+  const [city, setCity] = useState("");
   const [password, setPassword] = useState("");
   const [repassword, setRePassword] = useState("");
   const [passwordVisible, setPasswordVisibile] = useState(false);
   const [passwordCVisible, setPasswordCVisibile] = useState(false);
+  const dispatch = useDispatch()
+
   const handleRegister = () => {
-    console.log(userName, email, password, repassword);
+    const payload = {
+      name: userName,
+      email: email,
+      password: password,
+      phone: Number(phoneNum),
+      address: city,
+    };
+    dispatch(Publisher_Register_Request(payload))
   };
   return (
     <>
-      <h3 className="login-title my-3">CREATE AN ACCOUNT</h3>
+      <h3 className="auth-title my-3">CREATE AN ACCOUNT</h3>
       <div className="login-form">
         <form className="form">
           <TextField
@@ -33,7 +48,7 @@ function PublisherReg({ setShowLoginPage }) {
             slotProps={{
               input: {
                 endAdornment: (
-                  <InputAdornment position="emd" style={{ cursor: "pointer" }}>
+                  <InputAdornment position="end" style={{ cursor: "pointer" }}>
                     <FaUser />
                   </InputAdornment>
                 ),
@@ -51,8 +66,44 @@ function PublisherReg({ setShowLoginPage }) {
             slotProps={{
               input: {
                 endAdornment: (
-                  <InputAdornment position="emd" style={{ cursor: "pointer" }}>
+                  <InputAdornment position="end" style={{ cursor: "pointer" }}>
                     <MdEmail />
+                  </InputAdornment>
+                ),
+              },
+            }}
+          />
+          <TextField
+            fullWidth
+            label="Phone Number"
+            variant="outlined"
+            className="input"
+            value={phoneNum}
+            onChange={(e) => setPhoneNum(e.target.value)}
+            size="small"
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end" style={{ cursor: "pointer" }}>
+                    <FaPhoneAlt />
+                  </InputAdornment>
+                ),
+              },
+            }}
+          />
+          <TextField
+            fullWidth
+            label="City"
+            variant="outlined"
+            className="input"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            size="small"
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end" style={{ cursor: "pointer" }}>
+                    <FaLocationDot />
                   </InputAdornment>
                 ),
               },
@@ -70,7 +121,7 @@ function PublisherReg({ setShowLoginPage }) {
             slotProps={{
               input: {
                 endAdornment: (
-                  <InputAdornment position="emd" style={{ cursor: "pointer" }}>
+                  <InputAdornment position="end" style={{ cursor: "pointer" }}>
                     {passwordVisible ? (
                       <FaEyeSlash onClick={() => setPasswordVisibile(false)} />
                     ) : (
@@ -93,7 +144,7 @@ function PublisherReg({ setShowLoginPage }) {
             slotProps={{
               input: {
                 endAdornment: (
-                  <InputAdornment position="emd" style={{ cursor: "pointer" }}>
+                  <InputAdornment position="end" style={{ cursor: "pointer" }}>
                     {passwordCVisible ? (
                       <FaEyeSlash onClick={() => setPasswordCVisibile(false)} />
                     ) : (
@@ -144,4 +195,4 @@ function PublisherReg({ setShowLoginPage }) {
   );
 }
 
-export default PublisherReg;
+export default Register;

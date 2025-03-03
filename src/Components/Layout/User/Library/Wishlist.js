@@ -1,59 +1,53 @@
 import React from "react";
-import "../UserDetails/UserDetail.css";
 import { Book_list } from "../../../Datas";
-import { Review } from "../../../Core-Components/Highlight";
-import { LuIndianRupee } from "react-icons/lu";
 import CustomButton from "../../../Core-Components/Button";
-import { RiDeleteBinLine } from "react-icons/ri";
+import { MdDelete } from "react-icons/md";
+import ProductList from "./ProductList";
+import { useNavigate } from "react-router-dom";
+import {Tooltip , IconButton} from "@mui/material";
 
 function Wishlist() {
+  const navigate = useNavigate();
   return (
-    <div className="user-wishlist card" style={{height:"100%"}}>
-      <div>
-        <h4>My Wishlist</h4>
-      </div>
-      <div className="wishbook-list">
-        {Book_list?.slice(0, 2)?.map((book) => (
-          <div className="card wish-book" style={{padding:"5px 20px"}}>
-            <div className="row justify-content-center">
-              <div className="col-2">
-                <img src={book?.Book_cover} width="100px" />
-              </div>
-              <div
-                className="col-6 d-flex flex-column"
-                style={{ rowGap: "10px" }}
-              >
-                <div className="d-flex align-items-center">
-                  <h4 className="mb-0">{book?.Book_title}</h4>
-                  <span className="mb-0"> - {book?.Book_Author}</span>
-                </div>
-                <div>
-                  <p className="mb-0">{book?.Book_Genre}</p>
-                </div>
-                <Review />
-                <h5 className="mb-0">
-                  <LuIndianRupee
-                    size={16}
-                    className="mb-1"
-                    style={{ fontWeight: "bold" }}
-                  />
-                  {book?.Book_Price}
-                </h5>
-              </div>
-              <div className="col-4 d-flex flex-column justify-content-between ">
-                <div className="text-end">
-                  <RiDeleteBinLine size={19} />
-                </div>
-                <div className="d-flex justify-content-end mb-2">
-                  <CustomButton className="mx-2">Buy Now</CustomButton>
-                  <CustomButton>Rent Now</CustomButton>
-                </div>
-              </div>
-            </div>
+    <>
+      <ProductList title="My Wishlist" Book_list={Book_list}>
+        <div
+          className="d-flex flex-column justify-content-between"
+          style={{ height: "100%" }}
+        >
+          <div className="text-end">
+            <Tooltip title="Remove from Wishlist">
+              <IconButton>
+                <MdDelete size={19} />
+              </IconButton>
+            </Tooltip>
           </div>
-        ))}
-      </div>
-    </div>
+          <div className="d-flex justify-content-end mb-2">
+            <CustomButton
+              className="mx-2"
+              sx={{
+                backgroundColor: "#098446",
+                padding: "6px 12px",
+                fontSize: "14px",
+              }}
+              onClick={() => navigate("/user/dash/detail/order/summary")}
+            >
+              Buy Now
+            </CustomButton>
+            <CustomButton
+             sx={{
+              // backgroundColor: "#098446",
+              padding: "6px 12px",
+              fontSize: "14px",
+            }}
+              onClick={() => navigate("/user/dash/detail/order/summary")}
+            >
+              Rent Now
+            </CustomButton>
+          </div>
+        </div>
+      </ProductList>
+    </>
   );
 }
 

@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Chart } from "primereact";
-import "primereact/resources/primereact.css";
-import "primereact/resources/themes/lara-light-blue/theme.css";
-// import 'primeicons/primeicons.css';
 
 function Graph() {
   const [chartData, setChartData] = useState({});

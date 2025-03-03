@@ -22,7 +22,8 @@ function CustomButton({
           fontWeight: "bold",
           fontSize: "15px",
           "&:hover": {
-            backgroundColor: "grey", // Darker shade on hover
+            backgroundColor: "#6f658f", 
+            color:"#FFFFFF"
           },
           ...sx,
           backgroundColor: sx.backgroundColor || "#4B4363",

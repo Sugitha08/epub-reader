@@ -16,7 +16,7 @@ function SideNav() {
   };
   return (
     <>
-      <div className="card shadow p-3 ">
+      <div className="cardBox shadow p-3 ">
         <div
           className="d-flex justify-content-start align-items-center"
           style={{ columnGap: "10px" }}
@@ -25,10 +25,10 @@ function SideNav() {
           <h5 className="mb-0">JOHN MASKIE</h5>
         </div>
       </div>
-      <div className="card shadow p-3 ">
+      <div className="cardBox shadow p-3 ">
         <h6 className="mb-0">MY ORDERS</h6>
       </div>
-      <div className="card shadow p-3 ">
+      <div className="cardBox shadow p-3 ">
         <div
           className="d-flex justify-content-between align-items-center"
           role="button"
@@ -57,7 +57,7 @@ function SideNav() {
           </div>
         )}
       </div>
-      <div className="card shadow p-3 ">
+      <div className="cardBox shadow p-3 ">
         <div
           className="d-flex justify-content-between align-items-center"
           role="button"
@@ -75,7 +75,16 @@ function SideNav() {
         </div>
         {toggleStaff && (
           <div className={`acc-link ${toggleStaff ? "open" : "closed"}`}>
-            <Link>My orders</Link>
+            <Link
+              to="/user/dash/detail/order"
+              className={`${
+                location.pathname === "/user/dash/detail/order"
+                  ? "Linkactive"
+                  : ""
+              }`}
+            >
+              My orders
+            </Link>
             <Link
               to="/user/dash/detail/wishlist"
               className={`${
@@ -100,7 +109,7 @@ function SideNav() {
           </div>
         )}
       </div>
-      <div className="card shadow p-3 ">
+      <div className="cardBox shadow p-3 ">
         <h6 className="mb-0">LOG OUT</h6>
       </div>
     </>
