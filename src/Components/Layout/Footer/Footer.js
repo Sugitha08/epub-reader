@@ -9,11 +9,15 @@ import { MdLocationOn } from "react-icons/md";
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoMailOutline } from "react-icons/io5";
 import { FaGlobe } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
-function Footer({ LoginStatus }) {
+function Footer() {
+  const { LoginStatus: publisherLoginStatus } = useSelector(
+    (state) => state.PublisherLogin
+  );
   const location = useLocation();
   const footerContent = () => {
-    if (LoginStatus?.Role === "Publisher") {
+    if (publisherLoginStatus) {
       return (
         <div className="publisher-footer">
           <div className="company-detail col-3">
@@ -160,7 +164,7 @@ function Footer({ LoginStatus }) {
           </div>
         </div>
       );
-    } else if (LoginStatus?.Role === "User") {
+    } else if ("sdsd") {
       return <div></div>;
     } else {
       return <div></div>;

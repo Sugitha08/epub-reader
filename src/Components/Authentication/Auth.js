@@ -3,9 +3,9 @@ import vector from "../Assets/vector.jpg";
 import "./Login.css";
 import Register from "./Register";
 import Login from "./Login";
+import { Outlet } from "react-router-dom";
 
-function Auth({setLoginStatus}) {
-  const [showLoginPage, setShowLoginPage] = useState(true);
+function Auth() {
   return (
     <>
       <div className="row auth-container">
@@ -13,11 +13,7 @@ function Auth({setLoginStatus}) {
           <img src={vector} alt="Vector" style={{ width: "100%" }} />
         </div>
         <div className="col-sm-12 col-md-6 col-lg-6 login-wrapper">
-          {showLoginPage ? (
-            <Login setShowLoginPage={setShowLoginPage} setLoginStatus={setLoginStatus} />
-          ) : (
-            <Register setShowLoginPage={setShowLoginPage} />
-          )}
+          <Outlet/>
         </div>
       </div>
     </>

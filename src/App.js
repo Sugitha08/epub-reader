@@ -18,37 +18,56 @@ import Wishlist from "./Components/Layout/User/Library/Wishlist";
 import UserLibrary from "./Components/Layout/User/Library/UserLibrary";
 import Orders from "./Components/Layout/User/Library/Orders";
 import { ToastContainer } from "react-toastify";
-import { useState } from "react";
 import OrderSummary from "./Components/Layout/User/Library/OrderSummary";
-import Forgotpswd from "./Components/Authentication/Forgotpswd";
+import Forgotpswd from "./Components/Authentication/Forgotpswd/Forgotpswd";
 import OrderPlaced from "./Components/Layout/User/Library/OrderPlaced";
+import PubLogin from "./Components/Authentication/PublisherAuth/PubLogin";
+import UserLogin from "./Components/Authentication/UserAuth/UserLogin";
+import PubRegister from "./Components/Authentication/PublisherAuth/PubRegister";
+import UserRegister from "./Components/Authentication/UserAuth/UserRegister";
+import { useSelector } from "react-redux";
 
 function App() {
-  const [LoginStatus, setLoginStatus] = useState(null);
+  const PublisherLogin = useSelector((state) => state.PublisherLogin);
   return (
     <>
       <BrowserRouter>
         <ToastContainer toastClassName="custom-toast" />
         <Routes>
-          <Route element={<Layout LoginStatus={LoginStatus} />}>
-            <Route index element={<Auth setLoginStatus={setLoginStatus} />} />
-            {/* publisher */}
+          <Route element={<Layout />}>
+            <Route element={<Auth />}>
+              <Route index element={<UserLogin />} />
+              <Route path="/reader/register" element={<UserRegister />} />
+              <Route path="/Publisher/login" element={<PubLogin />} />
+              <Route path="/Publisher/register" element={<PubRegister />} />
+            </Route>
             <Route path="/resetpassword" element={<Forgotpswd />} />
-            <Route
-              path="/publisher/dashboard/"
-              element={<PublishDashboard />}
-            />
-            <Route path="/publisher/dashboard/library" element={<Library />} />
-            <Route path="/publisher/dashboard/report" element={<Report />} />
-            <Route
-              path="/publisher/dashboard/upload/"
-              element={<UploadFile />}
-            />
-            <Route
-              path="/publisher/dashboard/upload/book/:id"
-              element={<BookDetail />}
-            />
 
+            {/* publisher */}
+            {PublisherLogin.LoginStatus && (
+              <>
+                <Route
+                  path="/publisher/dashboard/"
+                  element={<PublishDashboard />}
+                />
+                <Route
+                  path="/publisher/dashboard/library"
+                  element={<Library />}
+                />
+                <Route
+                  path="/publisher/dashboard/report"
+                  element={<Report />}
+                />
+                <Route
+                  path="/publisher/dashboard/upload/"
+                  element={<UploadFile />}
+                />
+                <Route
+                  path="/publisher/dashboard/upload/book/:id"
+                  element={<BookDetail />}
+                />
+              </>
+            )}
             {/* User */}
             <Route path="/user/dashboard/" element={<UserDashboard />} />
             <Route path="/user/dash/explore" element={<ExploreBook />} />

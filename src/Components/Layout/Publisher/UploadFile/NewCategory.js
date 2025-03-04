@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import CustomButton from "../../../Core-Components/Button";
 import { TextField } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { Add_Cat_Request } from "../../../../Redux/Action/PublisherAction/CategoryAction";
 
 function NewCategory({ handleCategoryClose, openAddCategory }) {
+  const [catName, setCatName] = useState("");
+  const [catDescription, setCatDescription] = useState("");
+  const dispatch = useDispatch();
+  const handleAddCat = () => {
+    dispatch(
+      Add_Cat_Request({ category_name: catName, description: catDescription })
+    );
+  };
   return (
     <Modal
       show={openAddCategory}
@@ -11,7 +21,7 @@ function NewCategory({ handleCategoryClose, openAddCategory }) {
       style={{ zIndex: "999999" }}
     >
       <Modal.Header closeButton>
-        <Modal.Title style={{color:"#4b4363"}}>Add new Category</Modal.Title>
+        <Modal.Title style={{ color: "#4b4363" }}>Add new Category</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="d-flex flex-column gap-3">
@@ -20,17 +30,17 @@ function NewCategory({ handleCategoryClose, openAddCategory }) {
             label="Enter Category Name"
             variant="outlined"
             className="input"
-            // value={email}
-            // onChange={(e) => setEmail(e.target.value)}
+            value={catName}
+            onChange={(e) => setCatName(e.target.value)}
             size="medium"
           />
           <TextField
             fullWidth
-            label="Enter Discription"
+            label="Enter Description"
             variant="outlined"
             className="input"
-            // value={email}
-            // onChange={(e) => setEmail(e.target.value)}
+            value={catDescription}
+            onChange={(e) => setCatDescription(e.target.value)}
             size="medium"
           />
         </div>
@@ -48,11 +58,15 @@ function NewCategory({ handleCategoryClose, openAddCategory }) {
         >
           Cancel
         </CustomButton>
-        <CustomButton type="button" onClick={handleCategoryClose}   sx={{
+        <CustomButton
+          type="button"
+          onClick={handleAddCat}
+          sx={{
             backgroundColor: "#22B16A",
             padding: "6px 12px",
             fontSize: "14px",
-          }}>
+          }}
+        >
           Add Category
         </CustomButton>
       </Modal.Footer>

@@ -5,12 +5,18 @@ import {
   Publisher_Login_Failure,
   Publisher_Login_Success,
 } from "../../Action/PublisherAction/PuAuthAction";
+import { toast } from "react-toastify";
 
 function* PublisherLoginSaga({ payload }) {
   try {
     const Response = yield call(PublisherLogin, payload);
+    const AuthToken = Response?.data?.access_token;
+    localStorage.setItem("Auth_Token", AuthToken);
+    toast.success(Response?.data?.message);
     yield put(Publisher_Login_Success(Response.data));
   } catch (error) {
+    toast.error(error?.response?.data?.error);
+
     yield put(Publisher_Login_Failure(error));
   }
 }

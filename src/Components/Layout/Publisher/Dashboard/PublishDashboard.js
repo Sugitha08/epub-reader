@@ -74,6 +74,7 @@ function PublishDashboard() {
               width: "300px",
               padding: "0",
             }}
+            key={data?.id}
           >
             <div className="card-header">
               <h5>{data?.title}</h5>

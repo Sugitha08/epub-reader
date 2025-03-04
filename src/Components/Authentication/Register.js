@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import { FcGoogle } from "react-icons/fc";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -8,42 +8,87 @@ import { MdEmail } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { FaPhoneAlt } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
-import { useDispatch } from "react-redux";
-import { Publisher_Register_Request } from "../../Redux/Action/PublisherAction/PuAuthAction";
+import { useFormik } from "formik";
+import { useSelector } from "react-redux";
+import * as Yup from "yup";
 
-function Register({ setShowLoginPage }) {
-  const [userName, setUserName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNum, setPhoneNum] = useState("");
-  const [city, setCity] = useState("");
-  const [password, setPassword] = useState("");
-  const [repassword, setRePassword] = useState("");
+function Register({ redirectTologin, handleReg }) {
+  // const [userName, setUserName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [phoneNum, setPhoneNum] = useState("");
+  // const [city, setCity] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [repassword, setRePassword] = useState("");
   const [passwordVisible, setPasswordVisibile] = useState(false);
   const [passwordCVisible, setPasswordCVisibile] = useState(false);
-  const dispatch = useDispatch()
-
-  const handleRegister = () => {
-    const payload = {
-      name: userName,
-      email: email,
-      password: password,
-      phone: Number(phoneNum),
-      address: city,
-    };
-    dispatch(Publisher_Register_Request(payload))
+  const { RegStatus } = useSelector((state) => state.PublisherReg);
+  const initialState = {
+    userName: "",
+    email: "",
+    phoneNum: "",
+    city: "",
+    password: "",
+    repassword: "",
   };
+
+  const passwordsyntax = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
+  const validation = Yup.object().shape({
+    username: Yup.string()
+      .min(6, "Username must have atleast 6 characters")
+      .required("*this field is required"),
+    email: Yup.string().email("Invalid email").required("Required"),
+    password: Yup.string()
+      .min(6, "password must have atleast 6 characters")
+      .matches(passwordsyntax, "create a strong password")
+      .required("*this field is required"),
+    repassword: Yup.string()
+      .oneOf(
+        [Yup.ref("password"), null],
+        "confirm password and password are not matching"
+      )
+      .required("*this field is required"),
+    phoneNum: Yup.string()
+      .matches(/^\d{10}$/, "Invalid phone number")
+      .required("*this field is required"),
+    city: Yup.string().required("*this field is required"),
+  });
+
+  const handleRegister = (value) => {
+    const payload = {
+      name: value.userName,
+      email: value.email,
+      password: value.password,
+      phone: Number(value.phoneNum),
+      address: value.city,
+      geo_location: "Thanjavur",
+    };
+    handleReg(payload);
+  };
+  useEffect(() => {
+    if (RegStatus) {
+      redirectTologin();
+    } else {
+      return;
+    }
+  }, [RegStatus]);
+
+  const formik = useFormik({
+    initialValues: initialState,
+    validationSchema: { validation },
+    onSubmit: (values) => handleRegister(values),
+  });
   return (
     <>
       <h3 className="auth-title my-3">CREATE AN ACCOUNT</h3>
       <div className="login-form">
-        <form className="form">
+        <form className="form" onSubmit={formik.handleSubmit}>
           <TextField
             fullWidth
             label="UserName"
             variant="outlined"
             className="input"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
+            value={formik.values.userName}
+            onChange={formik.handleChange}
             size="small"
             slotProps={{
               input: {
@@ -60,8 +105,8 @@ function Register({ setShowLoginPage }) {
             label="Email"
             variant="outlined"
             className="input"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={formik.values.email}
+            onChange={formik.handleChange}
             size="small"
             slotProps={{
               input: {
@@ -78,8 +123,8 @@ function Register({ setShowLoginPage }) {
             label="Phone Number"
             variant="outlined"
             className="input"
-            value={phoneNum}
-            onChange={(e) => setPhoneNum(e.target.value)}
+            value={formik.values.phoneNum}
+            onChange={formik.handleChange}
             size="small"
             slotProps={{
               input: {
@@ -96,8 +141,8 @@ function Register({ setShowLoginPage }) {
             label="City"
             variant="outlined"
             className="input"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
+            value={formik.values.city}
+            onChange={formik.handleChange}
             size="small"
             slotProps={{
               input: {
@@ -115,8 +160,8 @@ function Register({ setShowLoginPage }) {
             label="Password"
             variant="outlined"
             className="input"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={formik.values.password}
+            onChange={formik.handleChange}
             size="small"
             slotProps={{
               input: {
@@ -138,8 +183,8 @@ function Register({ setShowLoginPage }) {
             label="Re-Enter Password"
             variant="outlined"
             className="input"
-            value={repassword}
-            onChange={(e) => setRePassword(e.target.value)}
+            value={formik.values.repassword}
+            onChange={formik.handleChange}
             size="small"
             slotProps={{
               input: {
@@ -182,10 +227,7 @@ function Register({ setShowLoginPage }) {
           </p>
           <p>
             Already have an Account?
-            <span
-              className="navigationLink"
-              onClick={() => setShowLoginPage(true)}
-            >
+            <span className="navigationLink" onClick={() => redirectTologin()}>
               Login
             </span>
           </p>

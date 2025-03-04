@@ -35,6 +35,8 @@ function CategoryReducer(state = initialState, action) {
         LoginData: action.payload,
       };
     case Type.GET_CATEGORY_FAILURE:
+      console.log(action.payload, "getCat");
+
       return {
         ...state,
         error: action.payload,

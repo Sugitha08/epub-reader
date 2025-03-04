@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import "./UploadFile.css";
@@ -7,6 +7,8 @@ import NewCategory from "./NewCategory";
 import { useDispatch } from "react-redux";
 import { FaBook } from "react-icons/fa6";
 import { Autocomplete } from "@mui/material";
+import { Upload_book_Request } from "../../../../Redux/Action/PublisherAction/BookAction";
+import { Get_Cat_Request } from "../../../../Redux/Action/PublisherAction/CategoryAction";
 
 function UploadFile() {
   const [openAddCategory, setOpenAddCategory] = useState(false);
@@ -27,8 +29,12 @@ function UploadFile() {
   const handleUploadFile = (e) => {
     e.preventDefault();
     const payload = {};
-    dispatch();
+    dispatch(Upload_book_Request());
   };
+
+  useEffect(() => {
+    dispatch(Get_Cat_Request());
+  }, []);
   return (
     <>
       <div className="upload-container shadow">
@@ -93,12 +99,7 @@ function UploadFile() {
               // value={email}
               // onChange={(e) => setEmail(e.target.value)}
               renderInput={(params) => (
-                <TextField
-                  {...params}
-                  fullWidth
-                  label="Book Category"
-                  
-                />
+                <TextField {...params} fullWidth label="Book Category" />
               )}
             />
             <p

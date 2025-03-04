@@ -3,6 +3,7 @@ import * as Type from "../../ActionType";
 const initialState = {
   loading: false,
   RegisterData: [],
+  RegStatus: false,
   error: null,
 };
 function PublisherRegisterReducer(state = initialState, action) {
@@ -17,6 +18,7 @@ function PublisherRegisterReducer(state = initialState, action) {
         ...state,
         loading: false,
         RegisterData: action.payload,
+        RegStatus: true,
       };
     case Type.PUBLISHER_REGISTER_FAILURE:
       return {

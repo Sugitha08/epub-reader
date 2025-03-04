@@ -13,11 +13,11 @@ export const Upload_book = (request) => {
 };
 
 export const Add_Category = (request) => {
-  return Main_Api.post("category/add_category", request);
+  return Main_Api.post("book/add_category", request);
 };
 
 export const Get_Category = () => {
-  return Main_Api.get("category/get_categories");
+  return Main_Api.get("book/get_categories");
 };
 
 export const GetBook_by_Category = (id) => {

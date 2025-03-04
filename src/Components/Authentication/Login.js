@@ -1,50 +1,38 @@
 import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import InputAdornment from "@mui/material/InputAdornment";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-import { RegisteredData } from "../Datas";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Publisher_Login_Request } from "../../Redux/Action/PublisherAction/PuAuthAction";
 
-function Login({ setShowLoginPage, setLoginStatus }) {
+function Login({ title, navigate, resgisterNav, handleLogin }) {
   const dispatch = useDispatch();
-  useEffect(() => {
-    setLoginStatus("");
-  }, []);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisibile] = useState(false);
-  const navigate = useNavigate();
-  const handleLogin = () => {
-    const payload = { email, password };
-    dispatch(Publisher_Login_Request(payload));
+  const { loading, LoginStatus, error } = useSelector(
+    (state) => state?.PublisherLogin
+  );
+  const payload = { email, password };
 
-      const LoginData = RegisteredData.find((data) => data.Email === email);
-      if (LoginData) {
-        if (LoginData.Password === password) {
-          setLoginStatus(LoginData);
-          toast.success("Login Successfully");
-          if (LoginData.Role === "Publisher") {
-            navigate("/publisher/dashboard");
-          } else if (LoginData.Role === "User") {
-            navigate("/user/dashboard");
-          }
-        } else {
-          toast.error("Login Failed - Invalid Cerendial");
-        }
-      } else {
-        toast.error("Login Failed - Invalid Cerendial");
-      }
+  // const navigate = useNavigate();
+  const handleSubmit = () => {
+    handleLogin(payload);
   };
-  
+  useEffect(() => {
+    if (LoginStatus) {
+      navigate();
+    }
+  }, [LoginStatus]);
+
   return (
     <>
-      <h3 className="auth-title align-self-center">LOGIN YOUR ACCOUNT</h3>
+      <h3 className="auth-title align-self-center">{title}</h3>
       <div className="login-form">
         <form className="form mt-3">
           <TextField
@@ -97,7 +85,7 @@ function Login({ setShowLoginPage, setLoginStatus }) {
             <button
               type="button"
               className="btn w-100 button"
-              onClick={handleLogin}
+              onClick={handleSubmit}
             >
               SIGN IN
             </button>
@@ -115,10 +103,7 @@ function Login({ setShowLoginPage, setLoginStatus }) {
           </p>
           <p>
             Don’t have an account?
-            <span
-              className="navigationLink"
-              onClick={() => setShowLoginPage(false)}
-            >
+            <span className="navigationLink" onClick={() => resgisterNav()}>
               Create an account
             </span>
           </p>
