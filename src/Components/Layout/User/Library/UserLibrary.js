@@ -1,44 +1,29 @@
 import React from "react";
 import "../UserDetails/UserDetail.css";
 import { Book_list } from "../../../Datas";
-import { Review } from "../../../Core-Components/Highlight";
-import { LuIndianRupee } from "react-icons/lu";
 import CustomButton from "../../../Core-Components/Button";
-import LinearProgress, {
-  linearProgressClasses,
-} from "@mui/material/LinearProgress";
-import { styled } from "@mui/material/styles";
 import ProductList from "./ProductList";
-
-const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-  height: 10,
-  borderRadius: 5,
-  [`&.${linearProgressClasses.colorPrimary}`]: {
-    backgroundColor: theme.palette.grey[200],
-    ...theme.applyStyles("dark", {
-      backgroundColor: theme.palette.grey[800],
-    }),
-  },
-  [`& .${linearProgressClasses.bar}`]: {
-    borderRadius: 5,
-    backgroundColor: "#1a90ff",
-    ...theme.applyStyles("dark", {
-      backgroundColor: "#308fe8",
-    }),
-  },
-}));
+import { Gauge } from "@mui/x-charts/Gauge";
 
 function UserLibrary() {
   return (
     <>
-      <ProductList Book_list={Book_list} title="My Library">
+      <ProductList Book_list={Book_list} title="My Orders">
         <div
           className="mt-1 d-flex flex-column justify-content-between"
           style={{ height: "100%" }}
         >
-          <BorderLinearProgress variant="determinate" value={50} />
+          <div className="float-right">
+            <Gauge
+              width={100}
+              height={100}
+              value={60}
+              text={({ value }) => `${value}%`}
+              sx={{ float: "right" }}
+            />
+          </div>
           <div className="d-flex justify-content-end mb-2">
-            <CustomButton
+            {/* <CustomButton
               sx={{
                 backgroundColor: "#BA0E0E",
                 padding: "2px 8px",
@@ -46,7 +31,7 @@ function UserLibrary() {
               }}
             >
               Cancel
-            </CustomButton>
+            </CustomButton> */}
             <CustomButton
               className="mx-2"
               sx={{
@@ -64,7 +49,7 @@ function UserLibrary() {
                 fontSize: "12px",
               }}
             >
-              Continue Reading
+              <a href="/Headword Flipbook Sample/index.html" style={{textDecoration:"none",color:"#f6f6f6"}}>Continue Reading</a>
             </CustomButton>
           </div>
         </div>

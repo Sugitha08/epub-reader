@@ -15,9 +15,10 @@ function Header({ setOpenMenu, openMenu }) {
   const { LoginStatus: publisherLoginStatus } = useSelector(
     (state) => state.PublisherLogin
   );
-  const location = useLocation();
+  const { UserLoginStatus } = useSelector((state) => state?.UserLogin);
 
   const navigate = useNavigate();
+  const location = useLocation();
   const [openProfileDetails, setProfileDetails] = useState(false);
   const [signMenu, setSignMenu] = useState(false);
 
@@ -25,9 +26,6 @@ function Header({ setOpenMenu, openMenu }) {
     setOpenMenu(!openMenu);
   };
 
-  const handleProfileDetailClose = () => {
-    setProfileDetails(false);
-  };
   const handleSignMenuOpen = (event) => {
     setSignMenu(event.currentTarget);
   };
@@ -35,8 +33,8 @@ function Header({ setOpenMenu, openMenu }) {
     setSignMenu(null);
   };
   const HeaderContent = () => {
-    if (publisherLoginStatus) {
-      if (false) {
+    if (publisherLoginStatus || UserLoginStatus) {
+      if (UserLoginStatus) {
         return <UserHeader setProfileDetails={setProfileDetails} />;
       }
       if (publisherLoginStatus) {
@@ -55,13 +53,15 @@ function Header({ setOpenMenu, openMenu }) {
               />
             </div>
             <h3 role="button" className="title" onClick={() => navigate("/")}>
-              EBOOK
+              HALO PAD READER
             </h3>
           </div>
           <div className="d-flex align-items-center justify-content-center gap-5">
             <div
               role="button"
-              className={`nav `}
+              className={`nav ${
+                location.pathname === "/publisher/login" ? "active" : ""
+              }`}
               onClick={() => {
                 navigate("/publisher/login");
               }}
@@ -70,14 +70,14 @@ function Header({ setOpenMenu, openMenu }) {
             </div>
             <div
               role="button"
-              className={`nav`}
+              className={`nav ${location.pathname === "/" ? "active" : ""}`}
               onClick={() => {
                 navigate("/");
               }}
             >
-              User
+              Reader
             </div>
-            <CustomButton
+            {/* <CustomButton
               sx={{
                 backgroundColor: "transparent",
                 border: "1px solid #f6f6f6",
@@ -110,7 +110,7 @@ function Header({ setOpenMenu, openMenu }) {
                   },
                 },
               ]}
-            />
+            /> */}
           </div>
         </>
       );
@@ -120,13 +120,76 @@ function Header({ setOpenMenu, openMenu }) {
   return (
     <>
       <div className="header">
-        {HeaderContent()}
-        <Profile
-          openProfileDetails={openProfileDetails}
-          handleClose={handleProfileDetailClose}
-        />
+        <div className="d-flex justify-centent-center align-items-center">
+          <div className="menu-icon">
+            <IoMdMenu
+              size={25}
+              className="menu-icon me-2"
+              style={{ cursor: "pointer" }}
+              onClick={handleMenuOpen}
+            />
+          </div>
+          <h3 role="button" className="title" onClick={() => navigate("/")}>
+            HALO PAD READER
+          </h3>
+        </div>
+        <div className="d-flex align-items-center justify-content-center gap-5">
+          <div
+            role="button"
+            className={`nav ${
+              location.pathname === "/publisher/login" ? "active" : ""
+            }`}
+            onClick={() => {
+              navigate("/publisher/login");
+            }}
+          >
+            Publisher
+          </div>
+          <div
+            role="button"
+            className={`nav ${location.pathname === "/" ? "active" : ""}`}
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            Reader
+          </div>
+          {/* <CustomButton
+              sx={{
+                backgroundColor: "transparent",
+                border: "1px solid #f6f6f6",
+                padding: "2px 6px",
+              }}
+              aria-controls={signMenu ? "basic-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={signMenu ? "true" : undefined}
+              onClick={handleSignMenuOpen}
+            >
+              Sign in/sign up
+            </CustomButton>
+            <MenuItems
+              anchorEl={signMenu}
+              open={signMenu}
+              onClose={handleClose}
+              listdata={[
+                {
+                  label: " Sign in",
+                  handleClick: () => {
+                    navigate("/");
+                    setSignMenu(null);
+                  },
+                },
+                {
+                  label: " Sign Up",
+                  handleClick: () => {
+                    navigate("/register");
+                    setSignMenu(null);
+                  },
+                },
+              ]}
+            /> */}
+        </div>
       </div>
-      {/* {publisherLoginStatus && <UserFilterMenu />} */}
     </>
   );
 }

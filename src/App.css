@@ -15,7 +15,7 @@ body {
   background-color: rgb(242, 242, 242) !important;
   height: 100%;
 }
-#root{
+#root {
   height: 100%;
   box-sizing: border-box;
 }
@@ -26,4 +26,11 @@ body {
 
 body .Toastify__toast-container {
   z-index: 999999 !important;
+}
+
+:root {
+  --blue-500: #4caf50; /* Green */
+  --pink-500: #ff9800; /* Orange */
+  --violet-500: #7451dc;
+  --skyblue-500: #ae9de2;
 }

@@ -6,12 +6,10 @@ import UserFilterMenu from "./Header/UserFilterMenu";
 import Content from "./Content/Content";
 
 function Layout() {
-  const [openMenu, setOpenMenu] = useState("");
-
   return (
     <div className="epub-reader-wrapper">
-      <Header setOpenMenu={setOpenMenu} openMenu={openMenu} />
-      <Content openMenu={openMenu} />
+      <Header />
+      <Content />
       <Footer />
     </div>
   );

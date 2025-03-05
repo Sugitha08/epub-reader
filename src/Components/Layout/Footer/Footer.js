@@ -94,7 +94,7 @@ function Footer() {
               <CiLink className="mt-1 me-1" />
               Home
             </Link>
-            <Link
+            {/* <Link
               to="/publisher/dashboard/report"
               className={`nav ${
                 location.pathname === "/publisher/dashboard/report"
@@ -104,7 +104,7 @@ function Footer() {
             >
               <CiLink className="mt-1 me-1" />
               Report
-            </Link>
+            </Link> */}
             <Link
               to="/publisher/dashboard/upload"
               className={`nav ${
@@ -172,7 +172,7 @@ function Footer() {
   };
   return (
     <>
-      {footerContent()}
+      {/* {footerContent()} */}
       <div className="footer">
         <div className="copyrights">
           <p className="mb-0">

@@ -4,7 +4,7 @@ import { Review } from "../../../Core-Components/Highlight";
 import { LuIndianRupee } from "react-icons/lu";
 import "./Library.css"
 
-function ProductList({ title, Book_list, children, Footer }) {
+function ProductList({ title, Book_list, children, Footer  }) {
   console.log(title, children);
 
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LuIndianRupee } from "react-icons/lu";
 import { FiEye } from "react-icons/fi";
 import { MdEditNote } from "react-icons/md";
@@ -10,10 +10,11 @@ import CustomButton from "../../../Core-Components/Button";
 import { Tooltip, IconButton } from "@mui/material";
 import { Review } from "../../../Core-Components/Highlight";
 import { ImCross } from "react-icons/im";
+import { IoChevronBack } from "react-icons/io5";
 
 function ExploreBookDetail() {
   const location = useLocation();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const BookData = location.state;
   console.log(BookData);
@@ -21,10 +22,22 @@ function ExploreBookDetail() {
   return (
     <>
       <div className="userbookDetail row shadow">
-        <div className="d-flex justify-content-end p-0">
+        <div className="d-flex justify-content-between p-0">
+          <Link
+            to="/user/dashboard"
+            className="mb-2"
+            style={{ textDecoration: "none", fontSize: "19px" }}
+          >
+            <IoChevronBack className="mb-1" />
+            Back
+          </Link>
           <Tooltip title="cancel">
             <IconButton>
-              <ImCross size={"10px"} style={{ color: "rgb(149 149 149)" }} onClick={()=>navigate("/user/dash/explore")}/>
+              <ImCross
+                size={"10px"}
+                style={{ color: "rgb(149 149 149)" }}
+                onClick={() => navigate("/user/dash/explore")}
+              />
             </IconButton>
           </Tooltip>
         </div>
@@ -60,7 +73,14 @@ function ExploreBookDetail() {
                 className="mb-1"
                 style={{ fontWeight: "bold" }}
               />
-              {BookData?.Book_Price}
+              <del>{BookData?.Book_Price}</del>
+              &nbsp;{" "}
+              <LuIndianRupee
+                size={16}
+                className="mb-1"
+                style={{ fontWeight: "bold" }}
+              />
+              100
             </span>
           </p>
           <p className="mb-0">
@@ -77,17 +97,19 @@ function ExploreBookDetail() {
           <div className="icons">
             <Tooltip title="Preview">
               <IconButton>
+                <a href="/Headword Flipbook Sample/index.html">
                 <FiEye size={20} style={{ color: "#5e5e5e" }} />
+                </a>
               </IconButton>
             </Tooltip>
             <Tooltip title="Edit">
               <IconButton>
-                <MdEditNote size={22} style={{ color: "#5e5e5e" }} />
+                <MdEditNote size={22} className="mt-2" style={{ color: "#5e5e5e" }} />
               </IconButton>
             </Tooltip>
             <Tooltip title="Delete" placement="right-start">
               <IconButton>
-                <RiDeleteBinLine size={19} style={{ color: "#5e5e5e" }} />
+                <RiDeleteBinLine size={19} className="mt-2" style={{ color: "#5e5e5e" }} />
               </IconButton>
             </Tooltip>
           </div>

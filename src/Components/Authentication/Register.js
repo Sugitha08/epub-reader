@@ -33,7 +33,7 @@ function Register({ redirectTologin, handleReg }) {
 
   const passwordsyntax = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
   const validation = Yup.object().shape({
-    username: Yup.string()
+    userName: Yup.string()
       .min(6, "Username must have atleast 6 characters")
       .required("*this field is required"),
     email: Yup.string().email("Invalid email").required("Required"),
@@ -74,57 +74,101 @@ function Register({ redirectTologin, handleReg }) {
 
   const formik = useFormik({
     initialValues: initialState,
-    validationSchema: { validation },
-    onSubmit: (values) => handleRegister(values),
+    validationSchema: validation,
+    onSubmit: () => handleRegister,
   });
+  console.log(formik);
+
   return (
     <>
       <h3 className="auth-title my-3">CREATE AN ACCOUNT</h3>
       <div className="login-form">
         <form className="form" onSubmit={formik.handleSubmit}>
-          <TextField
-            fullWidth
-            label="UserName"
-            variant="outlined"
-            className="input"
-            value={formik.values.userName}
-            onChange={formik.handleChange}
-            size="small"
-            slotProps={{
-              input: {
-                endAdornment: (
-                  <InputAdornment position="end" style={{ cursor: "pointer" }}>
-                    <FaUser />
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-          <TextField
-            fullWidth
-            label="Email"
-            variant="outlined"
-            className="input"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            size="small"
-            slotProps={{
-              input: {
-                endAdornment: (
-                  <InputAdornment position="end" style={{ cursor: "pointer" }}>
-                    <MdEmail />
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
+          <div className="my-2">
+            <TextField
+              fullWidth
+              type="text"
+              label="UserName"
+              variant="outlined"
+              className={`input mb-0 ${
+                formik.errors.userName && formik.touched.userName
+                  ? "is-invalid"
+                  : formik.touched.userName && !formik.errors.userName
+                  ? "is-valid"
+                  : ""
+              }`}
+              name="userName"
+              value={formik.values.userName}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              size="small"
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment
+                      position="end"
+                      style={{ cursor: "pointer" }}
+                    >
+                      <FaUser />
+                    </InputAdornment>
+                  ),
+                },
+              }}
+            />
+            {formik.errors.userName && formik.touched.userName && (
+              <p className="invalid-feedback m-0">{formik.errors.userName}</p>
+            )}
+          </div>
+          <div className="my-2">
+            <TextField
+              fullWidth
+              label="Email"
+              name="email"
+              variant="outlined"
+              className={`input mb-0 ${
+                formik.errors.email && formik.touched.email
+                  ? "is-invalid"
+                  : formik.touched.email && !formik.errors.email
+                  ? "is-valid"
+                  : ""
+              }`}
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              size="small"
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment
+                      position="end"
+                      style={{ cursor: "pointer" }}
+                    >
+                      <MdEmail />
+                    </InputAdornment>
+                  ),
+                },
+              }}
+            />
+             {formik.errors.email && formik.touched.email && (
+              <p className="invalid-feedback m-0">{formik.errors.email}</p>
+            )}
+          </div>
+          <div className="my-2">
           <TextField
             fullWidth
             label="Phone Number"
             variant="outlined"
-            className="input"
+            name="phoneNum"
+            className={`input mb-0 ${
+              formik.errors.phoneNum && formik.touched.phoneNum
+                ? "is-invalid"
+                : formik.touched.phoneNum && !formik.errors.phoneNum
+                ? "is-valid"
+                : ""
+            }`}
             value={formik.values.phoneNum}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             size="small"
             slotProps={{
               input: {
@@ -136,13 +180,25 @@ function Register({ redirectTologin, handleReg }) {
               },
             }}
           />
+           {formik.errors.phoneNum && formik.touched.phoneNum && (
+              <p className="invalid-feedback m-0">{formik.errors.phoneNum}</p>
+            )}
+          </div>
           <TextField
             fullWidth
             label="City"
+            name="city"
             variant="outlined"
-            className="input"
+            className={`input mb-0 ${
+              formik.errors.phoneNum && formik.touched.phoneNum
+                ? "is-invalid"
+                : formik.touched.phoneNum && !formik.errors.phoneNum
+                ? "is-valid"
+                : ""
+            }`}
             value={formik.values.city}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             size="small"
             slotProps={{
               input: {
@@ -158,10 +214,12 @@ function Register({ redirectTologin, handleReg }) {
             fullWidth
             type={passwordVisible ? "text" : "password"}
             label="Password"
+            name="password"
             variant="outlined"
             className="input"
             value={formik.values.password}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             size="small"
             slotProps={{
               input: {
@@ -183,8 +241,10 @@ function Register({ redirectTologin, handleReg }) {
             label="Re-Enter Password"
             variant="outlined"
             className="input"
+            name="repassword"
             value={formik.values.repassword}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             size="small"
             slotProps={{
               input: {
@@ -206,11 +266,7 @@ function Register({ redirectTologin, handleReg }) {
             </a>
           </p> */}
           <div className="mt-4">
-            <button
-              type="button"
-              className="btn w-100 button"
-              onClick={handleRegister}
-            >
+            <button type="submit" className="btn w-100 button">
               SIGN UP
             </button>
           </div>

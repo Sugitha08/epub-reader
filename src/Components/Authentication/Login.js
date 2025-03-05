@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
-// import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import InputAdornment from "@mui/material/InputAdornment";
 import { FaEye } from "react-icons/fa";
@@ -8,30 +7,44 @@ import { FaEyeSlash } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { Publisher_Login_Request } from "../../Redux/Action/PublisherAction/PuAuthAction";
+import CustomButton from "../Core-Components/Button";
 
 function Login({ title, navigate, resgisterNav, handleLogin }) {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisibile] = useState(false);
-  const { loading, LoginStatus, error } = useSelector(
-    (state) => state?.PublisherLogin
+  const {
+    loading: PublisherLoad,
+    LoginStatus: PublisherLogin,
+    error,
+  } = useSelector((state) => state?.PublisherLogin);
+  const { loading: UserLoad, UserLoginStatus } = useSelector(
+    (state) => state?.UserLogin
   );
+  console.log(UserLoginStatus);
+
   const payload = { email, password };
 
   // const navigate = useNavigate();
   const handleSubmit = () => {
     handleLogin(payload);
-  };
-  useEffect(() => {
-    if (LoginStatus) {
+    if(payload){
       navigate();
+      localStorage.setItem("User_Auth_Token", "token generated");
     }
-  }, [LoginStatus]);
+ 
+  };
+  // useEffect(() => {
+  //   if (PublisherLogin ||UserLoginStatus ) {
+  //     navigate();
+  //   }
+  // }, [PublisherLogin, UserLoginStatus]);
+  
 
   return (
     <>
+      <div className="logo"></div>
       <h3 className="auth-title align-self-center">{title}</h3>
       <div className="login-form">
         <form className="form mt-3">
@@ -82,13 +95,14 @@ function Login({ title, navigate, resgisterNav, handleLogin }) {
             </a>
           </p>
           <div className="mt-4">
-            <button
+            <CustomButton
               type="button"
-              className="btn w-100 button"
+              className="w-100 button"
               onClick={handleSubmit}
+              // loading={PublisherLoad || UserLoad ? true : false}
             >
               SIGN IN
-            </button>
+            </CustomButton>
           </div>
         </form>
         <p className="or my-3">

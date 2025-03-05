@@ -9,6 +9,7 @@ import { FaBook } from "react-icons/fa6";
 import { Autocomplete } from "@mui/material";
 import { Upload_book_Request } from "../../../../Redux/Action/PublisherAction/BookAction";
 import { Get_Cat_Request } from "../../../../Redux/Action/PublisherAction/CategoryAction";
+import CustomButton from "../../../Core-Components/Button";
 
 function UploadFile() {
   const [openAddCategory, setOpenAddCategory] = useState(false);
@@ -29,7 +30,7 @@ function UploadFile() {
   const handleUploadFile = (e) => {
     e.preventDefault();
     const payload = {};
-    dispatch(Upload_book_Request());
+    // dispatch(Upload_book_Request());
   };
 
   useEffect(() => {
@@ -59,7 +60,7 @@ function UploadFile() {
                       position="end"
                       style={{ cursor: "pointer" }}
                     >
-                      <FaBook />
+                      {/* <FaBook /> */}
                     </InputAdornment>
                   ),
                 },
@@ -230,16 +231,22 @@ function UploadFile() {
             />
           </div>
           <div className="d-flex justify-content-end">
-            <button
+            <CustomButton
               type="button"
-              className="btn btn-danger mx-3 shadow"
+              className="mx-3 shadow"
+              style={{ backgroundColor: "#BA0E0E" }}
               onClick={() => navigate("/publisher/dashboard")}
             >
               Cancel
-            </button>
-            <button type="submit" className="btn btn-success shadow">
+            </CustomButton>
+            <CustomButton
+              type="submit"
+              className="shadow"
+              style={{ backgroundColor: "green" }}
+              onClick={()=>navigate("/publisher/dashboard")}
+            >
               Submit
-            </button>
+            </CustomButton>
           </div>
         </form>
       </div>

@@ -16,7 +16,7 @@ function SideNav() {
   };
   return (
     <>
-      <div className="cardBox shadow p-3 ">
+      <div className="cardBox shadow p-3 " style={{ height: "100%" }}>
         <div
           className="d-flex justify-content-start align-items-center"
           style={{ columnGap: "10px" }}
@@ -27,6 +27,59 @@ function SideNav() {
       </div>
       <div className="cardBox shadow p-3 ">
         <h6 className="mb-0">MY ORDERS</h6>
+      </div>
+
+      <div className="cardBox shadow p-3 ">
+        <div
+          className="d-flex justify-content-between align-items-center"
+          role="button"
+          onClick={hanldeStaffOpen}
+        >
+          <h6 className="mb-0">MY STAFFS</h6>
+          <IoMdArrowDropdown
+            size={24}
+            style={{
+              color: "#636060",
+              transform: toggleStaff ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.3s ease-in-out",
+            }}
+          />
+        </div>
+        {toggleStaff && (
+          <div className={`acc-link ${toggleStaff ? "open" : "closed"}`}>
+            <Link
+              to="/user/dash/detail/order"
+              className={`${
+                location.pathname === "/user/dash/detail/order"
+                  ? "Linkactive"
+                  : ""
+              }`}
+            >
+              My cart
+            </Link>
+            <Link
+              to="/user/dash/detail/wishlist"
+              className={`${
+                location.pathname === "/user/dash/detail/wishlist"
+                  ? "Linkactive"
+                  : ""
+              }`}
+            >
+              My wishlist
+            </Link>
+            <Link
+              to="/user/dash/detail/library"
+              className={`${
+                location.pathname === "/user/dash/detail/library"
+                  ? "Linkactive"
+                  : ""
+              }`}
+            >
+              My Library
+            </Link>
+            <Link>Notifications</Link>
+          </div>
+        )}
       </div>
       <div className="cardBox shadow p-3 ">
         <div
@@ -54,58 +107,6 @@ function SideNav() {
             <Link>Account Security</Link>
             <Link>Payment Method</Link>
             <Link>Account Security</Link>
-          </div>
-        )}
-      </div>
-      <div className="cardBox shadow p-3 ">
-        <div
-          className="d-flex justify-content-between align-items-center"
-          role="button"
-          onClick={hanldeStaffOpen}
-        >
-          <h6 className="mb-0">MY STAFFS</h6>
-          <IoMdArrowDropdown
-            size={24}
-            style={{
-              color: "#636060",
-              transform: toggleStaff ? "rotate(180deg)" : "rotate(0deg)",
-              transition: "transform 0.3s ease-in-out",
-            }}
-          />
-        </div>
-        {toggleStaff && (
-          <div className={`acc-link ${toggleStaff ? "open" : "closed"}`}>
-            <Link
-              to="/user/dash/detail/order"
-              className={`${
-                location.pathname === "/user/dash/detail/order"
-                  ? "Linkactive"
-                  : ""
-              }`}
-            >
-              My orders
-            </Link>
-            <Link
-              to="/user/dash/detail/wishlist"
-              className={`${
-                location.pathname === "/user/dash/detail/wishlist"
-                  ? "Linkactive"
-                  : ""
-              }`}
-            >
-              My wishlist
-            </Link>
-            <Link
-              to="/user/dash/detail/library"
-              className={`${
-                location.pathname === "/user/dash/detail/library"
-                  ? "Linkactive"
-                  : ""
-              }`}
-            >
-              My Library
-            </Link>
-            <Link>Notifications</Link>
           </div>
         )}
       </div>

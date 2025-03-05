@@ -1,6 +1,6 @@
 import * as Type from "../../ActionType";
 
-const Auth_Token = localStorage.getItem("Auth_Token");
+const Auth_Token = localStorage.getItem("Publisher_Auth_Token");
 
 const initialState = {
   loading: false,
@@ -14,6 +14,7 @@ function PublisherLoginReducer(state = initialState, action) {
       return {
         ...state,
         loading: true,
+        LoginStatus: Auth_Token ? true : false,
       };
     case Type.PUBLISHER_LOGIN_SUCCESS:
       return {
@@ -28,7 +29,7 @@ function PublisherLoginReducer(state = initialState, action) {
         error: action.payload,
       };
     case Type.PUBLISHER_LOGOUT:
-      localStorage.removeItem("Auth_Token")
+      localStorage.removeItem("Publisher_Auth_Token");
 
       return { ...state, LoginStatus: false };
     default:

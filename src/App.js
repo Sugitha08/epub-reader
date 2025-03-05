@@ -26,9 +26,15 @@ import UserLogin from "./Components/Authentication/UserAuth/UserLogin";
 import PubRegister from "./Components/Authentication/PublisherAuth/PubRegister";
 import UserRegister from "./Components/Authentication/UserAuth/UserRegister";
 import { useSelector } from "react-redux";
+import UserLayout from "./Components/Layout/UserLayout/UserLayout";
+import PublisherLayout from "./Components/Layout/UserLayout/PublisherLayout";
+// import Preview from "./Components/Layout/Publisher/Library/preview";
+import Read from "./Components/Layout/Publisher/Library/Read";
 
 function App() {
   const PublisherLogin = useSelector((state) => state.PublisherLogin);
+  const { UserLoginStatus } = useSelector((state) => state?.UserLogin);
+  const token = localStorage.getItem("User_Auth_Token");
   return (
     <>
       <BrowserRouter>
@@ -42,33 +48,28 @@ function App() {
               <Route path="/Publisher/register" element={<PubRegister />} />
             </Route>
             <Route path="/resetpassword" element={<Forgotpswd />} />
+          </Route>
 
+          <Route element={<PublisherLayout />}>
             {/* publisher */}
-            {PublisherLogin.LoginStatus && (
-              <>
-                <Route
+            {/* <Route
                   path="/publisher/dashboard/"
                   element={<PublishDashboard />}
-                />
-                <Route
-                  path="/publisher/dashboard/library"
-                  element={<Library />}
-                />
-                <Route
-                  path="/publisher/dashboard/report"
-                  element={<Report />}
-                />
-                <Route
-                  path="/publisher/dashboard/upload/"
-                  element={<UploadFile />}
-                />
-                <Route
-                  path="/publisher/dashboard/upload/book/:id"
-                  element={<BookDetail />}
-                />
-              </>
-            )}
-            {/* User */}
+                /> */}
+            <Route path="/publisher/dashboard/library" element={<Library />} />
+            <Route path="/publisher/dashboard/" element={<Report />} />
+            <Route
+              path="/publisher/dashboard/upload/"
+              element={<UploadFile />}
+            />
+            <Route
+              path="/publisher/dashboard/upload/book/:id"
+              element={<BookDetail />}
+            />
+          </Route>
+
+          {/* User */}
+          <Route element={<UserLayout />}>
             <Route path="/user/dashboard/" element={<UserDashboard />} />
             <Route path="/user/dash/explore" element={<ExploreBook />} />
             <Route
@@ -89,6 +90,8 @@ function App() {
               element={<OrderPlaced />}
             />
           </Route>
+          
+          <Route path="/book/preview" element={<Read />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -1,15 +1,16 @@
 .auth-container {
   width: 90%;
   height: 100%;
-  margin: auto auto;
+  margin: auto;
   display: flex;
+  justify-content: center;
   align-items: center;
   background-color: #ffffff;
   border-radius: 10px;
 }
 
 .login-wrapper {
-  padding: 15px 100px;
+  padding: 15px 70px;
   margin: 10px auto;
 }
 

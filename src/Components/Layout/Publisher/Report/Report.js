@@ -5,8 +5,12 @@ import "./Report.css";
 import CardComponent from "../../../Core-Components/Card";
 import BookImg from "../../../Assets/bookImg.jpg";
 import { LuIndianRupee } from "react-icons/lu";
+import CustomButton from "../../../Core-Components/Button";
+import { useNavigate } from "react-router-dom";
+import { MdModeEdit } from "react-icons/md";
 
 function Report() {
+  const navigate = useNavigate();
   const BookReport_List = [
     { title: "Book published", count: "500" },
     { title: "Book Sold", count: "400" },
@@ -14,15 +18,30 @@ function Report() {
     { title: "Total Revenue", count: "50000" },
   ];
 
-  
   return (
     <div className="publisher-report">
       <div className="publish-header">
         <h4 className="mb-0">REPORT</h4>
-        <button type="button" className="btn addnew-btn">
-          <IoAddOutline className="me-1 mb-1" style={{ fontSize: "20px" }} />
-          Add new
-        </button>
+        <div>
+        <CustomButton
+          type="button"
+          className="addnew-btn me-3"
+          style={{ backgroundColor: "green",fontSize:"14px" }}
+          onClick={() => navigate("/publisher/dashboard/upload")}
+        >
+          <IoAddOutline className="me-1" style={{ fontSize: "20px" }} />
+          Add Book
+        </CustomButton>
+        <CustomButton
+          type="button"
+          className="addnew-btn"
+          style={{ backgroundColor: "gray",fontSize:"14px" }}
+          onClick={() => navigate("/publisher/dashboard/library")}
+        >
+          <MdModeEdit  className="me-1" style={{ fontSize: "17px" }} />
+          Edit Book
+        </CustomButton>
+        </div>
       </div>
       <div className="report-card row mt-4">
         {BookReport_List?.map((book) => (
@@ -52,8 +71,7 @@ function Report() {
       </div>
       <div className="scale-report row mt-5 justify-content-center">
         <div>
-        <h5 className="mb-3">BOOK SELL REPORT</h5>
-        
+          <h5 className="mb-3">BOOK SELL REPORT</h5>
         </div>
         <div className="col-10">
           <Graph />

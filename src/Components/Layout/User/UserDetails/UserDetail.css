@@ -17,6 +17,7 @@
 }
 .outlet {
   padding: 5px 15px;
+  user-select: "none";
 }
 .user-details h6 {
   font-size: 18px;

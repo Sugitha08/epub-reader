@@ -1,3 +1,12 @@
+import Cover1 from "../Components/Assets/cover1.avif";
+import Cover2 from "../Components/Assets/cover2.avif";
+import Cover3 from "../Components/Assets/cover3.avif";
+import cover from "../Components/Assets/book_cover1.jpg";
+import cover4 from "../Components/Assets/book_cover2.jpg";
+import cover5 from "../Components/Assets/book_cover3.jpg";
+import cover6 from "../Components/Assets/book_cover4.jpg";
+import cover7 from "../Components/Assets/book_cover5.jpg";
+
 export const RegisteredData = [
   {
     userName: "Publisher",
@@ -16,8 +25,7 @@ export const RegisteredData = [
 export const Book_list = [
   {
     id: 1,
-    Book_cover:
-      "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=400&h=600",
+    Book_cover: cover,
     Book_title: "The Art Of Lover",
     Book_Author: "Author",
     Language: "English",
@@ -31,8 +39,7 @@ export const Book_list = [
   },
   {
     id: 2,
-    Book_cover:
-      "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=400&h=600",
+    Book_cover: Cover1,
     Book_title: "Our Last Summer",
     Book_Author: "Claudia Wilson",
     Language: "English",
@@ -46,8 +53,7 @@ export const Book_list = [
   },
   {
     id: 3,
-    Book_cover:
-      "https://images.unsplash.com/photo-1512045482940-f37f5216f639?auto=format&fit=crop&q=80&w=400&h=600",
+    Book_cover: Cover2,
     Book_title: "Tales Under a Purple Sky",
     Book_Author: "Samira Hadid",
     Language: "English",
@@ -61,8 +67,7 @@ export const Book_list = [
   },
   {
     id: 4,
-    Book_cover:
-      "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=400&h=600",
+    Book_cover: Cover3,
     Book_title: "My Story",
     Book_Author: "Hannh Morales",
     Language: "English",
@@ -76,8 +81,7 @@ export const Book_list = [
   },
   {
     id: 5,
-    Book_cover:
-      "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=400&h=600",
+    Book_cover: cover4,
     Book_title: "The Art Of Lover",
     Book_Author: "Author",
     Language: "English",
@@ -91,8 +95,7 @@ export const Book_list = [
   },
   {
     id: 6,
-    Book_cover:
-      "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=400&h=600",
+    Book_cover: cover5,
     Book_title: "Our Last Summer",
     Book_Author: "Claudia Wilson",
     Language: "English",
@@ -106,8 +109,7 @@ export const Book_list = [
   },
   {
     id: 7,
-    Book_cover:
-      "https://images.unsplash.com/photo-1512045482940-f37f5216f639?auto=format&fit=crop&q=80&w=400&h=600",
+    Book_cover: cover6,
     Book_title: "Tales Under a Purple Sky",
     Book_Author: "Samira Hadid",
     Language: "English",
@@ -121,8 +123,7 @@ export const Book_list = [
   },
   {
     id: 8,
-    Book_cover:
-      "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=400&h=600",
+    Book_cover: cover7,
     Book_title: "My Story",
     Book_Author: "Hannh Morales",
     Language: "English",

@@ -1,6 +1,6 @@
 import React from "react";
 import "./Library.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LuIndianRupee } from "react-icons/lu";
 import { MdStar } from "react-icons/md";
 import { FiEye } from "react-icons/fi";
@@ -16,15 +16,23 @@ import { Review } from "../../../Core-Components/Highlight";
 import CustomButton from "../../../Core-Components/Button";
 
 function BookDetail() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const location = useLocation();
   const BookData = location.state;
   console.log(BookData);
+  const handlePreviewOpen = () => {
+    navigate("/book/preview");
+  };
 
   return (
     <div
       className="row justify-content-center gap-4"
-      style={{ width: "95%", marginLeft: "auto", marginRight: "auto" ,padding:"20px 0 30px 0"}}
+      style={{
+        width: "95%",
+        marginLeft: "auto",
+        marginRight: "auto",
+        padding: "20px 0 30px 0",
+      }}
     >
       <div className="bookDetail row shadow col-9">
         <img
@@ -52,7 +60,13 @@ function BookDetail() {
                 className="mb-1"
                 style={{ fontWeight: "bold" }}
               />
-              {BookData?.Book_Price}
+              <del>{BookData?.Book_Price}</del>{" "}
+              <LuIndianRupee
+                size={16}
+                className="mb-1"
+                style={{ fontWeight: "bold" }}
+              />
+              100
             </span>
           </p>
           <p className="mb-0">
@@ -69,17 +83,27 @@ function BookDetail() {
           <div className="icons">
             <Tooltip title="Preview">
               <IconButton>
-                <FiEye size={20} style={{ color: "#5e5e5e" }} />
+                <a href="/Headword Flipbook Sample/index.html">
+                  <FiEye size={20} style={{ color: "#5e5e5e" }} />
+                </a>
               </IconButton>
             </Tooltip>
             <Tooltip title="Edit">
               <IconButton>
-                <MdEditNote size={22} style={{ color: "#5e5e5e" }} />
+                <MdEditNote
+                  size={22}
+                  style={{ color: "#5e5e5e" }}
+                  className="mt-2"
+                />
               </IconButton>
             </Tooltip>
             <Tooltip title="Delete">
               <IconButton>
-                <RiDeleteBinLine size={19} style={{ color: "#5e5e5e" }} />
+                <RiDeleteBinLine
+                  size={19}
+                  style={{ color: "#5e5e5e" }}
+                  className="mt-2"
+                />
               </IconButton>
             </Tooltip>
           </div>
@@ -91,7 +115,7 @@ function BookDetail() {
                   padding: "4px 10px",
                   fontSize: "14px",
                 }}
-                onClick={()=>navigate("/publisher/dashboard/library")}
+                onClick={() => navigate("/publisher/dashboard/library")}
               >
                 Cancel
               </CustomButton>

@@ -9,9 +9,9 @@ function UserFilterMenu() {
         <div> Non-Fiction</div>
         <div> Author</div>
         <div> poetry & Drama</div>
-        <div> Bestsellers</div>
+        {/* <div> Bestsellers</div>
         <div> Literature</div>
-        <div> Language</div>
+        <div> Language</div> */}
         <div> Classic Literature</div>
         <div> Modern Literature</div>
         <div> Educational </div>

@@ -13,9 +13,9 @@ function Profile({ openProfileDetails, handleClose }) {
   const [fullName, setFullName] = useState("abcdeffgh");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleEdit=()=>{
-    setEditProfile(true)
-  }
+  const handleEdit = () => {
+    setEditProfile(true);
+  };
 
   return (
     <Drawer open={openProfileDetails} onClose={handleClose} anchor="right">
@@ -80,7 +80,7 @@ function Profile({ openProfileDetails, handleClose }) {
                 }}
               />
             </div>
-            <div className="my-4">
+            {/* <div className="my-4">
               <TextField
                 className="input"
                 id="standard-basic"
@@ -107,7 +107,7 @@ function Profile({ openProfileDetails, handleClose }) {
                   ),
                 }}
               />
-            </div>
+            </div> */}
 
             <div className="d-flex justify-content-end my-4 gap-2">
               <CustomButton

@@ -1,11 +1,11 @@
 import Main_Api from "../Auth_Interceptor/Main_Api";
 
 export const PublisherLogin = (request) => {
-  return Main_Api.post("auth/login", request);
+  return Main_Api.post("auth/pub/login", request);
 };
 
 export const PublisherRegister = (request) => {
-  return Main_Api.post("auth/register", request);
+  return Main_Api.post("auth/pub/register", request);
 };
 
 export const Upload_book = (request) => {
@@ -21,7 +21,7 @@ export const Get_Category = () => {
 };
 
 export const GetBook_by_Category = (id) => {
-  return Main_Api.get("category/get_categories/" + id);
+  return Main_Api.get("book/get_categories/" + id);
 };
 
 export const GetBook_by_id = (id) => {

@@ -6,7 +6,15 @@ const Main_Api = axios.create({
 });
 
 const AuthHeader = (config) => {
-  const token = localStorage.getItem("Auth_Token");
+  const User_token = localStorage.getItem("User_Auth_Token");
+  const publisher_token = localStorage.getItem("Publisher_Auth_Token");
+  const token = User_token
+    ? User_token
+    : publisher_token
+    ? publisher_token
+    : "";
+    console.log(token);
+    
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

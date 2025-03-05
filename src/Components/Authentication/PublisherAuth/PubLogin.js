@@ -15,13 +15,12 @@ function PubLogin() {
     navigate("/Publisher/register");
   };
   const PubLoginAction = (payload) => {
-    console.log(payload);
-    
-    dispatch(Publisher_Login_Request(payload));
+    console.log(payload);  
+    // dispatch(Publisher_Login_Request(payload));
   };
   return (
     <Login
-      title="P-LOGIN YOUR ACCOUNT"
+      title="PUBLISHER LOGIN"
       navigate={handleNavToPubDash}
       resgisterNav={handleNavToPubReg}
       handleLogin={PubLoginAction}

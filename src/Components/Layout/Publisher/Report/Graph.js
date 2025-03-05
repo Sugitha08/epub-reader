@@ -30,15 +30,15 @@ function Graph() {
       datasets: [
         {
           label: "Book Published",
-          backgroundColor: documentStyle.getPropertyValue("--blue-500"),
-          width: documentStyle.getPropertyValue("20px"),
-          borderColor: documentStyle.getPropertyValue("--blue-500"),
+          backgroundColor: documentStyle.getPropertyValue("--violet-500"),
+          width: documentStyle.getPropertyValue("10px"),
+          borderColor: documentStyle.getPropertyValue("--violet-500"),
           data: [65, 59, 80, 81, 56, 55, 40, 81, 56, 55, 40, 63],
         },
         {
           label: "Book Sold",
-          backgroundColor: documentStyle.getPropertyValue("--pink-500"),
-          borderColor: documentStyle.getPropertyValue("--pink-500"),
+          backgroundColor: documentStyle.getPropertyValue("--skyblue-500"),
+          borderColor: documentStyle.getPropertyValue("----skyblue-500"),
           data: [28, 48, 40, 19, 86, 27, 90, 81, 56, 55, 40, 56],
         },
       ],

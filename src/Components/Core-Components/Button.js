@@ -6,9 +6,10 @@ function CustomButton({
   type,
   onClick,
   size,
-  sx={},
+  sx = {},
   children,
   className,
+  ...rest
 }) {
   return (
     <>
@@ -22,13 +23,14 @@ function CustomButton({
           fontWeight: "bold",
           fontSize: "15px",
           "&:hover": {
-            backgroundColor: "#6f658f", 
-            color:"#FFFFFF"
+            backgroundColor: "#6f658f",
+            color: "#FFFFFF",
           },
           ...sx,
           backgroundColor: sx.backgroundColor || "#4B4363",
           color: sx.color || "#FFFFFF",
         }}
+        {...rest}
       >
         {children}
       </Button>

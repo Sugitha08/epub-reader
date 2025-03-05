@@ -29,7 +29,9 @@ function BookList({ FilteredBook, handleBookOpen }) {
             <h6 className="author-name">{book?.Book_Author}</h6>
             <h5>
               <LuIndianRupee />
-              {book?.Book_Price}
+              <del>{book?.Book_Price}</del>&nbsp;
+              <LuIndianRupee size={16} className="mb-1" />
+              100
             </h5>
             <Review />
           </CardComponent>
