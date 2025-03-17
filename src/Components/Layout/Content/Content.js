@@ -4,7 +4,6 @@ import SideNavBar from "../Header/SideNavBar";
 import "./Content.css";
 
 function Content() {
-  console.log("cpntent");
   
   return (
     <>

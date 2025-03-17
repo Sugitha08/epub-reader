@@ -19,9 +19,9 @@ function BookDetail() {
   const navigate = useNavigate();
   const location = useLocation();
   const BookData = location.state;
-  console.log(BookData);
   const handlePreviewOpen = () => {
-    navigate("/book/preview");
+    // navigate("/book/preview");
+    navigate("/publisher/bookpreview");
   };
 
   return (
@@ -82,28 +82,18 @@ function BookDetail() {
           </p>
           <div className="icons">
             <Tooltip title="Preview">
-              <IconButton>
-                <a href="/Headword Flipbook Sample/index.html">
-                  <FiEye size={20} style={{ color: "#5e5e5e" }} />
-                </a>
+              <IconButton onClick={handlePreviewOpen}>
+                <FiEye size={20} style={{ color: "#5e5e5e" }} />
               </IconButton>
             </Tooltip>
             <Tooltip title="Edit">
               <IconButton>
-                <MdEditNote
-                  size={22}
-                  style={{ color: "#5e5e5e" }}
-                  className="mt-2"
-                />
+                <MdEditNote size={22} style={{ color: "#5e5e5e" }} />
               </IconButton>
             </Tooltip>
             <Tooltip title="Delete">
               <IconButton>
-                <RiDeleteBinLine
-                  size={19}
-                  style={{ color: "#5e5e5e" }}
-                  className="mt-2"
-                />
+                <RiDeleteBinLine size={19} style={{ color: "#5e5e5e" }} />
               </IconButton>
             </Tooltip>
           </div>

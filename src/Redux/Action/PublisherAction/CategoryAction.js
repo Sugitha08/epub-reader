@@ -1,6 +1,6 @@
 import * as Type from "../../ActionType";
 
-export const Add_Cat_Request = ({ payload }) => ({
+export const Add_Cat_Request = ( payload ) => ({
   type: Type.ADD_CATEGORY_REQUEST,
   payload: payload,
 });

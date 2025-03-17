@@ -21,7 +21,7 @@ function Library() {
   );
 
   const handleBookOpen = (bookData) => {
-    navigate(`/publisher/dashboard/upload/book/${bookData.id}`, {
+    navigate(`/publisher/dashboard/library/book/${bookData.id}`, {
       state: bookData,
     });
   };
@@ -34,18 +34,17 @@ function Library() {
 
   return (
     <>
-    <span>
-          <Link
-            to="/publisher/dashboard"
-            className="mb-2"
-            style={{ textDecoration: "none", fontSize: "19px" }}
-          >
-            <IoChevronBack className="mb-1 ms-2" />
-            Back
-          </Link>
-        </span>
+      <span>
+        <Link
+          to="/publisher/dashboard"
+          className="mb-2"
+          style={{ textDecoration: "none", fontSize: "19px" }}
+        >
+          <IoChevronBack className="mb-1 ms-2" />
+          Back
+        </Link>
+      </span>
       <div className="library-container">
-        
         <div className="publish-header library-header">
           <h4 className="mb-0">My Library</h4>
           <TextField

@@ -1,0 +1,50 @@
+.reader-container {
+  height: 100vh;
+  position: relative;
+  width: 100%;
+  transition: width 225ms ease-in;
+}
+
+
+.header-content {
+  position: absolute;
+  top: 10;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  column-gap: 30px;
+  padding-top: 10px;
+  padding-right: 20px;
+  margin-right:0;
+  transition: margin-right 225ms ease-in-out;
+}
+
+.header-content .active{
+  color: #0382ff;
+  /* color: #fff;
+  background-color: #101010; */
+}
+
+.drawer-open .header-content{
+  margin-right: 380px;
+}
+
+.linktoHl {
+  color: #0382ff;
+  cursor: pointer;
+  margin-top: -10px;
+  font-size: 14px;
+}
+
+.linktoHl:hover{
+  text-decoration: underline;
+}
+
+.highlight-color{
+  border : 1px solid rgb(247, 245, 245);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+}

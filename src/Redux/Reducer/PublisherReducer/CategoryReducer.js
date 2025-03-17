@@ -2,8 +2,9 @@ import * as Type from "../../ActionType";
 
 const initialState = {
   loading: false,
-  LoginData: [],
+  Category: [],
   error: null,
+  message: null,
 };
 function CategoryReducer(state = initialState, action) {
   switch (action.type) {
@@ -16,11 +17,12 @@ function CategoryReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        LoginData: action.payload,
+        message: action.payload,
       };
     case Type.ADD_CATEGORY_FAILURE:
       return {
         ...state,
+        loading: false,
         error: action.payload,
       };
     case Type.GET_CATEGORY_REQUEST:
@@ -32,13 +34,12 @@ function CategoryReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        LoginData: action.payload,
+        Category: action.payload.categories,
       };
     case Type.GET_CATEGORY_FAILURE:
-      console.log(action.payload, "getCat");
-
       return {
         ...state,
+        loading: false,
         error: action.payload,
       };
     default:

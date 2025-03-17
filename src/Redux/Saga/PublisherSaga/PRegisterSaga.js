@@ -13,7 +13,8 @@ function* PublisherRegisterSaga({ payload }) {
     toast.success(Response?.data?.message);
     yield put(Publisher_Register_Success(Response.data));
   } catch (error) {
-    yield put(Publisher_Register_Failure(error));
+    yield put(Publisher_Register_Failure(error?.response?.data?.error));   
+    toast.error(error?.response?.data?.error)
   }
 }
 

@@ -4,7 +4,6 @@ import SideNavBar from "../Header/SideNavBar";
 import "./Content.css";
 
 function PublisherContent({ openMenu }) {
-    console.log("Use cpntent");
   return (
     <>
       <div className={`${openMenu ? "sidebar-open" : ""} main-container`}>

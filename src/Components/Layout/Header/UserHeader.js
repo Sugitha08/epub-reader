@@ -8,7 +8,7 @@ import { FaHeart } from "react-icons/fa6";
 import MenuItems from "../../Core-Components/MenuItem";
 import { FaRegUserCircle } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { User_Logout } from "../../../Redux/Action/UserAction/UserLoginAction";
+import { User_Logout } from "../../../Redux/Action/UserAction/UserAuthAction";
 import { MdLibraryBooks } from "react-icons/md";
 import UserFilterMenu from "./UserFilterMenu";
 import Profile from "../Profile/Profile";

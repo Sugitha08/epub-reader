@@ -7,21 +7,16 @@ import { Publisher_Login_Request } from "../../../Redux/Action/PublisherAction/P
 function PubLogin() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const handleNavToPubDash = () => {
-    navigate("/publisher/dashboard");
-  };
 
   const handleNavToPubReg = () => {
-    navigate("/Publisher/register");
+    navigate("/publisher/register");
   };
   const PubLoginAction = (payload) => {
-    console.log(payload);  
-    // dispatch(Publisher_Login_Request(payload));
+    dispatch(Publisher_Login_Request(payload));
   };
   return (
     <Login
       title="PUBLISHER LOGIN"
-      navigate={handleNavToPubDash}
       resgisterNav={handleNavToPubReg}
       handleLogin={PubLoginAction}
     />

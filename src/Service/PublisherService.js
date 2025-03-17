@@ -13,6 +13,8 @@ export const Upload_book = (request) => {
 };
 
 export const Add_Category = (request) => {
+  console.log(request,"data");
+  
   return Main_Api.post("book/add_category", request);
 };
 

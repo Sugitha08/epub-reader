@@ -13,7 +13,6 @@ const AuthHeader = (config) => {
     : publisher_token
     ? publisher_token
     : "";
-    console.log(token);
     
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;

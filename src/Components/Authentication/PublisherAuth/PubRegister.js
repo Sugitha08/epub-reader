@@ -12,9 +12,9 @@ function PubRegister() {
   };
 
   const PubLRegAction = (payload) => {
-    console.log(payload);
-    // dispatch(Publisher_Register_Request(payload));
+    dispatch(Publisher_Register_Request(payload));
   };
+
   return (
     <Register redirectTologin={handleNavToPubLogin} handleReg={PubLRegAction} />
   );

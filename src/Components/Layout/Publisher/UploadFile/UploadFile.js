@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import "./UploadFile.css";
 import { useNavigate } from "react-router-dom";
 import NewCategory from "./NewCategory";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaBook } from "react-icons/fa6";
 import { Autocomplete } from "@mui/material";
 import { Upload_book_Request } from "../../../../Redux/Action/PublisherAction/BookAction";
@@ -15,12 +15,14 @@ function UploadFile() {
   const [openAddCategory, setOpenAddCategory] = useState(false);
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [isbn, setIsbn] = useState("");
   const [price, setPrice] = useState("");
   const [rental_price, setRental_price] = useState("");
   const [epubFile, setEpubFile] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { Category } = useSelector((state) => state.category);
   const handleAddCategory = () => {
     setOpenAddCategory(true);
   };
@@ -36,6 +38,7 @@ function UploadFile() {
   useEffect(() => {
     dispatch(Get_Cat_Request());
   }, []);
+
   return (
     <>
       <div className="upload-container shadow">
@@ -91,14 +94,14 @@ function UploadFile() {
           </div>
           <div className="col-lg-6 col-sm-12 col-md-6">
             <Autocomplete
-              options={[
-                { id: 1, value: "EN", label: "EN" },
-                { id: 2, value: "ES", label: "ES" },
-                { id: 3, value: "FR", label: "FR" },
-              ]}
-              disableClearable
-              // value={email}
-              // onChange={(e) => setEmail(e.target.value)}
+              options={Category?.map((cat) => ({
+                id: cat.category_id,
+                value: cat.category_id,
+                label: cat.category_name,
+              }))}
+              // disableClearable
+              value={selectedCategory}
+              onChange={(event, newValue) => setSelectedCategory(newValue)}
               renderInput={(params) => (
                 <TextField {...params} fullWidth label="Book Category" />
               )}
@@ -186,7 +189,6 @@ function UploadFile() {
           <div className="col-12">
             <TextField
               fullWidth
-              // type="file"
               label="Upload Book"
               variant="outlined"
               className="input"
@@ -199,7 +201,26 @@ function UploadFile() {
                       position="emd"
                       style={{ cursor: "pointer" }}
                     >
-                      {/* <MdEmail /> */}
+                      <CustomButton
+                        component="label"
+                        role={undefined}
+                        variant="contained"
+                        tabIndex={-1}
+                        sx={{
+                          padding: "3px 10px",
+                          fontSize: "14px",
+                          backgroundColor: "#858484",
+                        }}
+                        // startIcon={<CloudUploadIcon />}
+                      >
+                        Upload files
+                        <input
+                          type="file"
+                          hidden
+                          onChange={(event) => console.log(event.target.files)}
+                          multiple
+                        />
+                      </CustomButton>
                     </InputAdornment>
                   ),
                 },
@@ -243,7 +264,7 @@ function UploadFile() {
               type="submit"
               className="shadow"
               style={{ backgroundColor: "green" }}
-              onClick={()=>navigate("/publisher/dashboard")}
+              onClick={() => navigate("/publisher/dashboard")}
             >
               Submit
             </CustomButton>

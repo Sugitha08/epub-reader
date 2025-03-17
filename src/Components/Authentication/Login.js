@@ -8,39 +8,38 @@ import { MdEmail } from "react-icons/md";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import CustomButton from "../Core-Components/Button";
+import { useNavigate } from "react-router-dom";
 
-function Login({ title, navigate, resgisterNav, handleLogin }) {
+function Login({ title, resgisterNav, handleLogin }) {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisibile] = useState(false);
+  const navigate = useNavigate();
   const {
     loading: PublisherLoad,
-    LoginStatus: PublisherLogin,
+    PubLoginStatus: PublisherLogin,
     error,
   } = useSelector((state) => state?.PublisherLogin);
   const { loading: UserLoad, UserLoginStatus } = useSelector(
     (state) => state?.UserLogin
   );
-  console.log(UserLoginStatus);
 
   const payload = { email, password };
 
-  // const navigate = useNavigate();
   const handleSubmit = () => {
     handleLogin(payload);
-    if(payload){
-      navigate();
-      localStorage.setItem("User_Auth_Token", "token generated");
-    }
- 
+    setEmail("");
+    setPassword("");
   };
-  // useEffect(() => {
-  //   if (PublisherLogin ||UserLoginStatus ) {
-  //     navigate();
-  //   }
-  // }, [PublisherLogin, UserLoginStatus]);
-  
+
+  useEffect(() => {
+    if (PublisherLogin) {
+      navigate("/publisher/dashboard");
+    } else if (UserLoginStatus) {
+      navigate("/user/dashboard");
+    }
+  }, [PublisherLogin, UserLoginStatus]);
 
   return (
     <>
@@ -99,7 +98,7 @@ function Login({ title, navigate, resgisterNav, handleLogin }) {
               type="button"
               className="w-100 button"
               onClick={handleSubmit}
-              // loading={PublisherLoad || UserLoad ? true : false}
+              loading={PublisherLoad || UserLoad ? true : false}
             >
               SIGN IN
             </CustomButton>

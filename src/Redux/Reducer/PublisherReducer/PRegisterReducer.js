@@ -23,6 +23,7 @@ function PublisherRegisterReducer(state = initialState, action) {
     case Type.PUBLISHER_REGISTER_FAILURE:
       return {
         ...state,
+        loading: false,
         error: action.payload,
       };
     default:

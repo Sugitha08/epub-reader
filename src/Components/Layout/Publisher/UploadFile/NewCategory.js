@@ -2,17 +2,25 @@ import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import CustomButton from "../../../Core-Components/Button";
 import { TextField } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Add_Cat_Request } from "../../../../Redux/Action/PublisherAction/CategoryAction";
 
 function NewCategory({ handleCategoryClose, openAddCategory }) {
   const [catName, setCatName] = useState("");
   const [catDescription, setCatDescription] = useState("");
+  const { loading } = useSelector((state) => state.category);
   const dispatch = useDispatch();
   const handleAddCat = () => {
-    dispatch(
-      Add_Cat_Request({ category_name: catName, description: catDescription })
-    );
+    if (catName && catDescription) {
+      dispatch(
+        Add_Cat_Request({ category_name: catName, description: catDescription })
+      );
+    } else {
+      alert("enter the Fields");
+    }
+    setCatName("");
+    setCatDescription("");
+    handleCategoryClose();
   };
   return (
     <Modal
@@ -66,6 +74,7 @@ function NewCategory({ handleCategoryClose, openAddCategory }) {
             padding: "6px 12px",
             fontSize: "14px",
           }}
+          // loading={loading ? true : false}
         >
           Add Category
         </CustomButton>

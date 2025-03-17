@@ -6,7 +6,6 @@ export const Publisher_Login_Request = (payload) => ({
 });
 
 export const Publisher_Login_Success = (resData) => {
-  console.log(resData);
 
   return {
     type: Type.PUBLISHER_LOGIN_SUCCESS,

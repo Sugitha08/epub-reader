@@ -5,7 +5,7 @@ const Auth_Token = localStorage.getItem("Publisher_Auth_Token");
 const initialState = {
   loading: false,
   LoginData: {},
-  LoginStatus: Auth_Token ? true : false,
+  PubLoginStatus: Auth_Token ? true : false,
   error: null,
 };
 function PublisherLoginReducer(state = initialState, action) {
@@ -14,24 +14,25 @@ function PublisherLoginReducer(state = initialState, action) {
       return {
         ...state,
         loading: true,
-        LoginStatus: Auth_Token ? true : false,
+        PubLoginStatus: Auth_Token ? true : false,
       };
     case Type.PUBLISHER_LOGIN_SUCCESS:
       return {
         ...state,
         loading: false,
         LoginData: action.payload,
-        LoginStatus: action.payload.access_token ? true : false,
+        PubLoginStatus: action.payload.access_token ? true : false,
       };
     case Type.PUBLISHER_LOGIN_FAILURE:
       return {
         ...state,
+        loading: false,
         error: action.payload,
       };
     case Type.PUBLISHER_LOGOUT:
       localStorage.removeItem("Publisher_Auth_Token");
 
-      return { ...state, LoginStatus: false };
+      return { ...state, PubLoginStatus: false };
     default:
       return state;
   }

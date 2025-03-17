@@ -5,7 +5,6 @@ import { LuIndianRupee } from "react-icons/lu";
 import "./Library.css"
 
 function ProductList({ title, Book_list, children, Footer  }) {
-  console.log(title, children);
 
   return (
     <div className="user-wishlist cardBox" style={{ height: "100%" }}>

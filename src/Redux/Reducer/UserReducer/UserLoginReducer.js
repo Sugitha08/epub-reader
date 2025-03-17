@@ -9,7 +9,6 @@ const initialState = {
   error: null,
 };
 function UserLoginReducer(state = initialState, action) {
-  console.log(action);
   
   switch (action.type) {
     case Type.USER_LOGIN_REQUEST:
