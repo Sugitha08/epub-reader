@@ -27,6 +27,7 @@ function UserLoginReducer(state = initialState, action) {
     case Type.USER_LOGIN_FAILURE:
       return {
         ...state,
+        loading: false,
         error: action.payload,
       };
     case Type.USER_LOGOUT:

@@ -1,10 +1,9 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import "./App.css";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "primereact/resources/primereact.css";
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import Layout from "./Components/Layout/Layout/Layout";
-import PublishDashboard from "./Components/Layout/Publisher/Dashboard/PublishDashboard";
 import Auth from "./Components/Authentication/Auth";
 import Library from "./Components/Layout/Publisher/Library/Library";
 import Report from "./Components/Layout/Publisher/Report/Report";
@@ -16,7 +15,6 @@ import ExploreBookDetail from "./Components/Layout/User/ExploreBook/ExploreBookD
 import UserDetail from "./Components/Layout/User/UserDetails/UserDetail";
 import Wishlist from "./Components/Layout/User/Library/Wishlist";
 import UserLibrary from "./Components/Layout/User/Library/UserLibrary";
-import Orders from "./Components/Layout/User/Library/Orders";
 import { ToastContainer } from "react-toastify";
 import OrderSummary from "./Components/Layout/User/Library/OrderSummary";
 import Forgotpswd from "./Components/Authentication/Forgotpswd/Forgotpswd";
@@ -28,18 +26,16 @@ import UserRegister from "./Components/Authentication/UserAuth/UserRegister";
 import { useSelector } from "react-redux";
 import UserLayout from "./Components/Layout/Layout/UserLayout";
 import PublisherLayout from "./Components/Layout/Layout/PublisherLayout";
-// import Preview from "./Components/Layout/Publisher/Library/preview";
-import Read from "./Components/Layout/Read";
 import PublisherBook from "./Components/Layout/User/ExploreBook/PublisherBook";
 import ScrollToTop from "./Components/Core-Components/ScrollToTop";
-import NotFound from "./Components/Layout/NotFound/NotFound";
 import PubEpubReader from "./Components/Layout/Publisher/Reader/PubEpubReader";
 import UserEpubReader from "./Components/Layout/User/Reader/UserEpubReader";
+import Cart from "./Components/Layout/User/Library/Cart";
+import PublishDashboard from "./Components/Layout/User/PublisherProfile/PublishDashboard";
 
 function App() {
   const { PubLoginStatus } = useSelector((state) => state.PublisherLogin);
   const { UserLoginStatus } = useSelector((state) => state?.UserLogin);
-  const token = localStorage.getItem("User_Auth_Token");
   return (
     <>
       <BrowserRouter>
@@ -58,10 +54,6 @@ function App() {
           {PubLoginStatus ? (
             <Route element={<PublisherLayout />}>
               {/* publisher */}
-              {/* <Route
-                  path="/publisher/dashboard/"
-                  element={<PublishDashboard />}
-                /> */}
               <Route
                 path="/publisher/dashboard/library"
                 element={<Library />}
@@ -72,17 +64,17 @@ function App() {
                 element={<UploadFile />}
               />
               <Route
-                path="/publisher/dashboard/library/book/:id"
+                path="/publisher/dashboard/library/book"
                 element={<BookDetail />}
               />
             </Route>
           ) : (
-            "Page Not Found"
+            <Route path="*" element={<Navigate to="/" replace />} />
           )}
           {PubLoginStatus ? (
             <Route path="/publisher/bookpreview" element={<PubEpubReader />} />
           ) : (
-            ""
+            <Route path="*" element={<Navigate to="/" replace />} />
           )}
 
           {/* User */}
@@ -92,13 +84,13 @@ function App() {
               <Route path="/user/dashboard/" element={<UserDashboard />} />
               <Route path="/user/dash/explore" element={<ExploreBook />} />
               <Route
-                path="/user/dash/explore/book/:id"
+                path="/user/dash/explore/book"
                 element={<ExploreBookDetail />}
               />
               <Route path="/user/dash/detail/*" element={<UserDetail />}>
                 <Route path="wishlist" element={<Wishlist />} />
                 <Route path="library" element={<UserLibrary />} />
-                <Route path="order" element={<Orders />} />
+                <Route path="order" element={<Cart />} />
               </Route>
               <Route
                 path="/user/dash/detail/order/summary"
@@ -112,13 +104,19 @@ function App() {
                 path="/user/publisherDetails"
                 element={<PublisherBook />}
               />
-              <Route path="/user/bookpreview" element={<UserEpubReader />} />
+              <Route
+                path="/user/publisher/Profile/"
+                element={<PublishDashboard />}
+              />
             </Route>
           ) : (
-            "Page Not Found"
+            <Route path="*" element={<Navigate to="/" replace />} />
           )}
-
-          <Route path="/book/preview" element={<Read />} />
+          {UserLoginStatus ? (
+            <Route path="/user/bookpreview" element={<UserEpubReader />} />
+          ) : (
+            <Route path="*" element={<Navigate to="/" replace />} />
+          )}
         </Routes>
       </BrowserRouter>
     </>

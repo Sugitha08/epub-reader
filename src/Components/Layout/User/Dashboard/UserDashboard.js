@@ -1,18 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Userbanner from "../../../Assets/banner.jpg";
 import { Book_list } from "../../../Datas.js";
 import { Link, useNavigate } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa6";
 import BookList from "../../../Core-Components/BookList.js";
+import { useDispatch, useSelector } from "react-redux";
+import { GetCartItem_Request } from "../../../../Redux/Action/UserAction/CartBookAction.js";
+import { useOutletContext } from "react-router-dom";
+import { GetUserBookbyId_Request } from "../../../../Redux/Action/UserAction/UserBookAction.js";
+import { GetWishlistItem_Request } from "../../../../Redux/Action/UserAction/WishlistBookAction";
 
 function UserDashboard() {
   const navigate = useNavigate();
   const FilteredBook = Book_list;
+  const dispatch = useDispatch();
+  const { setCartCount } = useOutletContext();
+
+  const { cartItems } = useSelector((state) => state.CartBook);
+
+  useEffect(() => {
+    dispatch(GetCartItem_Request());
+    dispatch(GetWishlistItem_Request());
+  }, [dispatch]);
+
+  useEffect(() => {
+    setCartCount(cartItems?.length);
+  }, [cartItems]);
 
   const handleBookOpen = (bookData) => {
-    navigate(`/user/dash/explore/book/${bookData.id}`, {
-      state: bookData,
-    });
+    dispatch(GetUserBookbyId_Request(bookData.book_id));
+    navigate(`/user/dash/explore/book`);
   };
   return (
     <>

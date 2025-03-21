@@ -2,8 +2,11 @@ import * as Type from "../../ActionType";
 
 const initialState = {
   loading: false,
-  LoginData: [],
+  BookDataList: [],
   error: null,
+  BookDetail: {},
+  filterBook: [],
+  BookDeleted: false,
 };
 function BookReducer(state = initialState, action) {
   switch (action.type) {
@@ -16,11 +19,31 @@ function BookReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        LoginData: action.payload,
+        BookDataList: action.payload,
+        BookDeleted: false,
       };
     case Type.UPLOAD_FILE_FAILURE:
       return {
         ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case Type.GET_BOOK_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case Type.GET_BOOK_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        BookDataList: action.payload,
+        BookDeleted: false,
+      };
+    case Type.GET_BOOK_FAILURE:
+      return {
+        ...state,
+        loading: false,
         error: action.payload,
       };
     case Type.GET_BOOK_ID_REQUEST:
@@ -32,20 +55,21 @@ function BookReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        LoginData: action.payload,
+        BookDetail: action.payload,
+        BookDeleted: false,
       };
     case Type.GET_BOOK_ID_FAILURE:
-      return { ...state, error: action.payload };
+      return { ...state, error: action.payload, loading: false };
     case Type.GET_BOOK_CAT_REQUEST:
       return {
         ...state,
-        loading: true,
+        filterCatLoading: true,
       };
     case Type.GET_BOOK_CAT_SUCCESS:
       return {
         ...state,
-        loading: false,
-        LoginData: action.payload,
+        filterBook: action.payload.books,
+        BookDeleted: false,
       };
     case Type.GET_BOOK_CAT_FAILURE:
       return { ...state, error: action.payload };
@@ -58,7 +82,7 @@ function BookReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        LoginData: action.payload,
+        BookDeleted: true,
       };
     case Type.DEL_BOOK_FAILURE:
       return { ...state, error: action.payload };

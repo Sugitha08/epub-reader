@@ -15,20 +15,19 @@ export const Upload_book_Failure = (resErr) => ({
   payload: resErr,
 });
 
-// export const Get_book_Request = ({ payload }) => ({
-//     type: Type.GET_BOOK_REQUEST,
-//     payload: payload,
-//   });
+export const Get_book_Request = () => ({
+    type: Type.GET_BOOK_REQUEST,
+  });
 
-//   export const Get_book_Success = (resData) => ({
-//     type: Type.GET_BOOK_SUCCESS,
-//     payload: resData,
-//   });
+  export const Get_book_Success = (resData) => ({
+    type: Type.GET_BOOK_SUCCESS,
+    payload: resData,
+  });
 
-//   export const Get_book_Failure = (resErr) => ({
-//     type: Type.GET_BOOK_FAILURE,
-//     payload: resErr,
-//   });
+  export const Get_book_Failure = (resErr) => ({
+    type: Type.GET_BOOK_FAILURE,
+    payload: resErr,
+  });
 
 export const Get_bookbyId_Request = (id) => ({
   type: Type.GET_BOOK_ID_REQUEST,
@@ -60,10 +59,12 @@ export const Get_bookbycat_Failure = (resErr) => ({
   payload: resErr,
 });
 
-export const DeleteBook_Request = (id) => ({
-  type: Type.DEL_BOOK_REQUEST,
-  payload: id,
-});
+export const DeleteBook_Request = (id) => {
+  return {
+    type: Type.DEL_BOOK_REQUEST,
+    payload: id,
+  };
+};
 
 export const DeleteBook_Success = (resData) => ({
   type: Type.DEL_BOOK_SUCCESS,

@@ -1,9 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LuIndianRupee } from "react-icons/lu";
 import { FiEye } from "react-icons/fi";
-import { MdBorderColor, MdEditNote } from "react-icons/md";
-import { RiDeleteBinLine } from "react-icons/ri";
 import { FaHeart } from "react-icons/fa6";
 import "../Dashboard/UserDash.css";
 import CustomButton from "../../../Core-Components/Button";
@@ -12,21 +10,39 @@ import { Review } from "../../../Core-Components/Highlight";
 import { ImCross } from "react-icons/im";
 import { IoChevronBack } from "react-icons/io5";
 import { CiShop } from "react-icons/ci";
+import { AddtoWishlist_Request } from "../../../../Redux/Action/UserAction/WishlistBookAction";
+import { useDispatch, useSelector } from "react-redux";
+import { AddtoCart_Request } from "../../../../Redux/Action/UserAction/CartBookAction";
+import coverImg from "../../../Assets/book_cover4.jpg";
+import { BookDetailPubLoading } from "../../../Core-Components/Loading";
 
 function ExploreBookDetail() {
   const location = useLocation();
   const navigate = useNavigate();
-
-  const BookData = location.state;
+  const dispatch = useDispatch();
+  const { BookDetails, loading: BookDetailLoading } = useSelector(
+    (state) => state.UserBook
+  );
 
   const hanldePublisherDetailsOpen = () => {
-    navigate("/user/publisherDetails");
+    // navigate("/user/publisherDetails");
+    navigate("/user/publisher/profile");
   };
 
   const handlePreviewOpen = () => {
-    // navigate("/book/preview")
     navigate("/user/bookpreview");
   };
+
+  const handleAddWishlist = (BookId) => {
+    dispatch(AddtoWishlist_Request({ book_id: BookId }));
+  };
+
+  const handleAddItemToCart = (BookId) => {
+    dispatch(AddtoCart_Request({ book_id: BookId }));
+  };
+  if (BookDetailLoading) {
+    return <BookDetailPubLoading role="user" />;
+  }
   return (
     <>
       <div className="userbookDetail row shadow cardBox">
@@ -50,7 +66,10 @@ function ExploreBookDetail() {
           </Tooltip>
         </div>
         <div className="col-lg-6 col-md-12 col-sm-12 justify-content-center left-container">
-          <img src={BookData?.Book_cover} alt="image" />
+          <img
+            src={BookDetails?.Book_cover ? coverImg : coverImg}
+            alt="image"
+          />
           <div
             style={{ width: "70%", marginLeft: "auto", marginRight: "auto" }}
           >
@@ -70,24 +89,6 @@ function ExploreBookDetail() {
                   Preview
                 </span>
               </div>
-              {/* <Tooltip title="Edit">
-              <IconButton>
-                <MdEditNote
-                  size={22}
-                  className="mt-2"
-                  style={{ color: "#5e5e5e" }}
-                />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Delete" placement="right-start">
-              <IconButton>
-                <RiDeleteBinLine
-                  size={19}
-                  className="mt-2"
-                  style={{ color: "#5e5e5e" }}
-                />
-              </IconButton>
-            </Tooltip> */}
             </div>
             <div className="action-btn mt-2 ms-auto" style={{ zIndex: 0 }}>
               <CustomButton
@@ -97,6 +98,7 @@ function ExploreBookDetail() {
                   padding: "6px 12px",
                   fontSize: "14px",
                 }}
+                onClick={() => handleAddItemToCart(BookDetails.book_id)}
               >
                 ADD TO CART
               </CustomButton>
@@ -134,14 +136,15 @@ function ExploreBookDetail() {
                 size={18}
                 style={{ color: "grey" }}
                 className="like-icon"
+                onClick={() => handleAddWishlist(BookDetails.book_id)}
               />
             </span>
           </div>
-          <h2>{BookData?.Book_title}</h2>
-          <p className="author-name mb-0">{BookData?.Book_Author}</p>
+          <h2>{BookDetails?.title}</h2>
+          <p className="author-name mb-0">{BookDetails?.author}</p>
           <p className="mb-0">
             <span className="sub-title">Genre</span> -{" "}
-            <span className="value">{BookData?.Book_Genre}</span>
+            <span className="value">{BookDetails?.genre}</span>
           </p>
           <Review />
           <p className="mb-0">
@@ -153,7 +156,7 @@ function ExploreBookDetail() {
                 className="mb-1"
                 style={{ fontWeight: "bold" }}
               />
-              <del>{BookData?.Book_Price}</del>
+              <del>{BookDetails?.price}</del>
               &nbsp;{" "}
               <LuIndianRupee
                 size={16}
@@ -167,12 +170,12 @@ function ExploreBookDetail() {
             <span className="sub-title">Rent</span> -{" "}
             <span className="value">
               <LuIndianRupee size={17} className="mb-1" />
-              {BookData?.Rental_Price} / {BookData?.Rental_duration} month
+              {BookDetails?.rental_price} / {BookDetails?.Rental_duration} month
             </span>
           </p>
           <p className="mb-0">
             <span className="sub-title"> Discription</span> -{" "}
-            <span className="value-dis">{BookData?.discription}</span>
+            <span className="value-dis">{BookDetails?.discription}</span>
           </p>
           <div className="publisher-Details cardBox p-3 d-flex flex-column justify-content-center gap-3">
             <h6

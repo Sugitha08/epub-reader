@@ -13,7 +13,7 @@ import { MdLibraryBooks } from "react-icons/md";
 import UserFilterMenu from "./UserFilterMenu";
 import Profile from "../Profile/Profile";
 
-function UserHeader() {
+function UserHeader({cartCount}) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLang, setSelectedLang] = useState("EN");
   const [openProfileMenu, setOpenProfileMenu] = useState(false);
@@ -234,7 +234,7 @@ function UserHeader() {
             onClick={() => navigate("/user/dash/detail/order")}
           >
             <Badge
-              badgeContent={4}
+              badgeContent={cartCount}
               color="primary"
               size="small"
               sx={{

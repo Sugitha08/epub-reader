@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Book_list } from "../../../Datas.js";
 import { InputAdornment, TextField } from "@mui/material";
 import { CiSearch } from "react-icons/ci";
@@ -6,17 +6,21 @@ import { Link, useNavigate } from "react-router-dom";
 import "../Dashboard/UserDash.css";
 import BookList from "../../../Core-Components/BookList.js";
 import { IoChevronBack } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import { GetUserBookbyId_Request } from "../../../../Redux/Action/UserAction/UserBookAction.js";
+import { BookListLoading } from "../../../Core-Components/Loading.js";
 
 function ExploreBook() {
   const FilteredBook = Book_list;
   const [searchBook, setSearchBook] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleBookOpen = (bookData) => {
-    navigate(`/user/dash/explore/book/${bookData.id}`, {
-      state: bookData,
-    });
+    dispatch(GetUserBookbyId_Request(bookData.book_id));
+    navigate(`/user/dash/explore/book`);
   };
+
   return (
     <>
       <Link
@@ -48,7 +52,14 @@ function ExploreBook() {
             }}
           />
         </div>
-        <BookList FilteredBook={FilteredBook} handleBookOpen={handleBookOpen} />
+        {false ? (
+          <BookListLoading />
+        ) : (
+          <BookList
+            FilteredBook={FilteredBook}
+            handleBookOpen={handleBookOpen}
+          />
+        )}
       </div>
     </>
   );

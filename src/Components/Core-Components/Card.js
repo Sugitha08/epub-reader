@@ -1,7 +1,7 @@
 import React, { Children } from "react";
 import Card from "@mui/material/Card";
 
-function CardComponent({ width, children, height, style, className , }) {
+function CardComponent({ width, children, height, style, className }) {
   return (
     <>
       <Card

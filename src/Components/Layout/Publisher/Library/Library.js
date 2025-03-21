@@ -1,36 +1,70 @@
-import React, { useState } from "react";
-import { Book_list } from "../../../Datas.js";
+import React, { useEffect, useState } from "react";
 import "./Library.css";
 import { InputAdornment, TextField } from "@mui/material";
 import { CiSearch } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
-import { IoFilterSharp } from "react-icons/io5";
 import CategoryDrawer from "./CategoryDrawer.js";
 import BookList from "../../../Core-Components/BookList.js";
 import { IoChevronBack } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  Get_book_Request,
+  Get_bookbycat_Request,
+  Get_bookbyId_Request,
+} from "../../../../Redux/Action/PublisherAction/BookAction.js";
 
 function Library() {
   const [searchBook, setSearchBook] = useState("");
-  const [catFilter, setCatFilter] = useState(false);
+  const [bookToShow, setBookToShow] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const navigate = useNavigate();
-  const FilteredBook = Book_list.filter(
-    (book) =>
-      book?.Book_title.toLowerCase().includes(searchBook.toLowerCase()) ||
-      book?.Book_Author.toLowerCase().includes(searchBook.toLowerCase()) ||
-      book?.Book_Genre.toLowerCase().includes(searchBook.toLowerCase())
-  );
+  const dispatch = useDispatch();
+  const { BookDataList, filterBook ,loading:BookLoading } = useSelector((state) => state.BookData);
+  console.log(BookDataList);
+
+  useEffect(() => {
+    dispatch(Get_book_Request());
+  }, []);
+
+  useEffect(() => {
+    setBookToShow(BookDataList);
+  }, [BookDataList]);
+
+  useEffect(() => {
+    if (selectedCategory) {
+      dispatch(Get_bookbycat_Request(selectedCategory));
+    } else {
+      setBookToShow(BookDataList);
+    }
+  }, [selectedCategory, dispatch, BookDataList]);
+
+  useEffect(() => {
+    if (selectedCategory && filterBook) {
+      setBookToShow(filterBook);
+    }
+  }, [filterBook, selectedCategory]);
+
+  useEffect(() => {
+    const FilteredBook = BookDataList?.filter(
+      (book) =>
+        book?.title.toLowerCase().includes(searchBook.toLowerCase()) ||
+        book?.author.toLowerCase().includes(searchBook.toLowerCase()) ||
+        book?.genre.toLowerCase().includes(searchBook.toLowerCase())
+    );
+    setBookToShow(FilteredBook);
+  }, [searchBook]);
+  useEffect(() => {
+    if (selectedCategory) {
+      dispatch(Get_bookbycat_Request(selectedCategory));
+    }
+  }, [selectedCategory]);
 
   const handleBookOpen = (bookData) => {
-    navigate(`/publisher/dashboard/library/book/${bookData.id}`, {
-      state: bookData,
-    });
+    navigate(`/publisher/dashboard/library/book`);
+
+    dispatch(Get_bookbyId_Request(bookData.book_id));
   };
-  const handleCatFilterDrawer = () => {
-    setCatFilter(true);
-  };
-  const handleCatFilterDrawerClose = () => {
-    setCatFilter(false);
-  };
+
 
   return (
     <>
@@ -65,21 +99,23 @@ function Library() {
               },
             }}
           />
-          <div>
-            <IoFilterSharp
-              size={22}
-              role="button"
-              onClick={handleCatFilterDrawer}
+        </div>
+        <div className="row">
+          <div
+            className="col-2 category-container p-0"
+            style={{ height: "75vh", overflow: "auto" }}
+          >
+            <CategoryDrawer setSelectedCategory={setSelectedCategory} />
+          </div>
+          <div className="col-10 mt-3" style={{ paddingLeft: "2.5rem" }}>
+            <BookList
+              FilteredBook={bookToShow}
+              handleBookOpen={handleBookOpen}
+              BookLoading={BookLoading}
             />
           </div>
-          {/* <button className="btn btn-success">AddNew</button> */}
         </div>
-        <BookList FilteredBook={FilteredBook} handleBookOpen={handleBookOpen} />
       </div>
-      <CategoryDrawer
-        catFilter={catFilter}
-        handleCatFilterDrawerClose={handleCatFilterDrawerClose}
-      />
     </>
   );
 }

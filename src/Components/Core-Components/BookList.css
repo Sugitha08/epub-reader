@@ -40,9 +40,13 @@
 }
 
 svg.like-icon {
-  color: grey !important;
+  color: grey;
 }
 svg.like-icon:hover {
+  color: #ca2929;
+}
+
+svg.like-icon.active {
   color: #ca2929 !important;
 }
 

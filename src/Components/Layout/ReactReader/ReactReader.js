@@ -5,7 +5,6 @@ import {
   Button,
   Card,
   IconButton,
-  Link,
   Menu,
   MenuItem,
   TextField,
@@ -21,14 +20,13 @@ import { VscMute } from "react-icons/vsc";
 import { BsJournalBookmark } from "react-icons/bs";
 import { GrNotes } from "react-icons/gr";
 
-function ReactEpubReader({ epubFile }) {
+function ReactEpubReader({ epubFile, handleNav }) {
   const [location, setLocation] = useState();
   const [anchorEl, setAnchorEl] = useState(null);
   const [popoverPosition, setPopoverPosition] = useState({ top: 0, left: 0 });
   const [rendition, setRendition] = useState(undefined);
   const [selectedText, setSelectedText] = useState(null);
   const [selectedCFI, setSelectedCFI] = useState(null);
-  const [showPopup, setShowPopup] = useState(false);
   const [hLSlideOpen, setHLSlideOpen] = useState(false);
   const [notesSlideOpen, setNotesSlideOpen] = useState(false);
   const [isReading, setIsReading] = useState(false);
@@ -39,21 +37,27 @@ function ReactEpubReader({ epubFile }) {
   const [firstRenderDone, setFirstRenderDone] = useState(false);
   const [BookMarkActive, setBookMarkActive] = useState(false);
   const [currentPage, setCurrentPage] = useState(null);
-  const [locationsReady, setLocationsReady] = useState(false);
   const [addNotesVis, setAddNotesVis] = useState(false);
   const [NotesContent, setNotesContent] = useState("");
-  const [removehl, setRemovehl] = useState(null);
 
   // Load saved location on first render
-
   const storedLocation = localStorage.getItem("persist-location");
   useEffect(() => {
     if (storedLocation) {
       setLocation(storedLocation);
       setBookMarkActive(true);
+      setCurrentPage(storedLocation);
     }
     setFirstRenderDone(true);
   }, []);
+
+  useEffect(() => {
+    if (storedLocation === currentPage) {
+      setBookMarkActive(true);
+    } else {
+      setBookMarkActive(false);
+    }
+  }, [location]);
 
   // Handle location change while reading
   const handlelocationChange = (epubcfi) => {
@@ -69,6 +73,12 @@ function ReactEpubReader({ epubFile }) {
       localStorage.removeItem("persist-location");
     } else {
       if (currentPage) {
+        // Get current position index
+        if (rendition.location) {
+          const currentIndex = rendition.location.start.percentage;
+          const percentage = Math.ceil((currentIndex * 100).toFixed(2));
+          localStorage.setItem("percentage", percentage);
+        }
         setBookMarkActive(true);
         localStorage.setItem("persist-location", currentPage);
       }
@@ -96,34 +106,79 @@ function ReactEpubReader({ epubFile }) {
     setAnchorEl(null);
   };
 
-  //menu
+  //CustomMenu
   useEffect(() => {
     if (!rendition) return;
-  
-    rendition.display(storedLocation || 0).then(() => {
-      if (rendition.book) {
-        rendition.book.ready.then(() => {
-          if (rendition.book.locations) {
-            rendition.book.locations.generate().then(() => {
-              setLocationsReady(true);
-            });
-          }
-        });
-      } else {
-        console.warn("Book is not available yet, retrying...");
+
+    rendition
+      .display(storedLocation || 0)
+      .then(() => rendition.book?.ready)
+      .then(() => {
+        if (rendition.book?.locations) {
+          return rendition.book?.locations.generate();
+        }
+      })
+      .then(() => {})
+      .catch((err) => console.error("Error displaying EPUB:", err));
+
+    const setRenderSelection = (cfiRange) => {
+      if (rendition) {
+        const text = rendition?.getRange(cfiRange).toString();
+        setSelectedText(text);
+        setSelectedCFI(cfiRange);
+
+        // Get bounding box for position
+        const range = rendition?.getRange(cfiRange);
+        const rects = range.getClientRects();
+        if (rects.length === 0) return;
+
+        // Get the last rect (end of selection)
+        const lastRect = rects[rects.length - 1];
+
+        if (range) {
+          // Get the iframe scroll position
+          const iframe = document.querySelector("iframe");
+          const iframeRect = iframe.getBoundingClientRect();
+          const iframeWindow = iframe.contentWindow;
+
+          // Adjust popup position relative to the document
+          const top =
+            lastRect.bottom + iframeRect.top + iframeWindow.scrollY + 5; // Slight offset below the text
+          const left =
+            lastRect.right + iframeRect.left + iframeWindow.scrollX + 5;
+          setPopoverPosition({ top, left });
+          setAnchorEl({
+            top,
+            left: left + 50,
+          });
+        }
       }
-    }).catch(err => console.error("Error displaying EPUB:", err));
-  
+    };
+
+    // Ensure "on" method exists before using it
+    if (rendition.on) {
+      rendition.on("selected", setRenderSelection);
+    } else {
+      console.warn("rendition.on is not available");
+    }
+
     return () => {
-      rendition && rendition.off("selected");
+      if (rendition?.off) {
+        rendition.off("selected", setRenderSelection);
+      } else {
+        console.warn("rendition.off is not available");
+      }
+      if (rendition?.destroy) {
+        rendition.destroy();
+      }
     };
   }, [rendition]);
 
   // Hightlight
   useEffect(() => {
-    if (rendition && epubFile) {
+    if (rendition && epubFile && allHighlight.length > 0) {
       allHighlight?.forEach((highlight) => {
-        rendition.annotations.add(
+        rendition?.annotations.add(
           "highlight",
           highlight.cfiRange,
           {},
@@ -133,57 +188,12 @@ function ReactEpubReader({ epubFile }) {
         );
       });
     }
-    if (rendition && locationsReady) {
-      // Handle selection but don’t highlight yet
-      const setRenderSelection = (cfiRange) => {
-        if (rendition) {
-          const text = rendition.getRange(cfiRange).toString();
-          setSelectedText(text);
-          setSelectedCFI(cfiRange);
-
-          // Get bounding box for position
-          const range = rendition.getRange(cfiRange);
-          const rects = range.getClientRects();
-          if (rects.length === 0) return;
-
-          // Get the last rect (end of selection)
-          const lastRect = rects[rects.length - 1];
-
-          if (range) {
-            const rect = range.getBoundingClientRect();
-            // Get the iframe scroll position
-            const iframe = document.querySelector("iframe");
-            const iframeRect = iframe.getBoundingClientRect();
-            const iframeWindow = iframe.contentWindow;
-
-            // Adjust popup position relative to the document
-            const top =
-              lastRect.bottom + iframeRect.top + iframeWindow.scrollY + 5; // Slight offset below the text
-            const left =
-              lastRect.right + iframeRect.left + iframeWindow.scrollX + 5;
-            setPopoverPosition({ top, left });
-            setShowPopup(true);
-            setAnchorEl({
-              top,
-              left: left + 50,
-            });
-          }
-        }
-      };
-      rendition.on("selected", setRenderSelection);
-
-      return () => {
-        if (rendition) {
-          rendition.off("selected"); // Cleanup
-        }
-      };
-    }
-  }, [rendition, locationsReady]);
+  }, [rendition]);
 
   useEffect(() => {
     const storedHighlights =
       JSON.parse(localStorage.getItem(`ebook-highlights`)) || [];
-    setAllHighLights(...allHighlight, storedHighlights);
+    setAllHighLights([...allHighlight, storedHighlights]);
   }, []);
 
   //highlightButton
@@ -205,7 +215,7 @@ function ReactEpubReader({ epubFile }) {
         JSON.stringify(updatedHighlights)
       );
 
-      rendition.annotations.add(
+      rendition?.annotations.add(
         "highlight",
         selectedCFI,
         {},
@@ -223,7 +233,7 @@ function ReactEpubReader({ epubFile }) {
   //Audio Reading
   useEffect(() => {
     if (rendition) {
-      rendition.hooks.content.register((contents) => {
+      rendition?.hooks.content.register((contents) => {
         const doc = contents.window.document;
         const text = doc.body.innerText;
         setTextToConvert(text);
@@ -259,26 +269,22 @@ function ReactEpubReader({ epubFile }) {
     try {
       // Find the word inside the EPUB
       if (rendition) {
-        rendition.hooks.content.register((contents) => {
-          console.log("Content Hook Triggered!");
+        rendition?.hooks.content.register((contents) => {
           const doc = contents.window.document;
           const text = doc.body.innerText;
           // Find word position
           const wordIndex = text.indexOf(word);
-          console.log(text);
           if (wordIndex === -1) return; // Word not found
 
           // Generate a rough CFI range (not 100% precise)
           const cfiRange =
-            rendition.location.start.cfi + `/text()[${wordIndex}]`;
-
-          console.log("CFI Range:", cfiRange);
+            rendition?.location.start.cfi + `/text()[${wordIndex}]`;
 
           // Remove previous highlights
-          rendition.annotations.remove("highlight");
+          rendition?.annotations.remove("highlight");
 
           // Add highlight
-          rendition.annotations.add(
+          rendition?.annotations.add(
             "highlight",
             cfiRange,
             {},
@@ -288,10 +294,7 @@ function ReactEpubReader({ epubFile }) {
           );
         });
       }
-    } catch (error) {
-      console.log(word, "Currently Reading");
-      console.log("Highlighting current word issue:", error);
-    }
+    } catch (error) {}
   };
 
   const [NotesList, setNoteList] = useState([]);
@@ -316,6 +319,7 @@ function ReactEpubReader({ epubFile }) {
     setNotesContent("");
     setAddNotesVis(false);
   };
+
   return (
     <>
       <div
@@ -360,6 +364,31 @@ function ReactEpubReader({ epubFile }) {
               <LuNotebookPen size={23} />
             </IconButton>
           </Tooltip>
+          <div
+            role="button"
+            onClick={() => {
+              if (rendition) {
+                try {
+                  rendition.destroy?.();
+                } catch (error) {
+                  console.error("Error destroying rendition:", error);
+                }
+              }
+              setTimeout(() => {
+                setRendition(null);
+              }, 100);
+              setRendition(null);
+              setSelectedText(null);
+              setSelectedCFI(null);
+              setIsReading(false);
+              setAnchorEl(null);
+              setHLSlideOpen(false);
+              setNotesSlideOpen(false);
+              handleNav();
+            }}
+          >
+            Go Back
+          </div>
         </div>
         <ReactReader
           url={epubFile}
@@ -464,7 +493,7 @@ function ReactEpubReader({ epubFile }) {
             className="d-flex justify-content-between align-items-center g-3 px-2 mb-1"
             style={{ width: "100%" }}
           >
-            {["#829dff", "#a68deb", "#ec7980", "#f7d755", "#76d45f"].map(
+            {["#829dff", "#a68deb", "#ec7980", "#f7d755", "#76d45f"]?.map(
               (color, index) => (
                 <div
                   key={index}

@@ -9,8 +9,8 @@ import { FaUser } from "react-icons/fa";
 import { FaPhoneAlt } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { useFormik } from "formik";
-import { useSelector } from "react-redux";
 import * as Yup from "yup";
+import { useSelector } from "react-redux";
 import CustomButton from "../Core-Components/Button";
 
 function Register({ redirectTologin, handleReg }) {
@@ -18,6 +18,9 @@ function Register({ redirectTologin, handleReg }) {
   const [passwordCVisible, setPasswordCVisibile] = useState(false);
   const { RegStatus, loading: pubRegLoad } = useSelector(
     (state) => state.PublisherReg
+  );
+  const { UserRegStatus, loading: UserRegLoad } = useSelector(
+    (state) => state.ReaderReg
   );
   const initialState = {
     userName: "",
@@ -64,12 +67,14 @@ function Register({ redirectTologin, handleReg }) {
     handleReg(payload);
   };
   useEffect(() => {
-    if (RegStatus) {
+    console.log(redirectTologin, UserRegStatus);
+
+    if (RegStatus || UserRegStatus) {
       redirectTologin();
     } else {
       return;
     }
-  }, [RegStatus]);
+  }, [RegStatus, UserRegStatus]);
 
   const formik = useFormik({
     initialValues: initialState,

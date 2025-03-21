@@ -1,37 +1,88 @@
 import React, { useEffect } from "react";
-import Drawer from "@mui/material/Drawer";
 import { useDispatch, useSelector } from "react-redux";
-import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 import { Get_Cat_Request } from "../../../../Redux/Action/PublisherAction/CategoryAction";
+import { Skeleton, Typography } from "@mui/material";
+import "./Library.css";
 
-function CategoryDrawer({ catFilter, handleCatFilterDrawerClose }) {
-  const { Category } = useSelector((state) => state.category);
+function CategoryDrawer({ setSelectedCategory }) {
+  const { Category, loading: catLoad } = useSelector((state) => state.category);
   const dispatch = useDispatch();
+  const handleCatSelect = (id) => {
+    setSelectedCategory(id);
+  };
   useEffect(() => {
     dispatch(Get_Cat_Request());
   }, []);
+
+
   return (
-    <Drawer
-      anchor="right"
-      open={catFilter}
-      onClose={handleCatFilterDrawerClose}
-      sx={{ zIndex: "999999" }}
-    >
-      <div style={{ padding: "10px 20px" }}>
-        <h4 style={{fontSize:"20px"}}>Filter By Genre</h4>
-        {Category?.map((cat) => (
-          <FormGroup>
-            <FormControlLabel
-              control={<Checkbox />}
-              label={cat.category_name}
-            />
-          </FormGroup>
-        ))}
-        {/* {list.map((cat) => (
-          <p>{cat}</p>
-        ))} */}
+    <div>
+      <h4
+        style={{
+          fontSize: "20px",
+          padding: "10px 12px",
+          borderBottom: "1px solid #dddddd",
+          backgroundColor: "rgb(33 37 41 / 3%)",
+        }}
+        className="mb-0"
+      >
+        Categories
+      </h4>
+      <div
+        className="d-flex flex-column pt-3"
+        style={{ rowGap: "15px", padding: "0 12px" }}
+      >
+        {catLoad ? (
+          <div className="d-flex flex-column mt-2" style={{rowGap:"30px"}}>
+            {Array.from(new Array(6)).map(() => (
+              <div>
+                <Skeleton animation="wave" height={30} width="80%" />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <>
+            <div
+              role="button"
+              className="category p-1"
+              style={{ borderBottom: "1px solid #f0e9e9" }}
+              onClick={()=>setSelectedCategory(null)}
+            >
+              <Typography
+                className="ps-2"
+                sx={{
+                  fontSize: "18px",
+                  fontWeight: "500",
+                  color: "#545252",
+                }}
+              >
+                All Books
+              </Typography>
+            </div>
+            {Category?.map((cat, index) => (
+              <div
+                key={index}
+                role="button"
+                className="category p-1"
+                style={{ borderBottom: "1px solid #f0e9e9" }}
+                onClick={() => handleCatSelect(cat.category_id)}
+              >
+                <Typography
+                  className="ps-2"
+                  sx={{
+                    fontSize: "18px",
+                    fontWeight: "500",
+                    color: "#545252",
+                  }}
+                >
+                  {cat.category_name}
+                </Typography>
+              </div>
+            ))}
+          </>
+        )}
       </div>
-    </Drawer>
+    </div>
   );
 }
 

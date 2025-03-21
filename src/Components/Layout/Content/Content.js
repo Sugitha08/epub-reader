@@ -4,7 +4,6 @@ import SideNavBar from "../Header/SideNavBar";
 import "./Content.css";
 
 function Content() {
-  
   return (
     <>
       <div className="main-container">

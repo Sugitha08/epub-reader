@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import SideNavBar from "../Header/SideNavBar";
 import "./Content.css";
 
-function UserContent({ openMenu }) {
+function UserContent({ openMenu, setCartCount }) {
   return (
     <>
       <div className={`${openMenu ? "sidebar-open" : ""} main-container`}>
@@ -13,7 +13,7 @@ function UserContent({ openMenu }) {
           </div>
         )}
         <div className="userlayout layout">
-          <Outlet />
+          <Outlet context={{ setCartCount }} />
         </div>
       </div>
     </>

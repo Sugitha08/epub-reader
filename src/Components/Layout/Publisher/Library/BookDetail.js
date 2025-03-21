@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Library.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LuIndianRupee } from "react-icons/lu";
@@ -14,16 +14,44 @@ import { ImBooks } from "react-icons/im";
 import { MdLibraryBooks } from "react-icons/md";
 import { Review } from "../../../Core-Components/Highlight";
 import CustomButton from "../../../Core-Components/Button";
+import cover from "../../../Assets/cover3.avif";
+import { useDispatch, useSelector } from "react-redux";
+import { DeleteBook_Request } from "../../../../Redux/Action/PublisherAction/BookAction";
+import { BookDetailPubLoading } from "../../../Core-Components/Loading";
 
 function BookDetail() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const BookData = location.state;
+  const {
+    BookDetail: BookData,
+    BookDeleted,
+    loading,
+  } = useSelector((state) => state.BookData);
+  const dispatch = useDispatch();
   const handlePreviewOpen = () => {
-    // navigate("/book/preview");
     navigate("/publisher/bookpreview");
   };
 
+  const handleEditBook = (BookData) => {
+    navigate("/publisher/dashboard/upload", { state: { BookData } });
+  };
+
+  const handleDeleteBook = (id) => {
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this book?"
+    );
+    if (isConfirmed) {
+      dispatch(DeleteBook_Request(id));
+    }
+  };
+  useEffect(() => {
+    if (BookDeleted) {
+      navigate("/publisher/dashboard/library");
+    }
+  }, [BookDeleted]);
+
+  if (loading) {
+    return <BookDetailPubLoading />;
+  }
   return (
     <div
       className="row justify-content-center gap-4"
@@ -36,7 +64,7 @@ function BookDetail() {
     >
       <div className="bookDetail row shadow col-9">
         <img
-          src={BookData?.Book_cover}
+          src={BookData?.Book_cover ? BookData?.Book_cover : cover}
           alt="image"
           className="col-lg-6 col-md-12 col-sm-12"
         />
@@ -44,11 +72,11 @@ function BookDetail() {
           <div>
             <span className="tag shadow">BestSeller</span>
           </div>
-          <h2>{BookData?.Book_title}</h2>
-          <p className="author-name mb-0">{BookData?.Book_Author}</p>
+          <h2>{BookData?.title}</h2>
+          <p className="author-name mb-0">{BookData?.author}</p>
           <p className="mb-0">
             <span className="sub-title">Genre</span> -{" "}
-            <span className="value">{BookData?.Book_Genre}</span>
+            <span className="value">{BookData?.genre}</span>
           </p>
           <Review />
           <p className="mb-0">
@@ -60,7 +88,7 @@ function BookDetail() {
                 className="mb-1"
                 style={{ fontWeight: "bold" }}
               />
-              <del>{BookData?.Book_Price}</del>{" "}
+              <del>{BookData?.price}</del>{" "}
               <LuIndianRupee
                 size={16}
                 className="mb-1"
@@ -73,7 +101,10 @@ function BookDetail() {
             <span className="sub-title">Rent</span> -{" "}
             <span className="value">
               <LuIndianRupee size={17} className="mb-1" />
-              {BookData?.Rental_Price} / {BookData?.Rental_duration} month
+              {BookData?.Rental_Price
+                ? BookData?.Rental_Price
+                : BookData?.rental_price}{" "}
+              / {BookData?.Rental_duration} month
             </span>
           </p>
           <p className="mb-0">
@@ -87,12 +118,12 @@ function BookDetail() {
               </IconButton>
             </Tooltip>
             <Tooltip title="Edit">
-              <IconButton>
+              <IconButton onClick={() => handleEditBook(BookData)}>
                 <MdEditNote size={22} style={{ color: "#5e5e5e" }} />
               </IconButton>
             </Tooltip>
             <Tooltip title="Delete">
-              <IconButton>
+              <IconButton onClick={() => handleDeleteBook(BookData?.book_id)}>
                 <RiDeleteBinLine size={19} style={{ color: "#5e5e5e" }} />
               </IconButton>
             </Tooltip>
@@ -115,7 +146,9 @@ function BookDetail() {
       </div>
       <div className="card earning-detail col-3 p-0 shadow">
         <div className="card-header">
-          <h4 style={{ fontSize: "22px" }}>Sales & Popularity Report</h4>
+          <h4 style={{ fontSize: "22px" }} className="mb-0">
+            Sales & Popularity Report
+          </h4>
         </div>
         <div className="card-body">
           <div>

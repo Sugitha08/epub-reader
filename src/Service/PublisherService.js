@@ -9,27 +9,29 @@ export const PublisherRegister = (request) => {
 };
 
 export const Upload_book = (request) => {
-  return Main_Api.post("files/upload_book", request);
+  return Main_Api.post("files/pub/upload_book", request);
+};
+
+export const Get_Books = () => {
+  return Main_Api.get("book/pub/get_all_books");
 };
 
 export const Add_Category = (request) => {
-  console.log(request,"data");
-  
-  return Main_Api.post("book/add_category", request);
+  return Main_Api.post("book/pub/add_category", request);
 };
 
 export const Get_Category = () => {
-  return Main_Api.get("book/get_categories");
+  return Main_Api.get("book/pub/get_categories");
 };
 
 export const GetBook_by_Category = (id) => {
-  return Main_Api.get("book/get_categories/" + id);
+  return Main_Api.get("book/pub/get_books_by_cat/" + id);
 };
 
 export const GetBook_by_id = (id) => {
-  return Main_Api.get("book/get_book/" + id);
+  return Main_Api.get("book/pub/get_book/" + id);
 };
 
 export const deleteBook = (id) => {
-  return Main_Api.get("book/delete_book/" + id);
+  return Main_Api.delete("book/pub/delete_book/" + id);
 };
