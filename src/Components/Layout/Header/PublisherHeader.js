@@ -6,6 +6,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { Publisher_Logout } from "../../../Redux/Action/PublisherAction/PuAuthAction";
 import Profile from "../Profile/Profile";
+import "./Header.css";
 
 function PublisherHeader() {
   const navigate = useNavigate();
@@ -62,14 +63,6 @@ function PublisherHeader() {
           >
             Home
           </Link>
-          {/* <Link
-          to="/publisher/dashboard/report"
-          className={`nav ${
-            location.pathname === "/publisher/dashboard/report" ? "active" : ""
-          }`}
-        >
-          Report
-        </Link> */}
           <Link
             to="/publisher/dashboard/upload"
             className={`nav ${

@@ -32,8 +32,8 @@ export function BookListLoading() {
       className="d-flex g-3 justify-content-center"
       style={{ columnGap: "35px" }}
     >
-      {Array.from(new Array(4)).map(() => (
-        <CardComponent>
+      {Array.from(new Array(4)).map((index) => (
+        <CardComponent key={index}>
           <div
             className="d-flex flex-column"
             style={{ rowGap: "15px", width: "280px", height: "420px" }}

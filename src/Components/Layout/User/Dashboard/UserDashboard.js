@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Userbanner from "../../../Assets/banner.jpg";
 import { Book_list } from "../../../Datas.js";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,26 +6,35 @@ import { FaArrowRight } from "react-icons/fa6";
 import BookList from "../../../Core-Components/BookList.js";
 import { useDispatch, useSelector } from "react-redux";
 import { GetCartItem_Request } from "../../../../Redux/Action/UserAction/CartBookAction.js";
-import { useOutletContext } from "react-router-dom";
-import { GetUserBookbyId_Request } from "../../../../Redux/Action/UserAction/UserBookAction.js";
+import {
+  GetUserBook_Request,
+  GetUserBookbyId_Request,
+} from "../../../../Redux/Action/UserAction/UserBookAction.js";
 import { GetWishlistItem_Request } from "../../../../Redux/Action/UserAction/WishlistBookAction";
 
 function UserDashboard() {
   const navigate = useNavigate();
-  const FilteredBook = Book_list;
+  const [FilteredBook, setFilteredBook] = useState([]);
   const dispatch = useDispatch();
-  const { setCartCount } = useOutletContext();
-
-  const { cartItems } = useSelector((state) => state.CartBook);
+  const {
+    UserBooks,
+    loading: BookLoading,
+    FilteredBook: FilterBook,
+  } = useSelector((state) => state.UserBook);
 
   useEffect(() => {
     dispatch(GetCartItem_Request());
     dispatch(GetWishlistItem_Request());
+    dispatch(GetUserBook_Request());
   }, [dispatch]);
 
   useEffect(() => {
-    setCartCount(cartItems?.length);
-  }, [cartItems]);
+    if (FilterBook.length > 0) {
+      setFilteredBook(FilterBook);
+    } else {
+      setFilteredBook(UserBooks);
+    }
+  }, [UserBooks, FilterBook]);
 
   const handleBookOpen = (bookData) => {
     dispatch(GetUserBookbyId_Request(bookData.book_id));
@@ -46,8 +55,9 @@ function UserDashboard() {
             </Link>
           </div>
           <BookList
-            FilteredBook={FilteredBook?.slice(0, 4)}
+            FilteredBook={FilteredBook.length > 0 && FilteredBook?.slice(0, 4)}
             handleBookOpen={handleBookOpen}
+            BookLoading={BookLoading}
           />
         </div>
       </div>

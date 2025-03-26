@@ -9,19 +9,25 @@ import PurchaseBookReducer from "./UserReducer/PurchaseBookReducer";
 import CartBookReducer from "./UserReducer/CartBookReducer";
 import WishlistBookReducer from "./UserReducer/WishlistBookReducer";
 import UserBookReducer from "./UserReducer/UserBookReducer";
+import PreviewBookReducer from "./UserReducer/PreviewBookReducer";
+import SubscribeBookReducer from "./UserReducer/SubscriptionReducer";
+import SubscriberReducer from "./PublisherReducer/SubscriberReducer";
 
 const RootReducer = combineReducers({
   PublisherLogin: PublisherLoginReducer,
   PublisherReg: PublisherRegisterReducer,
   BookData: BookReducer,
   category: CategoryReducer,
+  SubscriberData : SubscriberReducer,
 
   UserLogin: UserLoginReducer,
   ReaderReg: UserRegReducer,
   PurchasedBook: PurchaseBookReducer,
-  CartBook : CartBookReducer,
-  WishlistBook : WishlistBookReducer,
-  UserBook:UserBookReducer
+  CartBook: CartBookReducer,
+  WishlistBook: WishlistBookReducer,
+  UserBook: UserBookReducer,
+  PreViewData: PreviewBookReducer,
+  SubscribeBook : SubscribeBookReducer
 });
 
 export default RootReducer;

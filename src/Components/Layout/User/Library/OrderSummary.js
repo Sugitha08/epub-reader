@@ -5,7 +5,7 @@ import { LuIndianRupee } from "react-icons/lu";
 import CustomButton from "../../../Core-Components/Button";
 import { Tooltip, IconButton } from "@mui/material";
 import { ImCross } from "react-icons/im";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -16,7 +16,9 @@ import { PurchaseBook_Request } from "../../../../Redux/Action/UserAction/Purcha
 function OrderSummary() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const handleOrderConfirm = (bookId) => {
+  const [searchParams] = useSearchParams();
+  const bookId = searchParams.get("bookId");
+  const handleOrderConfirm = () => {
     dispatch(PurchaseBook_Request({ book_id: bookId }));
   };
   return (
@@ -144,7 +146,7 @@ function OrderSummary() {
             <CustomButton
               sx={{ backgroundColor: "green" }}
               onClick={
-                () => handleOrderConfirm(book?.book_id)
+                () => handleOrderConfirm()
                 // navigate("/user/dash/detail/order/summary/orderplaced")
               }
             >

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import { MdEmail } from "react-icons/md";
-import "../Login.css";
+import "../Auth.css";
 import OtpInput from "./OtpInput";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";

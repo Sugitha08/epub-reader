@@ -9,7 +9,9 @@ export const PublisherRegister = (request) => {
 };
 
 export const Upload_book = (request) => {
-  return Main_Api.post("files/pub/upload_book", request);
+  return Main_Api.post("files/pub/upload_book", request, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
 };
 
 export const Get_Books = () => {
@@ -34,4 +36,8 @@ export const GetBook_by_id = (id) => {
 
 export const deleteBook = (id) => {
   return Main_Api.delete("book/pub/delete_book/" + id);
+};
+
+export const Add_Subscriber = (request) => {
+  return Main_Api.post("subscribe/publisher/add_subscriber", request);
 };

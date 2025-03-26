@@ -19,7 +19,7 @@ function BookReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        BookDataList: action.payload,
+        // BookDataList: action.payload,
         BookDeleted: false,
       };
     case Type.UPLOAD_FILE_FAILURE:
@@ -63,16 +63,18 @@ function BookReducer(state = initialState, action) {
     case Type.GET_BOOK_CAT_REQUEST:
       return {
         ...state,
+        loading: true,
         filterCatLoading: true,
       };
     case Type.GET_BOOK_CAT_SUCCESS:
       return {
         ...state,
+        loading: false,
         filterBook: action.payload.books,
         BookDeleted: false,
       };
     case Type.GET_BOOK_CAT_FAILURE:
-      return { ...state, error: action.payload };
+      return { ...state, loading: false, error: action.payload };
     case Type.DEL_BOOK_REQUEST:
       return {
         ...state,

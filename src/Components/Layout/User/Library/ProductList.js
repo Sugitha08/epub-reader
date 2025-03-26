@@ -11,10 +11,14 @@ function ProductList({ title, Book_list, children, Footer }) {
     (state) => state.WishlistBook
   );
   const { loading: CartLoading } = useSelector((state) => state.CartBook);
+  const { loading: ParchaseLoading } = useSelector(
+    (state) => state.PurchasedBook
+  );
 
-  if (WishlistLoading || CartLoading) {
+  if (WishlistLoading || CartLoading || ParchaseLoading) {
     return <UserLibraryLoading />;
   }
+
   return (
     <div className="user-wishlist cardBox" style={{ height: "100%" }}>
       <h4>{title}</h4>
@@ -46,17 +50,20 @@ function ProductList({ title, Book_list, children, Footer }) {
                     </h6>
                   </div>
                   <Review />
-                  <h5 className="mb-0">
-                    <LuIndianRupee
-                      size={16}
-                      className="mb-1"
-                      style={{ fontWeight: "bold" }}
-                    />
-                    {book?.price}
-                  </h5>
+                  {book?.price && (
+                    <h5 className="mb-0">
+                      <LuIndianRupee
+                        size={16}
+                        className="mb-1"
+                        style={{ fontWeight: "bold" }}
+                      />
+                      {book?.price}
+                    </h5>
+                  )}
                 </div>
                 <div className="col-5">
-                  {children && children(book.wishlist_id || book.cart_id)}
+                  {children &&
+                    children(book.wishlist_id || book.cart_id || book.book_id)}
                 </div>
               </div>
             </div>

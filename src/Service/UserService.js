@@ -9,8 +9,18 @@ export const UserRegister = (request) => {
 };
 
 export const Purchase_book = (request) => {
-  console.log(request);
   return Main_Api.post("book/reader/purchase_book", request);
+};
+export const Get_AllUser_Book = () => {
+  return Main_Api.get("book/reader/get_all_books");
+};
+
+export const Get_user_BookbyId = (request) => {
+  return Main_Api.get("book/reader/get_book/" + request);
+};
+
+export const Get_bookby_Cat = (request) => {
+  return Main_Api.get("book/reader/get_books_by_cat/" + request);
 };
 
 export const Get_Purchasedbook = () => {
@@ -41,10 +51,35 @@ export const Remove_from_Wishlist = (request) => {
   return Main_Api.delete("book/reader/delete_wishlist/" + request);
 };
 
-export const Get_user_Book = (request) => {
-  // return Main_Api.delete("book/reader/delete_wishlist/" + request);
+export const Get_ReaderSub = () => {
+  return Main_Api.get("subscribe/reader/subscriptions");
 };
 
-export const Get_user_BookbyId = (request) => {
-  return Main_Api.get("book/reader/get_book/" + request);
+export const Add_sub_book = (request) => {
+  return Main_Api.post("subscribe/reader/add_sub_book", request);
+};
+
+//React-Reader
+
+export const Add_hightlight = (request) => {
+  return Main_Api.post("book/reader/add_highlight", request);
+};
+
+export const Get_hightlight = (request) => {
+  return Main_Api.get("book/reader/get_highlights/" + request);
+};
+export const Add_Notes = (request) => {
+  return Main_Api.post("book/reader/add_note", request);
+};
+
+export const Get_Notes = (request) => {
+  return Main_Api.get("book/reader/get_notes/" + request);
+};
+
+export const Upload_progress = (request) => {
+  return Main_Api.put("book/reader/update_progress", request);
+};
+
+export const Get_progress = (request) => {
+  return Main_Api.get("book/reader/get_progress/" + request);
 };

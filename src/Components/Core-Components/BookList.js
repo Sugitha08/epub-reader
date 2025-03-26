@@ -57,6 +57,24 @@ function BookList({ FilteredBook, handleBookOpen, BookLoading }) {
                 ) : (
                   ""
                 )}
+                {location.pathname.startsWith("/publisher") ? (
+                  <div
+                    style={{
+                      width: "10px",
+                      height: "10px",
+                      borderRadius: "50%",
+                      backgroundColor: `${
+                        book.status === "live"
+                          ? "#4bb14b"
+                          : book.status === "pending"
+                          ? "#d01110"
+                          : ""
+                      }`,
+                    }}
+                  ></div>
+                ) : (
+                  ""
+                )}
               </div>
               <div role="button" onClick={() => handleBookOpen(book)}>
                 <img
@@ -65,12 +83,21 @@ function BookList({ FilteredBook, handleBookOpen, BookLoading }) {
                 />
                 <h5 className="mt-2 title">{book?.title}</h5>
                 <h6 className="author-name">{book?.author}</h6>
-                <h5>
-                  <LuIndianRupee />
-                  <del>{book?.price}</del>&nbsp;
-                  <LuIndianRupee size={16} className="mb-1" />
-                  100
-                </h5>
+                {book?.offer_price !== "None" ? (
+                  <h5>
+                    <LuIndianRupee />
+                    <del>{book?.price}</del>&nbsp;
+                    <LuIndianRupee size={16} className="mb-1" />
+                    <span>{book.offer_price}</span>
+                  </h5>
+                ) : (
+                  <>
+                    <h5>
+                      <LuIndianRupee size={16} className="mb-1" />
+                      <span>{book.price}</span>
+                    </h5>
+                  </>
+                )}
                 <Review />
               </div>
             </CardComponent>

@@ -15,8 +15,6 @@ export const PurchaseBook_Failure = (payload) => ({
   payload: payload,
 });
 
-
-
 export const Get_PurchasedBook_Request = () => ({
   type: Type.GET_PURCHASEBOOK_REQUEST,
 });

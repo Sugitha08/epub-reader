@@ -3,7 +3,6 @@ import "./App.css";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "primereact/resources/primereact.css";
 import "primereact/resources/themes/lara-light-blue/theme.css";
-import Layout from "./Components/Layout/Layout/Layout";
 import Auth from "./Components/Authentication/Auth";
 import Library from "./Components/Layout/Publisher/Library/Library";
 import Report from "./Components/Layout/Publisher/Report/Report";
@@ -19,10 +18,6 @@ import { ToastContainer } from "react-toastify";
 import OrderSummary from "./Components/Layout/User/Library/OrderSummary";
 import Forgotpswd from "./Components/Authentication/Forgotpswd/Forgotpswd";
 import OrderPlaced from "./Components/Layout/User/Library/OrderPlaced";
-import PubLogin from "./Components/Authentication/PublisherAuth/PubLogin";
-import UserLogin from "./Components/Authentication/UserAuth/UserLogin";
-import PubRegister from "./Components/Authentication/PublisherAuth/PubRegister";
-import UserRegister from "./Components/Authentication/UserAuth/UserRegister";
 import { useSelector } from "react-redux";
 import UserLayout from "./Components/Layout/Layout/UserLayout";
 import PublisherLayout from "./Components/Layout/Layout/PublisherLayout";
@@ -32,6 +27,8 @@ import PubEpubReader from "./Components/Layout/Publisher/Reader/PubEpubReader";
 import UserEpubReader from "./Components/Layout/User/Reader/UserEpubReader";
 import Cart from "./Components/Layout/User/Library/Cart";
 import PublishDashboard from "./Components/Layout/User/PublisherProfile/PublishDashboard";
+import ReaderAuth from "./Components/Authentication/UserAuth";
+import PublisherAuth from "./Components/Authentication/PublisherAuth";
 
 function App() {
   const { PubLoginStatus } = useSelector((state) => state.PublisherLogin);
@@ -42,15 +39,11 @@ function App() {
         <ToastContainer toastClassName="custom-toast" />
         <ScrollToTop />
         <Routes>
-          <Route element={<Layout />}>
-            <Route element={<Auth />}>
-              <Route index element={<UserLogin />} />
-              <Route path="/reader/register" element={<UserRegister />} />
-              <Route path="/publisher/login" element={<PubLogin />} />
-              <Route path="/publisher/register" element={<PubRegister />} />
-            </Route>
-            <Route path="/resetpassword" element={<Forgotpswd />} />
+          <Route element={<Auth />}>
+            <Route index element={<ReaderAuth />} />
+            <Route path="/auth/publisher" element={<PublisherAuth />} />
           </Route>
+          <Route path="/resetpassword" element={<Forgotpswd />} />
           {PubLoginStatus ? (
             <Route element={<PublisherLayout />}>
               {/* publisher */}

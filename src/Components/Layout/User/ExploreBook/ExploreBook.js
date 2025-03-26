@@ -1,20 +1,51 @@
 import React, { useEffect, useState } from "react";
-import { Book_list } from "../../../Datas.js";
 import { InputAdornment, TextField } from "@mui/material";
 import { CiSearch } from "react-icons/ci";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import "../Dashboard/UserDash.css";
 import BookList from "../../../Core-Components/BookList.js";
 import { IoChevronBack } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { GetUserBookbyId_Request } from "../../../../Redux/Action/UserAction/UserBookAction.js";
+import {
+  GetUserBook_Request,
+  GetUserBookbyId_Request,
+} from "../../../../Redux/Action/UserAction/UserBookAction.js";
 import { BookListLoading } from "../../../Core-Components/Loading.js";
 
 function ExploreBook() {
-  const FilteredBook = Book_list;
   const [searchBook, setSearchBook] = useState("");
+  const [Book_list, setBook_List] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+  const searchQuery = searchParams.get("search");
+  const location = useLocation();
+  const publisher = location.state;
+  const {
+    UserBooks,
+    loading: BookLoading,
+    FilteredBook: FilterBook,
+  } = useSelector((state) => state.UserBook);
+  useEffect(() => {
+    dispatch(GetUserBook_Request());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (FilterBook.length > 0) {
+      setBook_List(FilterBook);
+    } else {
+      setBook_List(UserBooks);
+    }
+  }, [UserBooks, FilterBook]);
+
+  const FilteredBook = searchQuery
+    ? Book_list?.filter((book) => book.title === searchQuery)
+    : Book_list;
 
   const handleBookOpen = (bookData) => {
     dispatch(GetUserBookbyId_Request(bookData.book_id));
@@ -33,7 +64,7 @@ function ExploreBook() {
       </Link>
       <div className="allBooks row">
         <div className="d-flex justify-content-between">
-          <h4>Explore Books</h4>
+          <h4>{FilterBook.length > 0 ? publisher : "Explore Books"}</h4>
           <TextField
             placeholder="Search by Title , Author , Genre and more..."
             className="input"
@@ -58,6 +89,7 @@ function ExploreBook() {
           <BookList
             FilteredBook={FilteredBook}
             handleBookOpen={handleBookOpen}
+            BookLoading={BookLoading}
           />
         )}
       </div>

@@ -1,6 +1,6 @@
 import * as Type from "../../ActionType";
 
-export const Upload_book_Request = ({ payload }) => ({
+export const Upload_book_Request = (payload) => ({
   type: Type.UPLOAD_FILE_REQUEST,
   payload: payload,
 });
@@ -16,18 +16,18 @@ export const Upload_book_Failure = (resErr) => ({
 });
 
 export const Get_book_Request = () => ({
-    type: Type.GET_BOOK_REQUEST,
-  });
+  type: Type.GET_BOOK_REQUEST,
+});
 
-  export const Get_book_Success = (resData) => ({
-    type: Type.GET_BOOK_SUCCESS,
-    payload: resData,
-  });
+export const Get_book_Success = (resData) => ({
+  type: Type.GET_BOOK_SUCCESS,
+  payload: resData,
+});
 
-  export const Get_book_Failure = (resErr) => ({
-    type: Type.GET_BOOK_FAILURE,
-    payload: resErr,
-  });
+export const Get_book_Failure = (resErr) => ({
+  type: Type.GET_BOOK_FAILURE,
+  payload: resErr,
+});
 
 export const Get_bookbyId_Request = (id) => ({
   type: Type.GET_BOOK_ID_REQUEST,

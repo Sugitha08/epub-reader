@@ -25,8 +25,10 @@ function* UploadBookSaga({ payload }) {
   try {
     const Response = yield call(Upload_book, payload);
     yield put(Upload_book_Success(Response.data));
+    toast.success(Response.data.message);
   } catch (error) {
     yield put(Upload_book_Failure(error));
+    toast.error(error?.response?.data?.error);
   }
 }
 
@@ -61,8 +63,6 @@ function* DeleteBook({ payload }) {
   try {
     const Response = yield call(deleteBook, payload);
     yield put(DeleteBook_Success(Response.data));
-    console.log(Response.data);
-    
     toast.success(Response.data.message);
   } catch (error) {
     yield put(DeleteBook_Failure(error));

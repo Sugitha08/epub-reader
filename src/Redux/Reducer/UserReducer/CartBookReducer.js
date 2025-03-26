@@ -4,6 +4,7 @@ const initialState = {
   loading: false,
   cartItems: [],
   error: null,
+  cartCount: 0,
 };
 function CartBookReducer(state = initialState, action) {
   switch (action.type) {
@@ -34,6 +35,7 @@ function CartBookReducer(state = initialState, action) {
         ...state,
         loading: false,
         cartItems: action.payload.cart,
+        cartCount: action.payload.total_items,
       };
     case Type.GET_CARTBOOK_FAILURE:
       return {

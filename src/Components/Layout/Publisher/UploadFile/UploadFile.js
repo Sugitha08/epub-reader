@@ -26,7 +26,7 @@ function UploadFile() {
   const { Category } = useSelector((state) => state.category);
   const location = useLocation();
   const bookData = location.state?.BookData;
-
+  
   const initialValues = {
     title: bookData?.title || "",
     author: bookData?.author || "",
@@ -39,6 +39,7 @@ function UploadFile() {
     epubFile: null,
     bookDis: bookData?.bookDis || "",
     coverImage: null,
+    ImageFile: null,
   };
 
   const validation = Yup.object().shape({
@@ -70,6 +71,9 @@ function UploadFile() {
       setPickedImage(null);
       return;
     }
+    if (pickImage) {
+      formik.setFieldValue("coverImage", pickImage);
+    }
     const fileReader = new FileReader();
 
     fileReader.onload = () => {
@@ -85,21 +89,24 @@ function UploadFile() {
     setOpenAddCategory(false);
   };
   const handleUploadFile = (value) => {
-    const payload = new FormData();
-    payload.append("title", value.title);
-    payload.append("author", value.author);
-    payload.append("isbn", value.isbn);
-    payload.append("category_id", value.selectedCategory);
-    payload.append(
-      "cover_image",
-      pickedImage ? pickedImage : value.coverImage ? value.coverImage : ""
-    );
-    payload.append("language", value.selectedLang);
-    payload.append("genre", value.Genre);
-    payload.append("e_book_type", ".epub");
-    payload.append("price", value.price);
-    payload.append("rental_price", value.rental_price);
-    payload.append("file", value.epubFile);
+    const payload = {
+      title: value.title,
+      author: value.author,
+      isbn: value.isbn,
+      category_id: value.selectedCategory,
+
+      cover_image: value.ImageFile
+        ? value.ImageFile
+        : value.coverImage
+        ? value.coverImage
+        : "",
+      language: value.selectedLang,
+      genre: value.Genre,
+      e_book_type: ".epub",
+      price: value.price,
+      rental_price: value.rental_price,
+      file: value.epubFile,
+    };
 
     if (bookData) {
       dispatch(Upload_book_Request(bookData.id, payload));
@@ -123,13 +130,6 @@ function UploadFile() {
       id: cat.category_id,
       value: cat.category_id,
       label: cat.category_name,
-    })) || [];
-
-  const langOptions =
-    languages?.map((lang, index) => ({
-      id: index,
-      value: lang.value,
-      label: lang.label,
     })) || [];
 
   const handleFileUpload = (event) => {
@@ -401,30 +401,26 @@ function UploadFile() {
           </div>
           <div className="col-lg-6 col-sm-12 col-md-6">
             <Autocomplete
-              options={langOptions}
-              getOptionLabel={(option) => option.label}
-              filterOptions={(options, { inputValue }) =>
-                inputValue.length >= 2 // Show options only after at least 1 character is typed
-                  ? options.filter((option) =>
-                      option.label
-                        .toLowerCase()
-                        .includes(inputValue.toLowerCase())
-                    )
-                  : []
-              }
-              open={langChar.length >= 1}
-              onClose={() => setLangChar("")}
-              value={
-                langOptions.find(
-                  (option) => option.id === formik.values.selectedLang
-                ) || null
-              }
-              onInputChange={(event, newInputValue) =>
-                setLangChar(newInputValue)
-              }
-              onChange={(event, newValue) =>
-                formik.setFieldValue("selectedLang", newValue?.id || "")
-              }
+              options={languages}
+              getOptionLabel={(option) => option.label ?? option}
+              // filterOptions={(options, { inputValue }) =>
+              //   inputValue.length >= 2 // Show options only after at least 1 character is typed
+              //     ? options.filter((option) =>
+              //         option.label
+              //           .toLowerCase()
+              //           .includes(inputValue.toLowerCase())
+              //       )
+              //     : []
+              // }
+              // open={langChar.length >= 1}
+              // onClose={() => setLangChar("")}
+              value={formik.values.selectedLang}
+              // onInputChange={(event, newInputValue) =>
+              //   setLangChar(newInputValue)
+              // }
+              onChange={(event, newValue) => {
+                formik.setFieldValue("selectedLang", newValue?.label || "");
+              }}
               onBlur={formik.handleBlur}
               disableCloseOnSelect={false}
               name="selectedLang"
@@ -465,7 +461,7 @@ function UploadFile() {
                 input: {
                   endAdornment: (
                     <InputAdornment
-                      position="emd"
+                      position="end"
                       style={{ cursor: "pointer" }}
                     >
                       {/* <MdEmail /> */}

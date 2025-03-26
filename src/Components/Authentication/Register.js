@@ -66,15 +66,6 @@ function Register({ redirectTologin, handleReg }) {
     };
     handleReg(payload);
   };
-  useEffect(() => {
-    console.log(redirectTologin, UserRegStatus);
-
-    if (RegStatus || UserRegStatus) {
-      redirectTologin();
-    } else {
-      return;
-    }
-  }, [RegStatus, UserRegStatus]);
 
   const formik = useFormik({
     initialValues: initialState,
@@ -82,47 +73,91 @@ function Register({ redirectTologin, handleReg }) {
     onSubmit: (values) => handleRegister(values),
   });
 
+  useEffect(() => {
+    if (RegStatus || UserRegStatus) {
+      redirectTologin();
+    } else {
+      return;
+    }
+  }, [RegStatus, UserRegStatus]);
+
   return (
     <>
       <h3 className="auth-title my-3">CREATE AN ACCOUNT</h3>
       <div className="login-form">
         <form className="form" onSubmit={formik.handleSubmit}>
-          <div className="my-2">
-            <TextField
-              fullWidth
-              type="text"
-              label="UserName"
-              variant="outlined"
-              className={`input mb-0 ${
-                formik.errors.userName && formik.touched.userName
-                  ? "is-invalid"
-                  : formik.touched.userName && !formik.errors.userName
-                  ? "is-valid"
-                  : ""
-              }`}
-              name="userName"
-              value={formik.values.userName}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              size="small"
-              slotProps={{
-                input: {
-                  endAdornment: (
-                    <InputAdornment
-                      position="end"
-                      style={{ cursor: "pointer" }}
-                    >
-                      <FaUser />
-                    </InputAdornment>
-                  ),
-                },
-              }}
-            />
-            {formik.errors.userName && formik.touched.userName && (
-              <p className="invalid-feedback m-0">{formik.errors.userName}</p>
-            )}
+          <div className="row">
+            <div className="my-2 col-6">
+              <TextField
+                fullWidth
+                type="text"
+                label="UserName"
+                variant="outlined"
+                className={`input mb-0 ${
+                  formik.errors.userName && formik.touched.userName
+                    ? "is-invalid"
+                    : formik.touched.userName && !formik.errors.userName
+                    ? "is-valid"
+                    : ""
+                }`}
+                name="userName"
+                value={formik.values.userName}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                size="small"
+                slotProps={{
+                  input: {
+                    endAdornment: (
+                      <InputAdornment
+                        position="end"
+                        style={{ cursor: "pointer" }}
+                      >
+                        <FaUser />
+                      </InputAdornment>
+                    ),
+                  },
+                }}
+              />
+              {formik.errors.userName && formik.touched.userName && (
+                <p className="invalid-feedback m-0">{formik.errors.userName}</p>
+              )}
+            </div>
+            <div className="my-2 col-6">
+              <TextField
+                fullWidth
+                label="Phone Number"
+                variant="outlined"
+                name="phoneNum"
+                className={`input mb-0 ${
+                  formik.errors.phoneNum && formik.touched.phoneNum
+                    ? "is-invalid"
+                    : formik.touched.phoneNum && !formik.errors.phoneNum
+                    ? "is-valid"
+                    : ""
+                }`}
+                value={formik.values.phoneNum}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                size="small"
+                slotProps={{
+                  input: {
+                    endAdornment: (
+                      <InputAdornment
+                        position="end"
+                        style={{ cursor: "pointer" }}
+                      >
+                        <FaPhoneAlt />
+                      </InputAdornment>
+                    ),
+                  },
+                }}
+              />
+              {formik.errors.phoneNum && formik.touched.phoneNum && (
+                <p className="invalid-feedback m-0">{formik.errors.phoneNum}</p>
+              )}
+            </div>
           </div>
-          <div className="my-2">
+          <div className="my-2" style={{ width: "100%" }}>
             <TextField
               fullWidth
               label="Email"
@@ -156,12 +191,12 @@ function Register({ redirectTologin, handleReg }) {
               <p className="invalid-feedback m-0">{formik.errors.email}</p>
             )}
           </div>
-          <div className="my-2">
+          <div className="my-2" style={{ width: "100%" }}>
             <TextField
               fullWidth
-              label="Phone Number"
+              label="City"
+              name="city"
               variant="outlined"
-              name="phoneNum"
               className={`input mb-0 ${
                 formik.errors.phoneNum && formik.touched.phoneNum
                   ? "is-invalid"
@@ -169,7 +204,7 @@ function Register({ redirectTologin, handleReg }) {
                   ? "is-valid"
                   : ""
               }`}
-              value={formik.values.phoneNum}
+              value={formik.values.city}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               size="small"
@@ -180,129 +215,111 @@ function Register({ redirectTologin, handleReg }) {
                       position="end"
                       style={{ cursor: "pointer" }}
                     >
-                      <FaPhoneAlt />
+                      <FaLocationDot />
                     </InputAdornment>
                   ),
                 },
               }}
             />
-            {formik.errors.phoneNum && formik.touched.phoneNum && (
-              <p className="invalid-feedback m-0">{formik.errors.phoneNum}</p>
+            {formik.errors.city && formik.touched.city && (
+              <p className="invalid-feedback m-0">{formik.errors.city}</p>
             )}
           </div>
-          <TextField
-            fullWidth
-            label="City"
-            name="city"
-            variant="outlined"
-            className={`input mb-0 ${
-              formik.errors.phoneNum && formik.touched.phoneNum
-                ? "is-invalid"
-                : formik.touched.phoneNum && !formik.errors.phoneNum
-                ? "is-valid"
-                : ""
-            }`}
-            value={formik.values.city}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            size="small"
-            slotProps={{
-              input: {
-                endAdornment: (
-                  <InputAdornment position="end" style={{ cursor: "pointer" }}>
-                    <FaLocationDot />
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-          {formik.errors.city && formik.touched.city && (
-            <p className="invalid-feedback m-0">{formik.errors.city}</p>
-          )}
-          <TextField
-            fullWidth
-            type={passwordVisible ? "text" : "password"}
-            label="Password"
-            name="password"
-            variant="outlined"
-            className={`input mb-0 ${
-              formik.errors.password && formik.touched.password
-                ? "is-invalid"
-                : formik.touched.password && !formik.errors.password
-                ? "is-valid"
-                : ""
-            }`}
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            size="small"
-            slotProps={{
-              input: {
-                endAdornment: (
-                  <InputAdornment position="end" style={{ cursor: "pointer" }}>
-                    {passwordVisible ? (
-                      <FaEyeSlash onClick={() => setPasswordVisibile(false)} />
-                    ) : (
-                      <FaEye onClick={() => setPasswordVisibile(true)} />
-                    )}
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-          {formik.errors.password && formik.touched.password && (
-            <p className="invalid-feedback m-0">{formik.errors.password}</p>
-          )}
-          <TextField
-            fullWidth
-            type={passwordCVisible ? "text" : "password"}
-            label="Re-Enter Password"
-            variant="outlined"
-            className={`input mb-0 ${
-              formik.errors.repassword && formik.touched.repassword
-                ? "is-invalid"
-                : formik.touched.repassword && !formik.errors.repassword
-                ? "is-valid"
-                : ""
-            }`}
-            name="repassword"
-            value={formik.values.repassword}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            size="small"
-            slotProps={{
-              input: {
-                endAdornment: (
-                  <InputAdornment position="end" style={{ cursor: "pointer" }}>
-                    {passwordCVisible ? (
-                      <FaEyeSlash onClick={() => setPasswordCVisibile(false)} />
-                    ) : (
-                      <FaEye onClick={() => setPasswordCVisibile(true)} />
-                    )}
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-          {formik.errors.repassword && formik.touched.repassword && (
-            <p className="invalid-feedback m-0">{formik.errors.repassword}</p>
-          )}
-          {/* <p>
-            <a href="" className="m-2">
-              Forgot Password
-            </a>
-          </p> */}
-          <div className="mt-4">
-            <CustomButton
-              type="submit"
-              className="w-100 button"
-              loading={pubRegLoad ? true : false}
-            >
-              SIGN IN
-            </CustomButton>
+          <div className="my-2" style={{ width: "100%" }}>
+            <TextField
+              fullWidth
+              type={passwordVisible ? "text" : "password"}
+              label="Password"
+              name="password"
+              variant="outlined"
+              className={`input mb-0 ${
+                formik.errors.password && formik.touched.password
+                  ? "is-invalid"
+                  : formik.touched.password && !formik.errors.password
+                  ? "is-valid"
+                  : ""
+              }`}
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              size="small"
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment
+                      position="end"
+                      style={{ cursor: "pointer" }}
+                    >
+                      {passwordVisible ? (
+                        <FaEyeSlash
+                          onClick={() => setPasswordVisibile(false)}
+                        />
+                      ) : (
+                        <FaEye onClick={() => setPasswordVisibile(true)} />
+                      )}
+                    </InputAdornment>
+                  ),
+                },
+              }}
+            />
+            {formik.errors.password && formik.touched.password && (
+              <p className="invalid-feedback m-0">{formik.errors.password}</p>
+            )}
           </div>
+          <div className="my-2" style={{ width: "100%" }}>
+            <TextField
+              fullWidth
+              type={passwordCVisible ? "text" : "password"}
+              label="Re-Enter Password"
+              variant="outlined"
+              className={`input mb-0 ${
+                formik.errors.repassword && formik.touched.repassword
+                  ? "is-invalid"
+                  : formik.touched.repassword && !formik.errors.repassword
+                  ? "is-valid"
+                  : ""
+              }`}
+              name="repassword"
+              value={formik.values.repassword}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              size="small"
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment
+                      position="end"
+                      style={{ cursor: "pointer" }}
+                    >
+                      {passwordCVisible ? (
+                        <FaEyeSlash
+                          onClick={() => setPasswordCVisibile(false)}
+                        />
+                      ) : (
+                        <FaEye onClick={() => setPasswordCVisibile(true)} />
+                      )}
+                    </InputAdornment>
+                  ),
+                },
+              }}
+            />
+            {formik.errors.repassword && formik.touched.repassword && (
+              <p className="invalid-feedback m-0">{formik.errors.repassword}</p>
+            )}
+          </div>
+
+          <CustomButton
+            type="submit"
+            className="w-100 button my-2"
+            loading={pubRegLoad || UserRegLoad ? true : false}
+          >
+            SIGN IN
+          </CustomButton>
         </form>
-        <p className="or my-2">
+        <p
+          className="or my-0"
+          style={{ width: "80%", marginLeft: "auto", marginRight: "auto" }}
+        >
           <span className="line" />
           OR
           <span className="line" />
@@ -314,9 +331,7 @@ function Register({ redirectTologin, handleReg }) {
           </p>
           <p>
             Already have an Account?
-            <span className="navigationLink" onClick={() => redirectTologin()}>
-              Login
-            </span>
+            <span className="navigationLink" onClick={redirectTologin}>Login</span>
           </p>
         </div>
       </div>

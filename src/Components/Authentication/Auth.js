@@ -1,28 +1,44 @@
-import React, { useState } from "react";
-import vector from "../Assets/image.jpg";
-import "./Login.css";
-import Register from "./Register";
-import Login from "./Login";
-import { Outlet } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import "./Auth.css";
+
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 function Auth() {
+  const navigate = useNavigate();
+  const [readactive, setReadActive] = useState(false);
+  const [pubactive, setPubActive] = useState(false);
+  const location = useLocation();
+  useEffect(() => {
+    if (location.pathname === "/auth/publisher") {
+      setPubActive(true);
+      setReadActive(false);
+    } else if (location.pathname === "/") {
+      setPubActive(false);
+      setReadActive(true);
+    }
+  }, [location]);
   return (
     <>
-      <div
-        className="row auth-container align-items-center "
-        style={{ height: "100%" }}
-      >
-        <div className="col-sm-12 col-md-6 col-lg-6 vector-img p-4 text-center">
-          <img
-            src={vector}
-            alt="Vector"
-            className="mx-auto"
-            style={{ width: "85%", height: "80%", borderRadius: "10px" }}
-          />
+      <div className="auth-container">
+        <div className="role-nav">
+          <div className="role-btn">
+            <div
+              role="button"
+              onClick={() => navigate("/")}
+              className={`${readactive ? "active" : ""}`}
+            >
+              READER
+            </div>
+            <div
+              role="button "
+              onClick={() => navigate("/auth/publisher")}
+              className={`${pubactive ? "active" : ""}`}
+            >
+              PUBLISHER
+            </div>
+          </div>
         </div>
-        <div className="col-sm-12 col-md-6 col-lg-6 login-wrapper">
-          <Outlet />
-        </div>
+        <Outlet />
       </div>
     </>
   );

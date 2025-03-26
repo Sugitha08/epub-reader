@@ -23,8 +23,8 @@ function CustomButton({
           fontWeight: "bold",
           fontSize: "15px",
           "&:hover": {
-            backgroundColor: "#6f658f",
-            color: "#FFFFFF",
+            backgroundColor: "rgb(198.64, 199.51, 203.98)",
+            color: "rgb(61.04, 61.11, 80.78)",
           },
           ...sx,
           backgroundColor: sx.backgroundColor || "#4B4363",

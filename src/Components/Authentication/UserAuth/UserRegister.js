@@ -4,16 +4,17 @@ import { useNavigate } from "react-router-dom";
 import { User_Register_Request } from "../../../Redux/Action/UserAction/UserAuthAction";
 import { useDispatch } from "react-redux";
 
-function UserRegister() {
+function UserRegister({ setAnimationActive }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleNavToUserLogin = () => {
-    navigate("/");
+    setAnimationActive(false);
   };
 
   const handleReaderRegister = (payload) => {
     dispatch(User_Register_Request(payload));
   };
+
   return (
     <Register
       redirectTologin={handleNavToUserLogin}

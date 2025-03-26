@@ -21,6 +21,7 @@ function* AddItemToCart({ payload }) {
     const Response = yield call(Add_to_Cart, payload);
     toast.success(Response?.data?.message);
     yield put(AddtoCart_Success(Response.data));
+    yield put(GetCartItem_Request());
   } catch (error) {
     toast.error(error?.response?.data?.error);
     yield put(AddtoCart_Failure(error));

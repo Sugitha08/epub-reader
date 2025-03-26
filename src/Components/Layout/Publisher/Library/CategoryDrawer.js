@@ -14,7 +14,6 @@ function CategoryDrawer({ setSelectedCategory }) {
     dispatch(Get_Cat_Request());
   }, []);
 
-
   return (
     <div>
       <h4
@@ -33,9 +32,9 @@ function CategoryDrawer({ setSelectedCategory }) {
         style={{ rowGap: "15px", padding: "0 12px" }}
       >
         {catLoad ? (
-          <div className="d-flex flex-column mt-2" style={{rowGap:"30px"}}>
-            {Array.from(new Array(6)).map(() => (
-              <div>
+          <div className="d-flex flex-column mt-2" style={{ rowGap: "30px" }}>
+            {Array.from(new Array(6)).map((index) => (
+              <div key={index}>
                 <Skeleton animation="wave" height={30} width="80%" />
               </div>
             ))}
@@ -46,7 +45,7 @@ function CategoryDrawer({ setSelectedCategory }) {
               role="button"
               className="category p-1"
               style={{ borderBottom: "1px solid #f0e9e9" }}
-              onClick={()=>setSelectedCategory(null)}
+              onClick={() => setSelectedCategory(null)}
             >
               <Typography
                 className="ps-2"

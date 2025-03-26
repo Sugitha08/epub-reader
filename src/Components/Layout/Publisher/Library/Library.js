@@ -12,6 +12,8 @@ import {
   Get_bookbycat_Request,
   Get_bookbyId_Request,
 } from "../../../../Redux/Action/PublisherAction/BookAction.js";
+import CustomButton from "../../../Core-Components/Button.js";
+import AddReader from "./AddReader.js";
 
 function Library() {
   const [searchBook, setSearchBook] = useState("");
@@ -19,8 +21,12 @@ function Library() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { BookDataList, filterBook ,loading:BookLoading } = useSelector((state) => state.BookData);
-  console.log(BookDataList);
+  const {
+    BookDataList,
+    filterBook,
+    loading: BookLoading,
+  } = useSelector((state) => state.BookData);
+  const [addReaderOpen, setAddReadOpen] = useState(false);
 
   useEffect(() => {
     dispatch(Get_book_Request());
@@ -65,6 +71,14 @@ function Library() {
     dispatch(Get_bookbyId_Request(bookData.book_id));
   };
 
+  const handleAddReaderOpen = () => {
+    setAddReadOpen(true);
+  };
+  const handleAddReaderClose = () => {
+    setAddReadOpen(false);
+  };
+
+  const handleManageReaderOpen = () => {};
 
   return (
     <>
@@ -80,25 +94,54 @@ function Library() {
       </span>
       <div className="library-container">
         <div className="publish-header library-header">
-          <h4 className="mb-0">My Library</h4>
-          <TextField
-            placeholder="Search by Title , Author , Genre and more..."
-            // variant="outlined"
-            className="input"
-            value={searchBook}
-            onChange={(e) => setSearchBook(e.target.value)}
-            size="small"
-            sx={{ width: "400px", backgroundColor: "#f6f6f6" }}
-            slotProps={{
-              input: {
-                endAdornment: (
-                  <InputAdornment position="end" style={{ cursor: "pointer" }}>
-                    <CiSearch size={22} />
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
+          <div>
+            <h4 className="mb-0">My Library</h4>
+          </div>
+          <div className="d-flex align-items-center gap-3">
+            <div>
+              <CustomButton
+                sx={{
+                  padding: "5px 10px",
+                  fontSize: "14px",
+                }}
+                onClick={handleAddReaderOpen}
+              >
+                Add reader
+              </CustomButton>
+            </div>
+            <div>
+              <CustomButton
+                sx={{
+                  padding: "5px 10px",
+                  fontSize: "14px",
+                }}
+                onClick={handleManageReaderOpen}
+              >
+                Manage Reader
+              </CustomButton>
+            </div>
+            <TextField
+              placeholder="Search by Title , Author , Genre and more..."
+              // variant="outlined"
+              className="input"
+              value={searchBook}
+              onChange={(e) => setSearchBook(e.target.value)}
+              size="small"
+              sx={{ width: "400px", backgroundColor: "#f6f6f6" }}
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment
+                      position="end"
+                      style={{ cursor: "pointer" }}
+                    >
+                      <CiSearch size={22} />
+                    </InputAdornment>
+                  ),
+                },
+              }}
+            />
+          </div>
         </div>
         <div className="row">
           <div
@@ -107,7 +150,7 @@ function Library() {
           >
             <CategoryDrawer setSelectedCategory={setSelectedCategory} />
           </div>
-          <div className="col-10 mt-3" style={{ paddingLeft: "2.5rem" }}>
+          <div className="col-10 mt-2" style={{ paddingLeft: "2.5rem" }}>
             <BookList
               FilteredBook={bookToShow}
               handleBookOpen={handleBookOpen}
@@ -116,6 +159,11 @@ function Library() {
           </div>
         </div>
       </div>
+      <AddReader
+        addReaderOpen={addReaderOpen}
+        handleAddReaderClose={handleAddReaderClose}
+        selectedCategory={selectedCategory}
+      />
     </>
   );
 }

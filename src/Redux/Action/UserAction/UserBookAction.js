@@ -28,3 +28,18 @@ export const GetUserBookbyId_Failure = (payload) => ({
   type: Type.GET_USERBOOKBYID_FAILURE,
   payload: payload,
 });
+
+export const GetUserBookbyCat_Request = (payload) => ({
+  type: Type.GET_USERBOOKBYCAT_REQUEST,
+  payload: payload,
+});
+
+export const GetUserBookbyCat_Success = (payload) => ({
+  type: Type.GET_USERBOOKBYCAT_SUCCESS,
+  payload: payload,
+});
+
+export const GetUserBookbyCat_Failure = (payload) => ({
+  type: Type.GET_USERBOOKBYCAT_FAILURE,
+  payload: payload,
+});

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Autocomplete, InputAdornment, TextField, Badge } from "@mui/material";
 import { CiSearch } from "react-icons/ci";
@@ -7,29 +7,62 @@ import { IoCartOutline } from "react-icons/io5";
 import { FaHeart } from "react-icons/fa6";
 import MenuItems from "../../Core-Components/MenuItem";
 import { FaRegUserCircle } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { User_Logout } from "../../../Redux/Action/UserAction/UserAuthAction";
 import { MdLibraryBooks } from "react-icons/md";
 import UserFilterMenu from "./UserFilterMenu";
 import Profile from "../Profile/Profile";
+import { Book_list } from "../../Datas";
+import { Get_readerSub_Request } from "../../../Redux/Action/UserAction/SubscriptionAction";
+import { GetUserBookbyCat_Request } from "../../../Redux/Action/UserAction/UserBookAction";
 
-function UserHeader({cartCount}) {
+function UserHeader() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedLang, setSelectedLang] = useState("EN");
+  const [selectedSub, setSelectedSub] = useState();
   const [openProfileMenu, setOpenProfileMenu] = useState(false);
+  const [showSearchOption, setShowSearchOption] = useState(false);
+  const [cart_Count, setCart_Count] = useState(0);
+  const [subscribed, setSubScribed] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleAccountMenuOpen = (event) => {
     setOpenProfileMenu(event.currentTarget);
   };
   const [openProfileDetails, setProfileDetails] = useState(false);
+  const { cartCount } = useSelector((state) => state.CartBook);
+  const { SubScribedBooks } = useSelector((state) => state.SubscribeBook);
   const handleProfileDetailClose = () => {
     setProfileDetails(false);
   };
-  const options = [
-    { label: "Author" },
-    { label: "Romance" },
-    { label: "Fantacy" },
+  useEffect(() => {
+    setCart_Count(cartCount);
+  }, [cartCount]);
+  useEffect(() => {
+    setSubScribed(SubScribedBooks);
+  }, [SubScribedBooks]);
+
+  const SubOption = subscribed?.map((sub) => ({
+    id: sub.category_id,
+    value: sub.category_id,
+    label: `${
+      sub.category_name?.length > 10
+        ? sub.category_name?.split(" ").slice(0, 12).join(" ") + "..."
+        : sub.category_name
+    } - ${
+      sub.publisher_name?.length > 10
+        ? sub.publisher_name?.split(" ").slice(0, 12).join(" ") + "..."
+        : sub.publisher_name
+    }`,
+  }));
+
+  useEffect(() => {
+    dispatch(Get_readerSub_Request());
+  }, []);
+
+  const uniqueOptions = [
+    ...new Set(
+      Book_list.flatMap((book) => [book.author, book.title, book.genre])
+    ),
   ];
   const handleProfileOpen = () => {
     setProfileDetails(true);
@@ -43,6 +76,32 @@ function UserHeader({cartCount}) {
 
   const handleClose = () => {
     setOpenProfileMenu(null);
+  };
+
+  useEffect(() => {
+    if (window.location.pathname === "/user/dash/explore") {
+      return;
+    }
+    setSearchQuery(""); // Clear search query when component mounts
+  }, [window.location.pathname]);
+
+  const handleSearchChange = (event, newValue) => {
+    if (newValue) {
+      setSearchQuery(newValue);
+      setShowSearchOption(false);
+      if (window.location.pathname !== "/user/dash/explore") {
+        navigate(`/user/dash/explore?search=${newValue}`);
+      }
+    }
+  };
+
+  const handleSubChange = (event, newValue) => {
+    console.log(newValue);
+    if (newValue) {
+      setSelectedSub(newValue?.id);
+      dispatch(GetUserBookbyCat_Request(newValue?.id));
+      navigate("/user/dash/explore", { state: newValue.label });
+    }
   };
 
   return (
@@ -67,10 +126,17 @@ function UserHeader({cartCount}) {
         </div>
         <div className="userHeader">
           <Autocomplete
-            options={options}
+            options={uniqueOptions}
             value={searchQuery}
-            onChange={(event, newValue) => setSearchQuery(newValue)}
-            // disableClearable
+            open={showSearchOption}
+            onClose={() => setShowSearchOption(false)}
+            onChange={handleSearchChange}
+            onInputChange={(event) =>
+              event?.target?.value?.length > 2
+                ? setShowSearchOption(true)
+                : setShowSearchOption(false)
+            }
+            disableClearable
             popupIcon={null}
             renderInput={(params) => (
               <TextField
@@ -120,45 +186,42 @@ function UserHeader({cartCount}) {
         >
           <div className="language-field">
             <Autocomplete
-              options={[
-                { id: 1, value: "EN", label: "EN" },
-                { id: 2, value: "ES", label: "ES" },
-                { id: 3, value: "FR", label: "FR" },
-              ]}
+              options={SubOption}
               disableClearable
-              value={selectedLang}
-              onChange={(event, newValue) => setSelectedLang(newValue)}
+              value={selectedSub}
+              onChange={handleSubChange}
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  InputProps={{
-                    ...params.InputProps,
-                    startAdornment: (
-                      <InputAdornment
-                        position="start"
-                        sx={{ marginRight: "0px" }}
-                      >
-                        <MdOutlineLanguage
-                          size={20}
-                          style={{ color: "#f6f6f6" }}
-                        />
-                      </InputAdornment>
-                    ),
-                  }}
+                  placeholder="General"
+                  // InputProps={{
+                  //   ...params.InputProps,
+                  //   startAdornment: (
+                  //     <InputAdornment
+                  //       position="start"
+                  //       sx={{ marginRight: "0px" }}
+                  //     >
+                  //       <MdOutlineLanguage
+                  //         size={20}
+                  //         style={{ color: "#f6f6f6" }}
+                  //       />
+                  //     </InputAdornment>
+                  //   ),
+                  // }}
                 />
               )}
               sx={{
                 padding: "0px",
                 borderRadius: "5px",
-                width: "90px",
+                width: "250px",
                 height: "38px",
                 "& .MuiTextField-root": {
                   padding: "0px",
-                  width: "100px",
+                  width: "250px",
                   height: "38px",
                 },
                 "& .MuiOutlinedInput-root": {
-                  width: "90px",
+                  width: "250px",
                   height: "38px",
                   color: "#f6f6f6",
                   "& fieldset": {
@@ -179,7 +242,7 @@ function UserHeader({cartCount}) {
           </div>
           <div
             className="wishlist"
-            style={{ cursor: "pointer",userSelect:"none" }}
+            style={{ cursor: "pointer", userSelect: "none" }}
             onClick={() => navigate("/user/dash/detail/wishlist")}
           >
             <FaHeart
@@ -191,7 +254,7 @@ function UserHeader({cartCount}) {
           </div>
           <div
             className="profile"
-            style={{ cursor: "pointer",userSelect:"none" }}
+            style={{ cursor: "pointer", userSelect: "none" }}
             role="button"
             onClick={() => navigate("/user/dash/detail/library")}
           >
@@ -204,7 +267,7 @@ function UserHeader({cartCount}) {
           </div>
           <div
             className="profile"
-            style={{ cursor: "pointer",userSelect:"none" }}
+            style={{ cursor: "pointer", userSelect: "none" }}
             role="button"
             aria-controls={openProfileMenu ? "basic-menu" : undefined}
             aria-haspopup="true"
@@ -230,11 +293,11 @@ function UserHeader({cartCount}) {
           />
           <div
             className="cart"
-            style={{ cursor: "pointer",userSelect:"none" }}
+            style={{ cursor: "pointer", userSelect: "none" }}
             onClick={() => navigate("/user/dash/detail/order")}
           >
             <Badge
-              badgeContent={cartCount}
+              badgeContent={cart_Count}
               color="primary"
               size="small"
               sx={{

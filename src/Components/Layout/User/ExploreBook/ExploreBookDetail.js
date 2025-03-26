@@ -109,7 +109,11 @@ function ExploreBookDetail() {
                   padding: "6px 12px",
                   fontSize: "14px",
                 }}
-                onClick={() => navigate("/user/dash/detail/order/summary")}
+                onClick={() =>
+                  navigate(
+                    `/user/dash/detail/order/summary?bookId=${BookDetails.book_id}`
+                  )
+                }
               >
                 Buy Now
               </CustomButton>

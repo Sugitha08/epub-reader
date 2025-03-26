@@ -11,18 +11,18 @@ import { useDispatch, useSelector } from "react-redux";
 
 function UserLibrary() {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
-  const handlePreviewOpen = () => {
-    // navigate("/book/preview");
+  const dispatch = useDispatch();
+  const handlePreviewOpen = (BookId) => {
+    navigate(`/user/bookpreview?BookId=${BookId}`);
   };
   const { purchasedBook } = useSelector((state) => state.PurchasedBook);
-    useEffect(() => {
-      dispatch(Get_PurchasedBook_Request());
-    }, [dispatch]);
+  useEffect(() => {
+    dispatch(Get_PurchasedBook_Request());
+  }, [dispatch]);
   return (
     <>
       <ProductList Book_list={purchasedBook} title="My Library">
-        {() => (
+        {(BookId) => (
           <div
             className="mt-1 d-flex flex-column justify-content-between"
             style={{ height: "100%" }}
@@ -39,15 +39,6 @@ function UserLibrary() {
               </Box>
             </div>
             <div className="d-flex justify-content-end mb-2">
-              {/* <CustomButton
-              sx={{
-                backgroundColor: "#BA0E0E",
-                padding: "2px 8px",
-                fontSize: "12px",
-              }}
-            >
-              Cancel
-            </CustomButton> */}
               <CustomButton
                 className="mx-2"
                 sx={{
@@ -64,7 +55,7 @@ function UserLibrary() {
                   padding: "2px 8px",
                   fontSize: "12px",
                 }}
-                onClick={handlePreviewOpen}
+                onClick={() => handlePreviewOpen(BookId)}
               >
                 Continue Reading
               </CustomButton>

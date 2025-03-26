@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Publisher_Register_Request } from "../../../Redux/Action/PublisherAction/PuAuthAction";
 
-function PubRegister() {
+function PubRegister({ setAnimationActive }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleNavToPubLogin = () => {
-    navigate("/publisher/login");
+    setAnimationActive(false);
   };
 
   const PubLRegAction = (payload) => {
