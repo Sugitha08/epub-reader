@@ -22,17 +22,19 @@ function UserLibrary() {
   return (
     <>
       <ProductList Book_list={purchasedBook} title="My Library">
-        {(BookId) => (
+        {(Book) => (
           <div
             className="mt-1 d-flex flex-column justify-content-between"
             style={{ height: "100%" }}
           >
+          {console.log(Book) }
+
             <div className="float-right">
               <Box sx={{ position: "relative", zIndex: "0" }}>
                 <Gauge
                   width={100}
                   height={100}
-                  value={60}
+                  value={Book?.percentage}
                   text={({ value }) => `${value}%`}
                   sx={{ float: "right" }}
                 />
@@ -55,7 +57,7 @@ function UserLibrary() {
                   padding: "2px 8px",
                   fontSize: "12px",
                 }}
-                onClick={() => handlePreviewOpen(BookId)}
+                onClick={() => handlePreviewOpen(Book?.book_id)}
               >
                 Continue Reading
               </CustomButton>

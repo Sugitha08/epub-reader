@@ -63,7 +63,7 @@ function ProductList({ title, Book_list, children, Footer }) {
                 </div>
                 <div className="col-5">
                   {children &&
-                    children(book.wishlist_id || book.cart_id || book.book_id)}
+                    children(book.wishlist_id || book.cart_id || book)}
                 </div>
               </div>
             </div>

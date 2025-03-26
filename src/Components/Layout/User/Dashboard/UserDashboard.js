@@ -29,12 +29,8 @@ function UserDashboard() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (FilterBook.length > 0) {
-      setFilteredBook(FilterBook);
-    } else {
-      setFilteredBook(UserBooks);
-    }
-  }, [UserBooks, FilterBook]);
+    setFilteredBook(UserBooks);
+  }, [UserBooks]);
 
   const handleBookOpen = (bookData) => {
     dispatch(GetUserBookbyId_Request(bookData.book_id));

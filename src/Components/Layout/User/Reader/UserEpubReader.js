@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactEpubReader from "../../ReactReader/ReactReader";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -45,7 +45,6 @@ function UserEpubReader() {
   const [notesSlideOpen, setNotesSlideOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(null);
   let speechSynthesis = window.speechSynthesis;
-  const renditionref = useRef(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [popoverPosition, setPopoverPosition] = useState({ top: 0, left: 0 });
   const [selectedText, setSelectedText] = useState(null);
@@ -363,8 +362,6 @@ function UserEpubReader() {
   //Hightlight Previous Highlights
   useEffect(() => {
     if (rendition && allHighlight?.length > 0) {
-      console.log(allHighlight);
-
       allHighlight?.forEach((highlight) => {
         rendition?.annotations.add(
           "highlight",
@@ -640,10 +637,10 @@ function UserEpubReader() {
                     <div
                       style={{ float: "right" }}
                       className="linktoHl"
-                      // onClick={() => {
-                      //   setLocation(highlight?.cfiRange);
-                      //   setHLSlideOpen(false);
-                      // }}
+                      onClick={() => {
+                        setLocation(note?.note_range);
+                        setHLSlideOpen(false);
+                      }}
                     >
                       Go
                     </div>

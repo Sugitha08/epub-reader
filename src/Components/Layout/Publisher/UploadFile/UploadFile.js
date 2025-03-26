@@ -26,7 +26,7 @@ function UploadFile() {
   const { Category } = useSelector((state) => state.category);
   const location = useLocation();
   const bookData = location.state?.BookData;
-  
+
   const initialValues = {
     title: bookData?.title || "",
     author: bookData?.author || "",
@@ -211,9 +211,9 @@ function UploadFile() {
               name="author"
               variant="outlined"
               className={`input mb-0 ${
-                formik.errors.title && formik.touched.title
+                formik.errors.author && formik.touched.author
                   ? "is-invalid"
-                  : formik.touched.title && !formik.errors.title
+                  : formik.touched.author && !formik.errors.author
                   ? "is-valid"
                   : ""
               }`}
@@ -315,7 +315,47 @@ function UploadFile() {
           <div className="col-lg-6 col-sm-12 col-md-6">
             <TextField
               fullWidth
-              label="Price"
+              label="Original Price"
+              name="price"
+              variant="outlined"
+              className={`input mb-0 ${
+                formik.errors.title && formik.touched.title
+                  ? "is-invalid"
+                  : formik.touched.title && !formik.errors.title
+                  ? "is-valid"
+                  : ""
+              }`}
+              value={formik.values.price}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment
+                      position="start"
+                      style={{ cursor: "pointer" }}
+                    >
+                      <FaIndianRupeeSign />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment
+                      position="emd"
+                      style={{ cursor: "pointer" }}
+                    >
+                      {/* <MdEmail /> */}
+                    </InputAdornment>
+                  ),
+                },
+              }}
+              error={formik.touched.price && Boolean(formik.errors.price)}
+              helperText={formik.touched.price && formik.errors.price}
+            />
+          </div>
+          <div className="col-lg-6 col-sm-12 col-md-6">
+            <TextField
+              fullWidth
+              label="Offer Price"
               name="price"
               variant="outlined"
               className={`input mb-0 ${
@@ -473,7 +513,7 @@ function UploadFile() {
               helperText={formik.touched.Genre && formik.errors.Genre}
             />
           </div>
-          <div className="col-12">
+          <div className="col-lg-6 col-sm-12 col-md-6">
             <TextField
               fullWidth
               label="Upload Book"

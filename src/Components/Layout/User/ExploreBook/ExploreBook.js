@@ -16,6 +16,8 @@ import {
   GetUserBookbyId_Request,
 } from "../../../../Redux/Action/UserAction/UserBookAction.js";
 import { BookListLoading } from "../../../Core-Components/Loading.js";
+import { GetCartItem_Request } from "../../../../Redux/Action/UserAction/CartBookAction.js";
+import { GetWishlistItem_Request } from "../../../../Redux/Action/UserAction/WishlistBookAction.js";
 
 function ExploreBook() {
   const [searchBook, setSearchBook] = useState("");
@@ -26,30 +28,40 @@ function ExploreBook() {
   const searchQuery = searchParams.get("search");
   const location = useLocation();
   const publisher = location.state;
+
   const {
     UserBooks,
     loading: BookLoading,
     FilteredBook: FilterBook,
   } = useSelector((state) => state.UserBook);
+
   useEffect(() => {
+    dispatch(GetCartItem_Request());
+    dispatch(GetWishlistItem_Request());
     dispatch(GetUserBook_Request());
   }, [dispatch]);
 
   useEffect(() => {
-    if (FilterBook.length > 0) {
+    if (FilterBook.length > 0 && publisher?.value !== "all") {
       setBook_List(FilterBook);
+    } else if (FilterBook.length > 0 && publisher?.value === "all") {
+      setBook_List(UserBooks);
     } else {
       setBook_List(UserBooks);
     }
-  }, [UserBooks, FilterBook]);
+  }, [UserBooks, FilterBook, publisher?.value]);
 
   const FilteredBook = searchQuery
     ? Book_list?.filter((book) => book.title === searchQuery)
     : Book_list;
 
   const handleBookOpen = (bookData) => {
-    dispatch(GetUserBookbyId_Request(bookData.book_id));
-    navigate(`/user/dash/explore/book`);
+    if (FilterBook.length > 0 && publisher?.value !== "all") {
+      return;
+    } else {
+      dispatch(GetUserBookbyId_Request(bookData.book_id));
+      navigate(`/user/dash/explore/book`);
+    }
   };
 
   return (
@@ -64,7 +76,7 @@ function ExploreBook() {
       </Link>
       <div className="allBooks row">
         <div className="d-flex justify-content-between">
-          <h4>{FilterBook.length > 0 ? publisher : "Explore Books"}</h4>
+          <h4>{FilterBook.length > 0 ? publisher?.label : "Explore Books"}</h4>
           <TextField
             placeholder="Search by Title , Author , Genre and more..."
             className="input"
@@ -90,6 +102,7 @@ function ExploreBook() {
             FilteredBook={FilteredBook}
             handleBookOpen={handleBookOpen}
             BookLoading={BookLoading}
+            SubBook={FilterBook.length > 0 && publisher?.value !== "all"}
           />
         )}
       </div>

@@ -73,7 +73,7 @@ function ExploreBookDetail() {
           <div
             style={{ width: "70%", marginLeft: "auto", marginRight: "auto" }}
           >
-            <div className="icons my-2">
+            {/* <div className="icons my-2">
               <div
                 role="button"
                 onClick={handlePreviewOpen}
@@ -89,7 +89,7 @@ function ExploreBookDetail() {
                   Preview
                 </span>
               </div>
-            </div>
+            </div> */}
             <div className="action-btn mt-2 ms-auto" style={{ zIndex: 0 }}>
               <CustomButton
                 className="mx-1"

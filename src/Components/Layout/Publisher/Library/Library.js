@@ -47,6 +47,8 @@ function Library() {
   useEffect(() => {
     if (selectedCategory && filterBook) {
       setBookToShow(filterBook);
+    } else {
+      setBookToShow(BookDataList);
     }
   }, [filterBook, selectedCategory]);
 
@@ -98,28 +100,34 @@ function Library() {
             <h4 className="mb-0">My Library</h4>
           </div>
           <div className="d-flex align-items-center gap-3">
-            <div>
-              <CustomButton
-                sx={{
-                  padding: "5px 10px",
-                  fontSize: "14px",
-                }}
-                onClick={handleAddReaderOpen}
-              >
-                Add reader
-              </CustomButton>
-            </div>
-            <div>
-              <CustomButton
-                sx={{
-                  padding: "5px 10px",
-                  fontSize: "14px",
-                }}
-                onClick={handleManageReaderOpen}
-              >
-                Manage Reader
-              </CustomButton>
-            </div>
+            {selectedCategory && filterBook ? (
+              <>
+                <div>
+                  <CustomButton
+                    sx={{
+                      padding: "5px 10px",
+                      fontSize: "14px",
+                    }}
+                    onClick={handleAddReaderOpen}
+                  >
+                    Add reader
+                  </CustomButton>
+                </div>
+                <div>
+                  <CustomButton
+                    sx={{
+                      padding: "5px 10px",
+                      fontSize: "14px",
+                    }}
+                    onClick={handleManageReaderOpen}
+                  >
+                    Manage Reader
+                  </CustomButton>
+                </div>
+              </>
+            ) : (
+              ""
+            )}
             <TextField
               placeholder="Search by Title , Author , Genre and more..."
               // variant="outlined"

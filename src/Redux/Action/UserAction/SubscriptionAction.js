@@ -1,7 +1,6 @@
 import * as Type from "../../ActionType";
 
 export const Get_readerSub_Request = () => {    
-      console.log("dispatch");
   return {
     type: Type.GET_READERSUB_REQUEST,
   };

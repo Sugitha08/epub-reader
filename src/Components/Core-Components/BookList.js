@@ -5,14 +5,16 @@ import { Review } from "./Highlight.js";
 import "./BookList.css";
 import coverImg from "../Assets/cover1.avif";
 import { FaHeart } from "react-icons/fa6";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AddtoWishlist_Request } from "../../Redux/Action/UserAction/WishlistBookAction.js";
 import { BookListLoading } from "./Loading.js";
+import CustomButton from "./Button.js";
 
-function BookList({ FilteredBook, handleBookOpen, BookLoading }) {
+function BookList({ FilteredBook, handleBookOpen, BookLoading, SubBook }) {
   const location = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { wishlistItems } = useSelector((state) => state.WishlistBook);
 
   const handleAddWishlist = (BookId) => {
@@ -22,6 +24,9 @@ function BookList({ FilteredBook, handleBookOpen, BookLoading }) {
   if (BookLoading) {
     return <BookListLoading />;
   }
+  const handleStartReadingSubBook = (BookId) => {
+    navigate(`/user/bookpreview?BookId=${BookId}`);
+  };
 
   return (
     <div className="Book-list row">
@@ -83,22 +88,37 @@ function BookList({ FilteredBook, handleBookOpen, BookLoading }) {
                 />
                 <h5 className="mt-2 title">{book?.title}</h5>
                 <h6 className="author-name">{book?.author}</h6>
-                {book?.offer_price !== "None" ? (
-                  <h5>
-                    <LuIndianRupee />
-                    <del>{book?.price}</del>&nbsp;
-                    <LuIndianRupee size={16} className="mb-1" />
-                    <span>{book.offer_price}</span>
-                  </h5>
+                {SubBook ? (
+                  <>
+                    <Review />
+                    <CustomButton
+                      sx={{ backgroundColor: "green", padding: "3px 10px" }}
+                      className="mt-3"
+                      onClick={() => handleStartReadingSubBook(book.book_id)}
+                    >
+                      Start Reading
+                    </CustomButton>
+                  </>
                 ) : (
                   <>
-                    <h5>
-                      <LuIndianRupee size={16} className="mb-1" />
-                      <span>{book.price}</span>
-                    </h5>
+                    {book?.offer_price !== "None" ? (
+                      <h5>
+                        <LuIndianRupee />
+                        <del>{book?.price}</del>&nbsp;
+                        <LuIndianRupee size={16} className="mb-1" />
+                        <span>{book.offer_price}</span>
+                      </h5>
+                    ) : (
+                      <>
+                        <h5>
+                          <LuIndianRupee size={16} className="mb-1" />
+                          <span>{book.price}</span>
+                        </h5>
+                      </>
+                    )}
+                    <Review />
                   </>
                 )}
-                <Review />
               </div>
             </CardComponent>
           </div>

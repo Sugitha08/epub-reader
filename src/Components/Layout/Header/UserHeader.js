@@ -31,33 +31,42 @@ function UserHeader() {
   const [openProfileDetails, setProfileDetails] = useState(false);
   const { cartCount } = useSelector((state) => state.CartBook);
   const { SubScribedBooks } = useSelector((state) => state.SubscribeBook);
+
+  useEffect(() => {
+    dispatch(Get_readerSub_Request());
+  }, []);
+
   const handleProfileDetailClose = () => {
     setProfileDetails(false);
   };
   useEffect(() => {
     setCart_Count(cartCount);
   }, [cartCount]);
+
   useEffect(() => {
     setSubScribed(SubScribedBooks);
   }, [SubScribedBooks]);
 
-  const SubOption = subscribed?.map((sub) => ({
-    id: sub.category_id,
-    value: sub.category_id,
-    label: `${
-      sub.category_name?.length > 10
-        ? sub.category_name?.split(" ").slice(0, 12).join(" ") + "..."
-        : sub.category_name
-    } - ${
-      sub.publisher_name?.length > 10
-        ? sub.publisher_name?.split(" ").slice(0, 12).join(" ") + "..."
-        : sub.publisher_name
-    }`,
-  }));
-
-  useEffect(() => {
-    dispatch(Get_readerSub_Request());
-  }, []);
+  const SubOption = [
+    {
+      id: "all",
+      value: "all",
+      label: "General",
+    },
+    ...subscribed?.map((sub) => ({
+      id: sub.category_id,
+      value: sub.category_id,
+      label: `${
+        sub.category_name?.length > 10
+          ? sub.category_name?.split(" ").slice(0, 12).join(" ") + "..."
+          : sub.category_name
+      } - ${
+        sub.publisher_name?.length > 10
+          ? sub.publisher_name?.split(" ").slice(0, 12).join(" ") + "..."
+          : sub.publisher_name
+      }`,
+    })),
+  ];
 
   const uniqueOptions = [
     ...new Set(
@@ -96,12 +105,13 @@ function UserHeader() {
   };
 
   const handleSubChange = (event, newValue) => {
-    console.log(newValue);
-    if (newValue) {
+    if (newValue?.value === "all") {
+      setSelectedSub(newValue?.id);
+    } else if (newValue !== "all") {
       setSelectedSub(newValue?.id);
       dispatch(GetUserBookbyCat_Request(newValue?.id));
-      navigate("/user/dash/explore", { state: newValue.label });
     }
+    navigate("/user/dash/explore", { state: newValue });
   };
 
   return (
@@ -184,62 +194,50 @@ function UserHeader() {
           className="d-flex justify-content-center align-items-center"
           style={{ columnGap: "50px" }}
         >
-          <div className="language-field">
-            <Autocomplete
-              options={SubOption}
-              disableClearable
-              value={selectedSub}
-              onChange={handleSubChange}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  placeholder="General"
-                  // InputProps={{
-                  //   ...params.InputProps,
-                  //   startAdornment: (
-                  //     <InputAdornment
-                  //       position="start"
-                  //       sx={{ marginRight: "0px" }}
-                  //     >
-                  //       <MdOutlineLanguage
-                  //         size={20}
-                  //         style={{ color: "#f6f6f6" }}
-                  //       />
-                  //     </InputAdornment>
-                  //   ),
-                  // }}
-                />
-              )}
-              sx={{
-                padding: "0px",
-                borderRadius: "5px",
-                width: "250px",
-                height: "38px",
-                "& .MuiTextField-root": {
+          {subscribed?.length > 0 ? (
+            <div className="subscribe-field">
+              <Autocomplete
+                options={SubOption}
+                disableClearable
+                value={selectedSub}
+                onChange={handleSubChange}
+                defaultValue={SubOption[0]}
+                renderInput={(params) => (
+                  <TextField {...params} placeholder="General" />
+                )}
+                sx={{
                   padding: "0px",
+                  borderRadius: "5px",
                   width: "250px",
                   height: "38px",
-                },
-                "& .MuiOutlinedInput-root": {
-                  width: "250px",
-                  height: "38px",
-                  color: "#f6f6f6",
-                  "& fieldset": {
-                    border: "0.5px solid #f6f6f6",
+                  "& .MuiTextField-root": {
+                    padding: "0px",
+                    width: "250px",
+                    height: "38px",
                   },
-                  "&:hover fieldset": {
-                    borderColor: "#f6f6f6",
+                  "& .MuiOutlinedInput-root": {
+                    width: "250px",
+                    height: "38px",
+                    color: "#f6f6f6",
+                    "& fieldset": {
+                      border: "0.5px solid #f6f6f6",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "#f6f6f6",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "#f6f6f6",
+                    },
                   },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#f6f6f6",
+                  "& .MuiSvgIcon-root": {
+                    color: "#f6f6f6",
                   },
-                },
-                "& .MuiSvgIcon-root": {
-                  color: "#f6f6f6",
-                },
-              }}
-            />
-          </div>
+                }}
+              />
+            </div>
+          ) : (
+            ""
+          )}
           <div
             className="wishlist"
             style={{ cursor: "pointer", userSelect: "none" }}
