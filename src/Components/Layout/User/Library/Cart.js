@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { Book_list } from "../../../Datas";
+import React, { useEffect, useState } from "react";
 import CustomButton from "../../../Core-Components/Button";
 import { MdDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
@@ -12,13 +11,30 @@ import {
   GetCartItem_Request,
   RemoveCartitem_Request,
 } from "../../../../Redux/Action/UserAction/CartBookAction";
+import DeleteCard from "./DeleteCard";
 
 function Cart() {
   const dispatch = useDispatch();
   const { cartItems } = useSelector((state) => state.CartBook);
+  const [DelDialogOpen, setDelDialogOpen] = useState(false);
+  const [bookId, setBookId] = useState(null);
+  const [BookName, setBookname] = useState("");
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(GetCartItem_Request());
   }, [dispatch]);
+
+  const handleDeleteCartItem = (Book) => {
+    setBookId(Book?.cart_id);
+    setBookname(Book?.title);
+    setDelDialogOpen(true);
+  };
+  const handleDialogClose = () => {
+    setDelDialogOpen(false);
+  };
+  const handleDeleteItem = () => {
+    dispatch(RemoveCartitem_Request(bookId));
+  };
 
   const OrderFooter = (
     <div className="total-price">
@@ -45,14 +61,11 @@ function Cart() {
       </div>
     </div>
   );
-  const navigate = useNavigate();
-  const handleDeleteCartItem = (BookId) => {
-    dispatch(RemoveCartitem_Request(BookId));
-  };
+
   return (
     <>
       <ProductList title="My Cart" Book_list={cartItems} Footer={OrderFooter}>
-        {(CartId) => (
+        {(Cart) => (
           <div
             className="d-flex flex-column justify-content-between"
             style={{ height: "100%" }}
@@ -62,7 +75,7 @@ function Cart() {
                 <IconButton>
                   <MdDelete
                     size={19}
-                    onClick={() => handleDeleteCartItem(CartId)}
+                    onClick={() => handleDeleteCartItem(Cart)}
                   />
                 </IconButton>
               </Tooltip>
@@ -92,6 +105,14 @@ function Cart() {
           </div>
         )}
       </ProductList>
+      <DeleteCard
+        open={DelDialogOpen}
+        onClose={handleDialogClose}
+        handleDeleteItem={handleDeleteItem}
+        title={`Remove Item from Cart`}
+        discription={`Are you sure you want to delete <strong>${BookName}</strong> from
+          your Cart?`}
+      />
     </>
   );
 }

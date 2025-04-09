@@ -87,7 +87,7 @@ function Register({ redirectTologin, handleReg }) {
       <div className="login-form">
         <form className="form" onSubmit={formik.handleSubmit}>
           <div className="row">
-            <div className="my-2 col-6">
+            <div className="my-2 col-lg-6 col-md-6 col-sm-12">
               <TextField
                 fullWidth
                 type="text"
@@ -122,7 +122,7 @@ function Register({ redirectTologin, handleReg }) {
                 <p className="invalid-feedback m-0">{formik.errors.userName}</p>
               )}
             </div>
-            <div className="my-2 col-6">
+            <div className="my-2 col-lg-6 col-md-6 col-sm-12">
               <TextField
                 fullWidth
                 label="Phone Number"

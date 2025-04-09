@@ -18,7 +18,7 @@ function UserBookReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        UserBooks: action.payload,
+        UserBooks: action.payload.books,
       };
     case Type.GET_USERBOOKSUG_FAILURE:
       return {

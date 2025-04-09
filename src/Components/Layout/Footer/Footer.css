@@ -4,10 +4,12 @@
   left: 0;
   height: auto !important;
   width: 100%;
+  max-width: 100%;
 }
 
 .publisher-footer {
   width: 100%;
+  max-width: 100%;
   padding: 14px 24px;
   color: #fbf6f6;
   display: flex;
@@ -47,4 +49,11 @@
 
 .publisher-footer .contact-us p {
   margin-bottom: 2px;
+}
+
+
+@media screen and (max-width: 320px) {
+  .footer {
+    margin-top: 10px;
+  }
 }

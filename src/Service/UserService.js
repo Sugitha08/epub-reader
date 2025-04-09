@@ -1,3 +1,4 @@
+import axios from "axios";
 import Main_Api from "../Auth_Interceptor/Main_Api";
 
 export const UserLogin = (request) => {
@@ -82,4 +83,13 @@ export const Upload_progress = (request) => {
 
 export const Get_progress = (request) => {
   return Main_Api.get("book/reader/get_progress/" + request);
+};
+
+export const Chat_with_Ai = (request) => {
+  // return Main_Api.post("", request);
+  return axios.post(
+    "https://65602acf83aba11d99d05511.mockapi.io/user",
+    // request
+    { text: "Response Given by Ai For Given Question", sender: "bot" }
+  );
 };

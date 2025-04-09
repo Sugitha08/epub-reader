@@ -66,18 +66,29 @@ function ExploreBook() {
 
   return (
     <>
-      <Link
-        to="/user/dashboard"
-        className="mb-2 ms-5"
-        style={{ textDecoration: "none", fontSize: "19px" }}
-      >
-        <IoChevronBack className="mb-1 ms-2" />
-        Back
-      </Link>
-      <div className="allBooks row">
-        <div className="d-flex justify-content-between">
+      <div className="allBooks row shadow ">
+        <Link
+          to="/user/dashboard"
+          style={{
+            textDecoration: "none",
+            fontSize: "17px",
+            width: "fit-content",
+            marginLeft: "12px",
+            borderRadius: "5px",
+            backgroundColor: "#f2f2f2",
+            textAlign: "center",
+          }}
+          className="shadow my-2"
+        >
+          <IoChevronBack className="mb-1" />
+          Back
+        </Link>
+        <div
+          className="d-flex justify-content-between flex-column"
+          style={{ rowGap: "20px" }}
+        >
           <h4>{FilterBook.length > 0 ? publisher?.label : "Explore Books"}</h4>
-          <TextField
+          {/* <TextField
             placeholder="Search by Title , Author , Genre and more..."
             className="input"
             value={searchBook}
@@ -93,18 +104,19 @@ function ExploreBook() {
                 ),
               },
             }}
-          />
+          /> */}
+
+          {false ? (
+            <BookListLoading />
+          ) : (
+            <BookList
+              FilteredBook={FilteredBook}
+              handleBookOpen={handleBookOpen}
+              BookLoading={BookLoading}
+              SubBook={FilterBook.length > 0 && publisher?.value !== "all"}
+            />
+          )}
         </div>
-        {false ? (
-          <BookListLoading />
-        ) : (
-          <BookList
-            FilteredBook={FilteredBook}
-            handleBookOpen={handleBookOpen}
-            BookLoading={BookLoading}
-            SubBook={FilterBook.length > 0 && publisher?.value !== "all"}
-          />
-        )}
       </div>
     </>
   );

@@ -5,6 +5,7 @@ import { LuIndianRupee } from "react-icons/lu";
 import "./Library.css";
 import { UserLibraryLoading } from "../../../Core-Components/Loading";
 import { useSelector } from "react-redux";
+import Main_Api from "../../../../Auth_Interceptor/Main_Api";
 
 function ProductList({ title, Book_list, children, Footer }) {
   const { loading: WishlistLoading } = useSelector(
@@ -32,7 +33,10 @@ function ProductList({ title, Book_list, children, Footer }) {
             >
               <div className="row justify-content-center">
                 <div className="col-2">
-                  <img src={book?.Book_cover} width="100px" />
+                  <img
+                    src={`${Main_Api}/files/cover_image/${book?.cover_image}`}
+                    width="100px"
+                  />
                 </div>
                 <div
                   className="col-5 d-flex flex-column"
@@ -61,10 +65,7 @@ function ProductList({ title, Book_list, children, Footer }) {
                     </h5>
                   )}
                 </div>
-                <div className="col-5">
-                  {children &&
-                    children(book.wishlist_id || book.cart_id || book)}
-                </div>
+                <div className="col-5">{children && children(book)}</div>
               </div>
             </div>
           ))

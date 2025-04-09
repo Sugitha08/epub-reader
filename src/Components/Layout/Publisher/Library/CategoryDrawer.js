@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Get_Cat_Request } from "../../../../Redux/Action/PublisherAction/CategoryAction";
 import { Skeleton, Typography } from "@mui/material";
 import "./Library.css";
 
@@ -10,9 +9,6 @@ function CategoryDrawer({ setSelectedCategory }) {
   const handleCatSelect = (id) => {
     setSelectedCategory(id);
   };
-  useEffect(() => {
-    dispatch(Get_Cat_Request());
-  }, []);
 
   return (
     <div>

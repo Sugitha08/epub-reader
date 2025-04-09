@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Userbanner from "../../../Assets/banner.jpg";
-import { Book_list } from "../../../Datas.js";
 import { Link, useNavigate } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa6";
 import BookList from "../../../Core-Components/BookList.js";
@@ -45,7 +44,7 @@ function UserDashboard() {
         <div className="explore-book shadow row">
           <div className="d-flex justify-content-between">
             <h4>Explore Books</h4>
-            <Link to="/user/dash/explore" style={{ textDecoration: "none" }}>
+            <Link to="/user/dash/explore" style={{ textDecoration: "none",whiteSpace:"nowrap" }}>
               View All
               <FaArrowRight size={16} className="ms-1 mb-1" />
             </Link>

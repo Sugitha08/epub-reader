@@ -3,22 +3,19 @@ import React from "react";
 function UserFilterMenu() {
   return (
     <div className="d-flex justify-content-center">
-      <div className="filter">
-        <div> All Books</div>
-        <div> Fiction</div>
-        <div> Non-Fiction</div>
-        <div> Author</div>
-        <div> poetry & Drama</div>
-        {/* <div> Bestsellers</div>
-        <div> Literature</div>
-        <div> Language</div> */}
-        <div> Classic Literature</div>
-        <div> Modern Literature</div>
-        <div> Educational </div>
-        <div> Motivational</div>
-        <div> Religious & Spiritual </div>
-        <div> History </div>
-      </div>
+    <div className="filter">
+      <p> All Books</p>
+      <p> Fiction</p>
+      <p> Non-Fiction</p>
+      <p> Author</p>
+      <p> poetry & Drama</p>
+      <p> Classic Literature</p>
+      <p> Modern Literature</p>
+      <p> Educational </p>
+      <p> Motivational</p>
+      <p> Religious & Spiritual </p>
+      <p> History </p>
+    </div>
     </div>
   );
 }

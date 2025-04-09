@@ -166,10 +166,8 @@ function UploadFile() {
     <>
       <div className="upload-container shadow">
         <h3>UPLOAD YOUR BOOK</h3>
-        <img src={coverSrc} />
         <form
-          className="form row"
-          style={{ padding: "15px", rowGap: "25px" }}
+          className="form upload-form row"   
           onSubmit={formik.handleSubmit}
         >
           <div className="col-lg-6 col-sm-12 col-md-6">

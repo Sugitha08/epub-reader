@@ -12,6 +12,7 @@ import watchUserBook from "./UserSaga/UserBookSaga";
 import watchPreviewBook from "./UserSaga/PreviewBookSaga";
 import watchSubscibeBook from "./UserSaga/SubscriptionSaga";
 import watchAddSubsciber from "./PublisherSaga/SubscriberSaga";
+import watchChatRequest from "./UserSaga/ChatSaga";
 
 function* RootSaga() {
   yield all([
@@ -28,7 +29,8 @@ function* RootSaga() {
     WatchWishlist(),
     watchUserBook(),
     watchPreviewBook(),
-    watchSubscibeBook()
+    watchSubscibeBook(),
+    watchChatRequest()
   ]);
 }
 export default RootSaga;

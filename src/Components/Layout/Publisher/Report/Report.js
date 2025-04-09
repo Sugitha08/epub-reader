@@ -21,13 +21,17 @@ function Report() {
 
   return (
     <div className="publisher-report">
-      <div className="publish-header">
-        <h4 className="mb-0">REPORT</h4>
-        <div>
+      <div className="publish-header row gap-3 justify-content-between">
+        <h4 className="mb-0 col-lg-4 col-md-6 col-sm-12">REPORT</h4>
+        <div className="d-flex col-lg-6 col-md-6 col-sm-12 justify-content-end">
           <CustomButton
             type="button"
             className="addnew-btn me-3"
-            style={{ backgroundColor: "green", fontSize: "14px" }}
+            style={{
+              backgroundColor: "green",
+              fontSize: "14px",
+              padding: "5px 10px",
+            }}
             onClick={() => navigate("/publisher/dashboard/upload")}
           >
             <IoAddOutline className="me-1" style={{ fontSize: "20px" }} />
@@ -36,7 +40,11 @@ function Report() {
           <CustomButton
             type="button"
             className="addnew-btn"
-            style={{ backgroundColor: "gray", fontSize: "14px" }}
+            style={{
+              backgroundColor: "gray",
+              fontSize: "14px",
+              padding: "2px 10px",
+            }}
             onClick={() => navigate("/publisher/dashboard/library")}
           >
             <MdModeEdit className="me-1" style={{ fontSize: "17px" }} />
@@ -52,7 +60,6 @@ function Report() {
               width: "280px",
               height: "150px",
             }}
-            
           >
             <div
               className="d-flex align-items-center justify-content-between"

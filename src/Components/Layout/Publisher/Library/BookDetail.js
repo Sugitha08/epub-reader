@@ -28,7 +28,7 @@ function BookDetail() {
   } = useSelector((state) => state.BookData);
   const dispatch = useDispatch();
   const handlePreviewOpen = () => {
-    navigate("/publisher/bookpreview");
+    navigate("/publisher/bookpreview", { state: BookData?.epub_file });
   };
 
   const handleEditBook = (BookData) => {

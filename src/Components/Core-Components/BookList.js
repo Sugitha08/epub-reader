@@ -6,19 +6,26 @@ import "./BookList.css";
 import coverImg from "../Assets/cover1.avif";
 import { FaHeart } from "react-icons/fa6";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { AddtoWishlist_Request } from "../../Redux/Action/UserAction/WishlistBookAction.js";
+import { useDispatch } from "react-redux";
+import {
+  AddtoWishlist_Request,
+  RemoveWishlistitem_Request,
+} from "../../Redux/Action/UserAction/WishlistBookAction.js";
 import { BookListLoading } from "./Loading.js";
 import CustomButton from "./Button.js";
+import Main_Api from "../../Auth_Interceptor/Main_Api.js";
 
 function BookList({ FilteredBook, handleBookOpen, BookLoading, SubBook }) {
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { wishlistItems } = useSelector((state) => state.WishlistBook);
 
-  const handleAddWishlist = (BookId) => {
-    dispatch(AddtoWishlist_Request({ book_id: BookId }));
+  const handleAddWishlist = (Book) => {
+    if (Book.wishlist) {
+      dispatch(RemoveWishlistitem_Request({ book_id: Book.book_id }));
+    } else {
+      dispatch(AddtoWishlist_Request({ book_id: Book.book_id }));
+    }
   };
 
   if (BookLoading) {
@@ -45,18 +52,12 @@ function BookList({ FilteredBook, handleBookOpen, BookLoading, SubBook }) {
                     ""
                   )}
                 </div>
-                {location.pathname.startsWith("/user") ? (
+                {location.pathname.startsWith("/user") && !SubBook ? (
                   <div role="button">
                     <FaHeart
                       size={18}
-                      className={`like-icon ${
-                        wishlistItems?.some(
-                          (liked) => liked.book_id === book.book_id
-                        )
-                          ? "active"
-                          : ""
-                      }`}
-                      onClick={() => handleAddWishlist(book.book_id)}
+                      className={`like-icon ${book?.wishlist ? "active" : ""}`}
+                      onClick={() => handleAddWishlist(book)}
                     />
                   </div>
                 ) : (
@@ -83,17 +84,16 @@ function BookList({ FilteredBook, handleBookOpen, BookLoading, SubBook }) {
               </div>
               <div role="button" onClick={() => handleBookOpen(book)}>
                 <img
-                  src={book?.Book_cover ? book?.Book_cover : coverImg}
+                  src={`${Main_Api}/files/cover_image/${book?.cover_image}`}
                   className="book-img"
                 />
                 <h5 className="mt-2 title">{book?.title}</h5>
                 <h6 className="author-name">{book?.author}</h6>
                 {SubBook ? (
                   <>
-                    <Review />
                     <CustomButton
                       sx={{ backgroundColor: "green", padding: "3px 10px" }}
-                      className="mt-3"
+                      className="mt-1"
                       onClick={() => handleStartReadingSubBook(book.book_id)}
                     >
                       Start Reading

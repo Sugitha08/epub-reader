@@ -1,13 +1,10 @@
-
 .library-container {
   padding: 0 15px 15px 15px;
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap:15px
+  gap: 15px;
 }
-
-
 
 .library-header {
   display: flex;
@@ -16,14 +13,14 @@
 }
 
 /* bookDetail */
-.bookDetail { 
+.bookDetail {
   padding: 20px;
   /* width: 70%; */
   height: auto;
   background-color: #fff;
   border-radius: 10px;
 }
-.earning-detail{
+.earning-detail {
   /* padding: 20px; */
   background-color: #fff;
 }
@@ -61,7 +58,7 @@
   color: #494848;
   font-weight: 600;
 }
-.sub-title{
+.sub-title {
   font-size: 20px;
   color: #5d5d5d;
   font-weight: 500;
@@ -73,40 +70,51 @@
   gap: 0px;
 }
 
-.earning-detail .card-body div{
+.earning-detail .card-body div {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.earning-detail .card-body div p{
+.earning-detail .card-body div p {
   font-size: 18px;
   font-weight: 500;
-  color:#5e5e5e
+  color: #5e5e5e;
 }
 
+
+
+.category:hover {
+  background-color: aliceblue;
+  user-select: none;
+  cursor: pointer;
+}
+
+.category-container {
+  border: 1px solid #eeecec;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.book-list-container{
+  padding-left: 2.5rem;
+}
 
 
 @media screen and (max-width: 430px) {
   .input {
-    width: 100% !important; /* Make the input field full width on mobile */
-    max-width: 400px !important; /* Set a specific max width for better UX */
+    width: 100% !important;
+    max-width: 400px !important; 
   }
   .library-header {
     flex-direction: column;
-    row-gap: 20px;
+    row-gap: 10px;
+    padding: 0;
   }
-}
-
-
-.category:hover{
-   background-color: aliceblue;
-   user-select: none;
-   cursor: pointer;
-}
-
-.category-container{
-  border: 1px solid #eeecec;
-  border-radius: 5px;
-  background-color: #fff;
+  .library-container {
+    padding: 0;
+  }
+  .book-list-container{
+    padding-left: 0;
+  }
 }

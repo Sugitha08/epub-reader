@@ -72,7 +72,7 @@ function App() {
 
           {/* User */}
 
-          {UserLoginStatus ? (
+          {UserLoginStatus || true ? (
             <Route element={<UserLayout />}>
               <Route path="/user/dashboard/" element={<UserDashboard />} />
               <Route path="/user/dash/explore" element={<ExploreBook />} />
@@ -105,7 +105,7 @@ function App() {
           ) : (
             <Route path="*" element={<Navigate to="/" replace />} />
           )}
-          {UserLoginStatus ? (
+          {UserLoginStatus || true ? (
             <Route path="/user/bookpreview" element={<UserEpubReader />} />
           ) : (
             <Route path="*" element={<Navigate to="/" replace />} />

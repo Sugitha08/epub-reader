@@ -3,16 +3,11 @@ import { Outlet } from "react-router-dom";
 import SideNavBar from "../Header/SideNavBar";
 import "./Content.css";
 
-function PublisherContent({ openMenu }) {
+function PublisherContent() {
   return (
     <>
-      <div className={`${openMenu ? "sidebar-open" : ""} main-container`}>
-        {openMenu && (
-          <div className="sidebar">
-            <SideNavBar openMenu={openMenu} />
-          </div>
-        )}
-        <div className="layout dsds">
+      <div className="main-container">
+        <div className="layout">
           <Outlet />
         </div>
       </div>

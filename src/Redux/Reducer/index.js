@@ -12,13 +12,14 @@ import UserBookReducer from "./UserReducer/UserBookReducer";
 import PreviewBookReducer from "./UserReducer/PreviewBookReducer";
 import SubscribeBookReducer from "./UserReducer/SubscriptionReducer";
 import SubscriberReducer from "./PublisherReducer/SubscriberReducer";
+import ChatReducer from "./UserReducer/ChatReducer";
 
 const RootReducer = combineReducers({
   PublisherLogin: PublisherLoginReducer,
   PublisherReg: PublisherRegisterReducer,
   BookData: BookReducer,
   category: CategoryReducer,
-  SubscriberData : SubscriberReducer,
+  SubscriberData: SubscriberReducer,
 
   UserLogin: UserLoginReducer,
   ReaderReg: UserRegReducer,
@@ -27,7 +28,8 @@ const RootReducer = combineReducers({
   WishlistBook: WishlistBookReducer,
   UserBook: UserBookReducer,
   PreViewData: PreviewBookReducer,
-  SubscribeBook : SubscribeBookReducer
+  SubscribeBook: SubscribeBookReducer,
+  ChatBot_Res: ChatReducer,
 });
 
 export default RootReducer;

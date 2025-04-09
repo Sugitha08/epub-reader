@@ -3,15 +3,10 @@ import { Outlet } from "react-router-dom";
 import SideNavBar from "../Header/SideNavBar";
 import "./Content.css";
 
-function UserContent({ openMenu }) {
+function UserContent() {
   return (
     <>
-      <div className={`${openMenu ? "sidebar-open" : ""} main-container`}>
-        {openMenu && (
-          <div className="sidebar">
-            <SideNavBar openMenu={openMenu} />
-          </div>
-        )}
+      <div className="main-container">
         <div className="userlayout layout">
           <Outlet />
         </div>

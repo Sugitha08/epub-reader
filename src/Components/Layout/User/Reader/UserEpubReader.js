@@ -10,27 +10,21 @@ import {
 } from "../../../../Redux/Action/UserAction/PreviewBookAction";
 import {
   Button,
-  Card,
-  IconButton,
   Menu,
   MenuItem,
   TextField,
-  Tooltip,
-  Typography,
 } from "@mui/material";
-import { BsJournalBookmark } from "react-icons/bs";
-import { LuNotebookPen } from "react-icons/lu";
-import { PiSpeakerHighLight } from "react-icons/pi";
-import { BsHighlighter } from "react-icons/bs";
-import { VscMute } from "react-icons/vsc";
 import { MdOutlineTranslate } from "react-icons/md";
 import { GrNotes } from "react-icons/gr";
 import {
   Add_highlight_Request,
   Add_Notes_Request,
 } from "../../../../Redux/Action/UserAction/PreviewBookAction";
-import CustomDrawer from "../../ReactReader/CustomDrawer";
-import axios from "axios";
+import ChatBot from "./ChatBot";
+import ReaderHeader from "./ReaderHeader";
+import BookHighlights from "./BookHighlight";
+import BookNotes from "./BookNotes";
+import "./Reader.css"
 
 function UserEpubReader() {
   const [rendition, setRendition] = useState(undefined);
@@ -52,16 +46,30 @@ function UserEpubReader() {
   const [allHighlight, setAllHighLights] = useState([]);
   const [addNotesVis, setAddNotesVis] = useState(false);
   const [NotesContent, setNotesContent] = useState("");
+  const [epubUrl, setEpubUrl] = useState(null);
+  const token = localStorage.getItem("User_Auth_Token");
+  const File = location?.state;
   const navigate = useNavigate();
   const handleNav = () => {
     navigate("/user/dash/explore");
   };
-  const [searchParams] = useSearchParams();
-  const BookId = searchParams.get("BookId");
   const dispatch = useDispatch();
   const { Highlights, Notes, Progress } = useSelector(
     (state) => state.PreViewData
   );
+
+  useEffect(() => {
+    const fetchEpubUrl = async () => {
+      try {
+        const streamUrl = `http://127.0.0.1:5000/book/stream/${File?.epub_file}`;
+        setEpubUrl(streamUrl);
+      } catch (error) {
+        console.error("Error fetching EPUB URL:", error);
+      }
+    };
+
+    fetchEpubUrl();
+  }, [File?.epub_file]);
 
   useEffect(() => {
     setAllHighLights(Highlights);
@@ -72,9 +80,9 @@ function UserEpubReader() {
   }, [Progress]);
 
   useEffect(() => {
-    dispatch(Get_highlight_Request(BookId));
-    dispatch(Get_Notes_Request(BookId));
-    dispatch(Get_progress_Request(BookId));
+    dispatch(Get_highlight_Request(File?.book_id));
+    dispatch(Get_Notes_Request(File?.book_id));
+    dispatch(Get_progress_Request(File?.book_id));
   }, []);
 
   // Load saved location on first render
@@ -174,24 +182,6 @@ function UserEpubReader() {
             document.head.appendChild(faScript);
           }
         }
-
-        //Float Notes Icon
-        // const NotesIcon = document.createElement("button");
-        // NotesIcon.innerHTML = `<i class="fas fa-sticky-note" className="mt-3"></i>`;
-        // NotesIcon.className = "FloatNote-icon";
-        // NotesIcon.style.position = "fixed";
-        // NotesIcon.style.bottom = "20px";
-        // NotesIcon.style.right = "60px";
-        // NotesIcon.style.width = "50px";
-        // NotesIcon.style.height = "50px";
-        // NotesIcon.style.borderRadius = "50%";
-        // NotesIcon.style.border = "none";
-        // NotesIcon.style.cursor = "pointer";
-        // NotesIcon.style.backgroundColor = "#007bff";
-        // NotesIcon.style.color = "white";
-        // NotesIcon.style.fontSize = "20px";
-        // NotesIcon.style.boxShadow = "0px 4px 6px rgba(0, 0, 0, 0.1)";
-        // document.body.appendChild(NotesIcon);
       });
     }
   };
@@ -210,7 +200,7 @@ function UserEpubReader() {
         setBookMarkActive(true);
         dispatch(
           Update_progress_Request({
-            book_id: BookId,
+            book_id: File?.book_id,
             bookmark: currentPage,
             percentage: percentage,
           })
@@ -383,7 +373,7 @@ function UserEpubReader() {
   const handleHightlight = async (color) => {
     if (selectedCFI && rendition) {
       const newHighlight = {
-        book_id: BookId,
+        book_id: File?.book_id,
         text: selectedText,
         highlight_range: selectedCFI,
         color: color,
@@ -416,7 +406,7 @@ function UserEpubReader() {
     e.preventDefault();
     if (NotesContent.trim() === "") return;
     const payload = {
-      book_id: BookId,
+      book_id: File?.book_id,
       text: NotesContent,
       note_range: selectedCFI,
     };
@@ -428,71 +418,24 @@ function UserEpubReader() {
   };
 
   const header = (
-    <div className="header-content">
-      <Tooltip title={BookMarkActive ? "Remove BookMark" : "Add BookMark"}>
-        <IconButton
-          onClick={handleBookmark}
-          className={`${BookMarkActive ? "active" : ""}`}
-        >
-          <BsJournalBookmark size={21} />
-        </IconButton>
-      </Tooltip>
-      <Tooltip title={isReading ? "stopReading" : "startReading"}>
-        <IconButton
-          onClick={isReading ? stopReading : startReading}
-          className={`${isReading ? "active" : ""}`}
-        >
-          {isReading ? <PiSpeakerHighLight size={23} /> : <VscMute size={23} />}
-        </IconButton>
-      </Tooltip>
-      <Tooltip title="Highlights">
-        <IconButton
-          onClick={() => {
-            setHLSlideOpen(!hLSlideOpen);
-            setNotesSlideOpen(false);
-          }}
-          className={`${hLSlideOpen ? "active" : ""}`}
-        >
-          <BsHighlighter size={23} />
-        </IconButton>
-      </Tooltip>
-      <Tooltip title="Notes">
-        <IconButton
-          onClick={() => {
-            setNotesSlideOpen(!notesSlideOpen);
-            setHLSlideOpen(false);
-          }}
-          className={`${notesSlideOpen ? "active" : ""}`}
-        >
-          <LuNotebookPen size={23} />
-        </IconButton>
-      </Tooltip>
-      <div
-        role="button"
-        onClick={() => {
-          if (rendition) {
-            try {
-              rendition.destroy?.();
-            } catch (error) {
-              console.error("Error destroying rendition:", error);
-            }
-          }
-          setTimeout(() => {
-            setRendition(null);
-          }, 100);
-          setRendition(null);
-          setSelectedText(null);
-          setSelectedCFI(null);
-          setIsReading(false);
-          setAnchorEl(null);
-          setHLSlideOpen(false);
-          setNotesSlideOpen(false);
-          handleNav();
-        }}
-      >
-        Go Back
-      </div>
-    </div>
+    <ReaderHeader
+      BookMarkActive={BookMarkActive}
+      handleBookmark={handleBookmark}
+      isReading={isReading}
+      stopReading={stopReading}
+      startReading={startReading}
+      setHLSlideOpen={setHLSlideOpen}
+      hLSlideOpen={hLSlideOpen}
+      setNotesSlideOpen={setNotesSlideOpen}
+      notesSlideOpen={notesSlideOpen}
+      rendition={rendition}
+      setRendition={setRendition}
+      setSelectedText={setSelectedText}
+      setSelectedCFI={setSelectedCFI}
+      setIsReading={setIsReading}
+      setAnchorEl={setAnchorEl}
+      handleNav={handleNav}
+    />
   );
 
   const CustomMenu = (
@@ -563,117 +506,49 @@ function UserEpubReader() {
   );
 
   const HighlightDrawer = (
-    <CustomDrawer
-      open={hLSlideOpen}
-      handleClose={() => setHLSlideOpen(false)}
-      title="Highlights"
-    >
-      <div className="p-2 d-flex flex-column" style={{ rowGap: "10px" }}>
-        {allHighlight.length > 0 ? (
-          allHighlight?.map((highlight) => (
-            <>
-              <Card
-                key={highlight.id}
-                className="px-3 py-2"
-                style={{ backgroundColor: "#ececec", color: "black" }}
-              >
-                <Typography>
-                  {highlight?.text?.length > 30
-                    ? highlight?.text?.split(" ").slice(0, 12).join(" ") + "..."
-                    : highlight?.text}
-                </Typography>
-                <div
-                  style={{ float: "right" }}
-                  className="linktoHl"
-                  onClick={() => {
-                    setLocation(highlight?.highlight_range);
-                    setHLSlideOpen(false);
-                  }}
-                >
-                  Go
-                </div>
-              </Card>
-            </>
-          ))
-        ) : (
-          <div>
-            <p>No Highlights</p>
-          </div>
-        )}
-      </div>
-    </CustomDrawer>
+    <BookHighlights
+      hLSlideOpen={hLSlideOpen}
+      setHLSlideOpen={setHLSlideOpen}
+      allHighlight={allHighlight}
+      setLocation={setLocation}
+    />
   );
 
   const NotesDrawer = (
-    <CustomDrawer
-      open={notesSlideOpen}
-      handleClose={() => setNotesSlideOpen(false)}
-      title="Notes"
-    >
-      <div
-        className="notes-container d-flex flex-column"
-        style={{ height: "100%", gap: "15px", overflow: "hidden" }}
-      >
-        <div
-          style={{
-            overflowY: "auto",
-            height: "85%",
-          }}
-        >
-          <div className="p-2 d-flex flex-column" style={{ rowGap: "10px" }}>
-            {NotesList.length > 0 ? (
-              NotesList?.map((note) => (
-                <>
-                  <Card
-                    key={note.id}
-                    className="px-3 py-2"
-                    style={{ backgroundColor: "#ececec", color: "black" }}
-                  >
-                    <Typography>
-                      {note && note?.text?.length > 30
-                        ? note?.text?.split(" ").slice(0, 12).join(" ") + "..."
-                        : note?.text}
-                    </Typography>
-                    <div
-                      style={{ float: "right" }}
-                      className="linktoHl"
-                      onClick={() => {
-                        setLocation(note?.note_range);
-                        setHLSlideOpen(false);
-                      }}
-                    >
-                      Go
-                    </div>
-                  </Card>
-                </>
-              ))
-            ) : (
-              <div>
-                <p>No Notes</p>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </CustomDrawer>
+    <BookNotes
+      notesSlideOpen={notesSlideOpen}
+      setNotesSlideOpen={setNotesSlideOpen}
+      setHLSlideOpen={setHLSlideOpen}
+      NotesList={NotesList}
+      setLocation={setLocation}
+    />
   );
 
   return (
     <ReactEpubReader
-      epubFile="https://react-reader.metabits.no/files/alice.epub"
+      // epubFile="https://react-reader.metabits.no/files/alice.epub"
+      epubFile="/alice.epub"
+      // epubFile={epubUrl}
       location={location}
       locationChanged={handlelocationChange}
       getRendition={(rendition) => getRendition(rendition)}
+      epubInitOptions={{
+        openAs: "epub",
+        requestHeaders: {
+          Authorization: ` Bearer ${token}`,
+        },
+      }}
       hLSlideOpen={hLSlideOpen}
       notesSlideOpen={notesSlideOpen}
       header={header}
       handleNav={handleNav}
-      BookId={BookId}
+      BookId={File?.book_id}
       Highlights={Highlights}
       Notes={Notes}
       CustomMenu={CustomMenu}
       HighlightDrawer={HighlightDrawer}
       NotesDrawer={NotesDrawer}
+      Chatbot={<ChatBot />}
     />
   );
 }

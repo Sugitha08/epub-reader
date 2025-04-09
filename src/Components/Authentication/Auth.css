@@ -299,3 +299,33 @@
   outline: none;
   box-shadow: 0 0 5px rgba(108, 99, 255, 0.5);
 }
+@media screen and (max-width: 768px) {
+  .content-container {
+    width: 90%;
+  }
+  .role-nav {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .content-container {
+    width: 95%;
+    min-height: 550px;
+  }
+  .toggle-container {
+    visibility: hidden !important;
+  }
+  .login {
+    width: 100% !important;
+  }
+  .register {
+    width: 100% !important;
+  }
+  .content-container.animateAuth .register{
+    transform: none;
+  }
+  .form-container form{
+    padding: 0 20px;
+  }
+}

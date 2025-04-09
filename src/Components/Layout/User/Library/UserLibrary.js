@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import "../UserDetails/UserDetail.css";
-import { Book_list } from "../../../Datas";
 import CustomButton from "../../../Core-Components/Button";
 import ProductList from "./ProductList";
 import { Gauge } from "@mui/x-charts/Gauge";
@@ -12,8 +11,8 @@ import { useDispatch, useSelector } from "react-redux";
 function UserLibrary() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const handlePreviewOpen = (BookId) => {
-    navigate(`/user/bookpreview?BookId=${BookId}`);
+  const handlePreviewOpen = (Book) => {
+    navigate(`/user/bookpreview`, { state: Book });
   };
   const { purchasedBook } = useSelector((state) => state.PurchasedBook);
   useEffect(() => {
@@ -27,8 +26,6 @@ function UserLibrary() {
             className="mt-1 d-flex flex-column justify-content-between"
             style={{ height: "100%" }}
           >
-          {console.log(Book) }
-
             <div className="float-right">
               <Box sx={{ position: "relative", zIndex: "0" }}>
                 <Gauge
@@ -57,7 +54,7 @@ function UserLibrary() {
                   padding: "2px 8px",
                   fontSize: "12px",
                 }}
-                onClick={() => handlePreviewOpen(Book?.book_id)}
+                onClick={() => handlePreviewOpen(Book)}
               >
                 Continue Reading
               </CustomButton>

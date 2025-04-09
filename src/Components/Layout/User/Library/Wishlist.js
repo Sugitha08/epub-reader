@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // import { Book_list } from "../../../Datas";
 import CustomButton from "../../../Core-Components/Button";
 import { MdDelete } from "react-icons/md";
@@ -10,15 +10,26 @@ import {
   GetWishlistItem_Request,
   RemoveWishlistitem_Request,
 } from "../../../../Redux/Action/UserAction/WishlistBookAction";
+import DeleteCard from "./DeleteCard";
 
 function Wishlist() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [bookId, setBookId] = useState(null);
+  const [BookName, setBookname] = useState("");
   const { wishlistItems } = useSelector((state) => state.WishlistBook);
-  console.log(wishlistItems, "items");
+  const [DelDialogOpen, setDelDialogOpen] = useState(false);
 
-  const handleDeleteWishlistItem = (BookId) => {
-    dispatch(RemoveWishlistitem_Request(BookId));
+  const handleDeleteWishlistItem = (Book) => {
+    setBookId(Book?.wishlist_id);
+    setBookname(Book?.title);
+    setDelDialogOpen(true);
+  };
+  const handleDialogClose = () => {
+    setDelDialogOpen(false);
+  };
+  const handleDeleteItem = () => {
+    dispatch(RemoveWishlistitem_Request(bookId));
   };
   useEffect(() => {
     dispatch(GetWishlistItem_Request());
@@ -26,16 +37,14 @@ function Wishlist() {
   return (
     <>
       <ProductList title="My Wishlist" Book_list={wishlistItems}>
-        {(wishlistId) => (
+        {(wishlist) => (
           <div
             className="d-flex flex-column justify-content-between"
             style={{ height: "100%" }}
           >
             <div className="text-end">
               <Tooltip title="Remove from Wishlist">
-                <IconButton
-                  onClick={() => handleDeleteWishlistItem(wishlistId)}
-                >
+                <IconButton onClick={() => handleDeleteWishlistItem(wishlist)}>
                   <MdDelete size={19} />
                 </IconButton>
               </Tooltip>
@@ -66,6 +75,14 @@ function Wishlist() {
           </div>
         )}
       </ProductList>
+      <DeleteCard
+        open={DelDialogOpen}
+        onClose={handleDialogClose}
+        handleDeleteItem={handleDeleteItem}
+        title={`Remove Item from Wishlist`}
+        discription={`Are you sure you want to delete <strong>${BookName}</strong> from
+          your wishlist?`}
+      />
     </>
   );
 }

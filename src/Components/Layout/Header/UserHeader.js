@@ -15,6 +15,9 @@ import Profile from "../Profile/Profile";
 import { Book_list } from "../../Datas";
 import { Get_readerSub_Request } from "../../../Redux/Action/UserAction/SubscriptionAction";
 import { GetUserBookbyCat_Request } from "../../../Redux/Action/UserAction/UserBookAction";
+import { IoMdMenu } from "react-icons/io";
+import { FaHome } from "react-icons/fa";
+import SideNavBar from "./SideNavBar";
 
 function UserHeader() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -23,6 +26,7 @@ function UserHeader() {
   const [showSearchOption, setShowSearchOption] = useState(false);
   const [cart_Count, setCart_Count] = useState(0);
   const [subscribed, setSubScribed] = useState([]);
+  const [OpenSideNav, setOpenSideNav] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleAccountMenuOpen = (event) => {
@@ -114,18 +118,22 @@ function UserHeader() {
     navigate("/user/dash/explore", { state: newValue });
   };
 
+  const handleMenuOpen = () => {
+    setOpenSideNav(!OpenSideNav);
+  };
+
   return (
     <>
       <div className="header">
         <div className="d-flex justify-centent-center align-items-center">
-          {/* <div className="menu-icon">
-                <IoMdMenu
-                  size={25}
-                  className="menu-icon me-2"
-                  style={{ cursor: "pointer" }}
-                  onClick={handleMenuOpen}
-                />
-              </div> */}
+          <div className="menu-icon">
+            <IoMdMenu
+              size={25}
+              className="menu-icon me-2"
+              style={{ cursor: "pointer" }}
+              onClick={handleMenuOpen}
+            />
+          </div>
           <h3
             role="button"
             className="title"
@@ -134,7 +142,7 @@ function UserHeader() {
             HALO PAD READER
           </h3>
         </div>
-        <div className="userHeader">
+        <div className="userHeader d-none d-lg-block">
           <Autocomplete
             options={uniqueOptions}
             value={searchQuery}
@@ -190,130 +198,132 @@ function UserHeader() {
             }}
           />
         </div>
-        <div
-          className="d-flex justify-content-center align-items-center"
-          style={{ columnGap: "50px" }}
-        >
-          {subscribed?.length > 0 ? (
-            <div className="subscribe-field">
-              <Autocomplete
-                options={SubOption}
-                disableClearable
-                value={selectedSub}
-                onChange={handleSubChange}
-                defaultValue={SubOption[0]}
-                renderInput={(params) => (
-                  <TextField {...params} placeholder="General" />
-                )}
-                sx={{
-                  padding: "0px",
-                  borderRadius: "5px",
-                  width: "250px",
-                  height: "38px",
-                  "& .MuiTextField-root": {
+        <div className="d-none d-lg-block">
+          <div
+            className="d-flex justify-content-center align-items-center"
+            style={{ columnGap: "50px" }}
+          >
+            {subscribed?.length > 0 ? (
+              <div className="subscribe-field d-none d-lg-block">
+                <Autocomplete
+                  options={SubOption}
+                  disableClearable
+                  value={selectedSub}
+                  onChange={handleSubChange}
+                  defaultValue={SubOption[0]}
+                  renderInput={(params) => (
+                    <TextField {...params} placeholder="General" />
+                  )}
+                  sx={{
                     padding: "0px",
+                    borderRadius: "5px",
                     width: "250px",
                     height: "38px",
-                  },
-                  "& .MuiOutlinedInput-root": {
-                    width: "250px",
-                    height: "38px",
-                    color: "#f6f6f6",
-                    "& fieldset": {
-                      border: "0.5px solid #f6f6f6",
+                    "& .MuiTextField-root": {
+                      padding: "0px",
+                      width: "250px",
+                      height: "38px",
                     },
-                    "&:hover fieldset": {
-                      borderColor: "#f6f6f6",
+                    "& .MuiOutlinedInput-root": {
+                      width: "250px",
+                      height: "38px",
+                      color: "#f6f6f6",
+                      "& fieldset": {
+                        border: "0.5px solid #f6f6f6",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "#f6f6f6",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#f6f6f6",
+                      },
                     },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#f6f6f6",
+                    "& .MuiSvgIcon-root": {
+                      color: "#f6f6f6",
                     },
-                  },
-                  "& .MuiSvgIcon-root": {
-                    color: "#f6f6f6",
-                  },
-                }}
-              />
-            </div>
-          ) : (
-            ""
-          )}
-          <div
-            className="wishlist"
-            style={{ cursor: "pointer", userSelect: "none" }}
-            onClick={() => navigate("/user/dash/detail/wishlist")}
-          >
-            <FaHeart
-              className="me-2 mb-1"
-              size={16}
-              style={{ color: "#f6f6f6" }}
-            />
-            <span>wishlist</span>
-          </div>
-          <div
-            className="profile"
-            style={{ cursor: "pointer", userSelect: "none" }}
-            role="button"
-            onClick={() => navigate("/user/dash/detail/library")}
-          >
-            <MdLibraryBooks
-              className="me-2 mb-1"
-              size={16}
-              style={{ color: "#f6f6f6" }}
-            />
-            <span>My Library</span>
-          </div>
-          <div
-            className="profile"
-            style={{ cursor: "pointer", userSelect: "none" }}
-            role="button"
-            aria-controls={openProfileMenu ? "basic-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={openProfileMenu ? "true" : undefined}
-            onClick={handleAccountMenuOpen}
-          >
-            <FaRegUserCircle
-              className="me-2 mb-1"
-              size={16}
-              style={{ color: "#f6f6f6" }}
-            />
-            <span>Account</span>
-          </div>
-          <MenuItems
-            anchorEl={openProfileMenu}
-            open={openProfileMenu}
-            onClose={handleClose}
-            listdata={[
-              { label: "Profile", handleClick: handleProfileOpen },
-              { label: "My account", handleClick: handleClose },
-              { label: "Logout", handleClick: handleLogout },
-            ]}
-          />
-          <div
-            className="cart"
-            style={{ cursor: "pointer", userSelect: "none" }}
-            onClick={() => navigate("/user/dash/detail/order")}
-          >
-            <Badge
-              badgeContent={cart_Count}
-              color="primary"
-              size="small"
-              sx={{
-                "& .MuiBadge-badge": {
-                  fontSize: "0.7rem", // Change text size inside the badge
-                  height: "16px", // Adjust badge height
-                  minWidth: "15px",
-                },
-              }}
+                  }}
+                />
+              </div>
+            ) : (
+              ""
+            )}
+            <div
+              className="wishlist"
+              style={{ cursor: "pointer", userSelect: "none" }}
+              onClick={() => navigate("/user/dash/detail/wishlist")}
             >
-              <IoCartOutline
-                className="mb-1"
-                size={18}
+              <FaHeart
+                className="me-2 mb-1"
+                size={16}
                 style={{ color: "#f6f6f6" }}
               />
-            </Badge>
+              <span>wishlist</span>
+            </div>
+            <div
+              className="profile"
+              style={{ cursor: "pointer", userSelect: "none" }}
+              role="button"
+              onClick={() => navigate("/user/dash/detail/library")}
+            >
+              <MdLibraryBooks
+                className="me-2 mb-1"
+                size={16}
+                style={{ color: "#f6f6f6" }}
+              />
+              <span>My Library</span>
+            </div>
+            <div
+              className="profile"
+              style={{ cursor: "pointer", userSelect: "none" }}
+              role="button"
+              aria-controls={openProfileMenu ? "basic-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={openProfileMenu ? "true" : undefined}
+              onClick={handleAccountMenuOpen}
+            >
+              <FaRegUserCircle
+                className="me-2 mb-1"
+                size={16}
+                style={{ color: "#f6f6f6" }}
+              />
+              <span>Account</span>
+            </div>
+            <MenuItems
+              anchorEl={openProfileMenu}
+              open={openProfileMenu}
+              onClose={handleClose}
+              listdata={[
+                { label: "Profile", handleClick: handleProfileOpen },
+                { label: "My account", handleClick: handleClose },
+                { label: "Logout", handleClick: handleLogout },
+              ]}
+            />
+            <div
+              className="cart"
+              style={{ cursor: "pointer", userSelect: "none" }}
+              onClick={() => navigate("/user/dash/detail/order")}
+            >
+              <Badge
+                badgeContent={cart_Count}
+                color="primary"
+                size="small"
+                sx={{
+                  "& .MuiBadge-badge": {
+                    fontSize: "0.7rem", // Change text size inside the badge
+                    height: "16px", // Adjust badge height
+                    minWidth: "15px",
+                  },
+                }}
+              >
+                <IoCartOutline
+                  className="mb-1"
+                  size={18}
+                  style={{ color: "#f6f6f6" }}
+                />
+              </Badge>
 
-            <span className="ms-2">Cart</span>
+              <span className="ms-2">Cart</span>
+            </div>
           </div>
         </div>
       </div>
@@ -322,6 +332,33 @@ function UserHeader() {
         openProfileDetails={openProfileDetails}
         handleClose={handleProfileDetailClose}
       />
+      {OpenSideNav && (
+        <SideNavBar
+          setOpenSideNav={setOpenSideNav}
+          menu={[
+            {
+              path: "/user/dashboard",
+              icon: <FaHome size={15} className="mx-3 mb-1" />,
+              label: "Home",
+            },
+            {
+              path: "/user/dash/detail/wishlist",
+              icon: <FaHeart size={15} className="mx-3 mb-1" />,
+              label: "wishlist",
+            },
+            {
+              path: "/user/dash/detail/library",
+              icon: <MdLibraryBooks size={15} className="mx-3 mb-1" />,
+              label: "My Library",
+            },
+            {
+              path: "/user/dash/detail/order",
+              icon: <IoCartOutline size={15} className="mx-3 mb-1" />,
+              label: "Cart",
+            },
+          ]}
+        />
+      )}
     </>
   );
 }

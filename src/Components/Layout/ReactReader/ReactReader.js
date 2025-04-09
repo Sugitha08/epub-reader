@@ -13,6 +13,8 @@ function ReactEpubReader({
   CustomMenu,
   HighlightDrawer,
   NotesDrawer,
+  epubInitOptions,
+  Chatbot,
 }) {
   return (
     <>
@@ -32,10 +34,12 @@ function ReactEpubReader({
             allowLocalStorage: true,
             allowSameOrigin: true,
           }}
+          epubInitOptions={epubInitOptions && epubInitOptions}
           getRendition={(rendition) => {
-            if (getRendition) getRendition(rendition);
+            if (rendition) getRendition(rendition);
           }}
         />
+        {Chatbot && Chatbot}
         {CustomMenu && CustomMenu}
         {HighlightDrawer && HighlightDrawer}
         {NotesDrawer && NotesDrawer}

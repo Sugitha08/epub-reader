@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Library.css";
-import { InputAdornment, TextField } from "@mui/material";
+import { Autocomplete, InputAdornment, TextField } from "@mui/material";
 import { CiSearch } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
 import CategoryDrawer from "./CategoryDrawer.js";
@@ -14,6 +14,7 @@ import {
 } from "../../../../Redux/Action/PublisherAction/BookAction.js";
 import CustomButton from "../../../Core-Components/Button.js";
 import AddReader from "./AddReader.js";
+import { Get_Cat_Request } from "../../../../Redux/Action/PublisherAction/CategoryAction.js";
 
 function Library() {
   const [searchBook, setSearchBook] = useState("");
@@ -27,6 +28,7 @@ function Library() {
     loading: BookLoading,
   } = useSelector((state) => state.BookData);
   const [addReaderOpen, setAddReadOpen] = useState(false);
+  const { Category, loading: catLoad } = useSelector((state) => state.category);
 
   useEffect(() => {
     dispatch(Get_book_Request());
@@ -72,6 +74,9 @@ function Library() {
 
     dispatch(Get_bookbyId_Request(bookData.book_id));
   };
+  useEffect(() => {
+    dispatch(Get_Cat_Request());
+  }, []);
 
   const handleAddReaderOpen = () => {
     setAddReadOpen(true);
@@ -95,10 +100,8 @@ function Library() {
         </Link>
       </span>
       <div className="library-container">
-        <div className="publish-header library-header">
-          <div>
-            <h4 className="mb-0">My Library</h4>
-          </div>
+        <div className="library-header">
+          <h4 className="mb-0">My Library</h4>
           <div className="d-flex align-items-center gap-3">
             {selectedCategory && filterBook ? (
               <>
@@ -113,7 +116,7 @@ function Library() {
                     Add reader
                   </CustomButton>
                 </div>
-                <div>
+                {/* <div>
                   <CustomButton
                     sx={{
                       padding: "5px 10px",
@@ -123,7 +126,7 @@ function Library() {
                   >
                     Manage Reader
                   </CustomButton>
-                </div>
+                </div> */}
               </>
             ) : (
               ""
@@ -151,14 +154,35 @@ function Library() {
             />
           </div>
         </div>
+        <div className="d-block d-lg-none" style={{ maxWidth: "200px" }}>
+          <Autocomplete
+            options={Category?.map((cat) => ({
+              id: cat.category_id,
+              value: cat.category_id,
+              label: cat.category_name,
+            }))}
+            getOptionLabel={(option) => option?.label}
+            value={selectedCategory}
+            onChange={(event, newValue) => setSelectedCategory(newValue?.value)}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                fullWidth
+                label="Select Category"
+                name="selectedCategory"
+                size="small"
+              />
+            )}
+          />
+        </div>
         <div className="row">
           <div
-            className="col-2 category-container p-0"
+            className="col-lg-2 d-none d-lg-block category-container p-0"
             style={{ height: "75vh", overflow: "auto" }}
           >
             <CategoryDrawer setSelectedCategory={setSelectedCategory} />
           </div>
-          <div className="col-10 mt-2" style={{ paddingLeft: "2.5rem" }}>
+          <div className="col-lg-10 mt-2 book-list-container" style={{ paddingLeft: "2.5rem" }}>
             <BookList
               FilteredBook={bookToShow}
               handleBookOpen={handleBookOpen}

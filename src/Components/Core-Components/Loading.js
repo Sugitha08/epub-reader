@@ -28,28 +28,34 @@ export function Loading() {
 
 export function BookListLoading() {
   return (
-    <div
-      className="d-flex g-3 justify-content-center"
-      style={{ columnGap: "35px" }}
-    >
+    <div className="row g-3 mt-0" style={{ width: "100%",rowGap: "15px" }}>
       {Array.from(new Array(4)).map((index) => (
-        <CardComponent key={index}>
-          <div
-            className="d-flex flex-column"
-            style={{ rowGap: "15px", width: "280px", height: "420px" }}
-          >
-            <Skeleton
-              variant="rectangular"
-              width={180}
-              height={270}
-              className="d-block justify-content-center ms-4"
-            />
-            <Skeleton animation="wave" height={20} width="80%" />
-            <Skeleton animation="wave" height={20} width="60%" />
-            <Skeleton animation="wave" height={20} width="40%" />
-            <Skeleton animation="wave" height={20} width="40%" />
-          </div>
-        </CardComponent>
+        <div
+          key={index}
+          className="col-lg-3 col-md-6 col-sm-12 mt-0"
+          sx={{ padding: "10px", width: "230px !important" }}
+        >
+          <CardComponent>
+            <div
+              className="d-flex flex-column"
+              style={{ rowGap: "15px", width: "auto", height: "420px",textAlign:"center" }}
+            >
+              <div style={{ width: "100%" }}>
+                <Skeleton
+                  variant="rectangular"
+                  width={180}
+                  height={270}
+                  className="d-block justify-content-center"
+                  sx={{ marginLeft: "auto", marginRight: "auto" }}
+                />
+              </div>
+              <Skeleton animation="wave" height={20} width="80%" />
+              <Skeleton animation="wave" height={20} width="60%" />
+              <Skeleton animation="wave" height={20} width="40%" />
+              <Skeleton animation="wave" height={20} width="40%" />
+            </div>
+          </CardComponent>
+        </div>
       ))}
     </div>
   );

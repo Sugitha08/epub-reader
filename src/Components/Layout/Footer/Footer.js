@@ -166,8 +166,6 @@ function Footer() {
       );
     } else if ("sdsd") {
       return <div></div>;
-    } else {
-      return <div></div>;
     }
   };
   return (
